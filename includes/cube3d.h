@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/27 15:25:04 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/04/27 17:08:34 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,40 +160,19 @@ typedef struct	s_tex
 	t_img	img;
 }	t_tex;
 
-typedef struct s_ray_dist
-{
-	char	type;
-	double	ray_x;
-	double	ray_y;
-	double	x_offset;
-	double	y_offset;
-	double	dist;
-}	t_ray_dist;
-
 typedef struct s_ray
 {
-	int		no_ray;
-	int		dof;
-	double	angle;
-	double	start_x;
-	double	start_y;
-	double	tan;
+	t_point	map_pos;
+	t_point	ray_dir;
+	t_point	delta;
+	t_point	step_dir;
 }	t_ray;
-
-typedef struct s_ray_fin
-{
-	double	ray_x;
-	double	ray_y;
-	double	dist;
-}	t_ray_fin;
 
 typedef struct s_set
 {
-	int		wall_strip_width;
-	int		depth_of_focus;
-	double	ray_freq;
-	double	angle_delta;
-	double	angle_start;
+	int	cell_width;
+	int	depth_of_focus;
+	int	
 }	t_set;
 
 typedef struct s_map
