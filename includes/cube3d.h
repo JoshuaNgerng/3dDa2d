@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/22 21:51:12 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/04/27 15:25:04 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,9 +108,9 @@ typedef struct s_list_
 
 typedef struct s_buffer
 {
-	int		len;
-	t_list_	*list;
-	t_list_	*tail;
+	int		len; // how many rows in map
+	t_list_	*list; // head 
+	t_list_	*tail; // tail for adding
 }	t_buffer;
 
 typedef struct s_point
