@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 18:21:04 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/22 19:12:13 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/04/27 15:31:08 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ int	update_ply_move(t_ply *p, const t_game *g)
 	else if (p->move_options & rotate_right)
 		update =  update_angle(p, 1);
 	if (p->move_options & move_left)
-		update = update_move(p, &p->p_dir, g, 1);
+		update = update_move(&p->pos, &p->p_dir, g, 1);
 	else if (p->move_options & move_right)
-		update = update_move(p, &p->p_dir, g, -1);
+		update = update_move(&p->pos, &p->p_dir, g, -1);
 	if (p->move_options & forward)
-		update = update_move(p, &p->n_dir, g, 1);
+		update = update_move(&p->pos, &p->n_dir, g, 1);
 	else if (p->move_options & backward)
-		update = update_move(p, &p->n_dir, g, -1);
+		update = update_move(&p->pos, &p->n_dir, g, -1);
 	return (update);
 }

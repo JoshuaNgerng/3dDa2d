@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:51:30 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/22 19:24:05 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/04/27 15:29:25 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	animation(t_game *g)
 {
 	if (update_ply_move(&g->ply, g))
 		return (0);
-	generate_scene(g);
-	mlx_put_image_to_window(g->mlx.mlx, g->mlx.win, g->scene.img, 0, 0);
+	// generate_scene(g);
+	// mlx_put_image_to_window(g->mlx.mlx, g->mlx.win, g->scene.img, 0, 0);
 	return (0);
 }
