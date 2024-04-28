@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+         #
+#    By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/12 14:22:20 by jngerng           #+#    #+#              #
-#    Updated: 2024/05/08 10:41:37 by jngerng          ###   ########.fr        #
+#    Updated: 2024/05/11 16:42:53 by lchew            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,35 +33,36 @@ CFLAGS = -Wall -Wextra -Werror $(CMEM)
 CMEM = -fsanitize=address -g3
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/$(UTLIS_DIR)/%.c
-	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	@ mkdir -p $(OBJ_DIR)
+	@ $(CC) $(CFLAGS) $(INC) -c $< -o $@ 
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/$(READ_DIR)/%.c
-	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	@ mkdir -p $(OBJ_DIR)
+	@ $(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/$(GAME_DIR)/%.c
-	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	@ mkdir -p $(OBJ_DIR)
+	@ $(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	@ mkdir -p $(OBJ_DIR)
+	@ $(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 $(NAME): $(OBJ)
-	$(MAKE) -C lib
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIB) $(INC)
+	@ $(MAKE) -C lib
+	@ $(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIB) $(INC)
+	 ./$(NAME) map1.cub
 
 all : $(NAME)
 
 clean:
-	rm -f $(OBJ)
-	if [ $(OBJ_DIR) != "." ]; then \
-		if [ -d $(OBJ_DIR) ]; then rmdir $(OBJ_DIR); fi \
+	@ rm -f $(OBJ)
+	@ if [ $(OBJ_DIR) != "." ]; then \
+	 	if [ -d $(OBJ_DIR) ]; then rmdir $(OBJ_DIR); fi \
 	fi
 
 fclean: clean
-	$(MAKE) fclean -C lib
-	rm -f $(NAME)
+	@ $(MAKE) fclean -C lib
+	@ rm -f $(NAME)
 
 re: fclean all

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:37:10 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/10 12:40:09 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/11 16:42:30 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,3 +91,5 @@ int	main(int ac, char **av)
 	game_loop(&g);
 	return (free_game(&g), 0);
 }
+
+

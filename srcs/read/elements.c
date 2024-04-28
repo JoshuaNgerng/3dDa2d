@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   elements.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 18:25:35 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/10 10:35:27 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/11 16:51:05 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ static int	store_element(char *line, int i, t_game *g, int j)
 
 	if (j < 3)
 	{
-		i = skip_char(line, ' ', i);
-		iter = skip_till_end(line, "\r\n ", i);
-		line[iter] = '\0';
+		i = skip_char(line, " ", i);
+		// iter = skip_till_end(line, "\r\n ", i);
+		// line[iter] = '\0';
 		if (load_texture(&g->wall[j], g->mlx.mlx, &line[i], iter - i))
 			return (-1);
 		return (0);
@@ -85,11 +85,11 @@ static int	check_elements(char *line, t_game *g)
 
 	if (!line[0] || checkset(line[0], "\r\n"))
 		return (-1);
-	index = skip_char(line, ' ', 0);
+	index = skip_char(line, " ", 0);
 	i = -1;
 	len = 3;
 	dict = (char *[6]){"NO ", "SO ", "WE ", "EA ", "F ", "C "};
-	while (++ i < 6)
+	while (++i < 6)
 	{
 		if (i == 4)
 			len = 2;
@@ -99,6 +99,20 @@ static int	check_elements(char *line, t_game *g)
 	return (-1);
 }
 
+/**
+ * @brief Reads game elements from a file descriptor and stores them in a t_game structure.
+ * 
+ * @param fd The file descriptor from which to read.
+ * @param g The t_game structure in which to store the game elements.
+ * @param ptr A pointer to a string where the first line of the map will be stored.
+ * 
+ * @return Returns 0 if a map is detected in the file, and 1 otherwise. If an error occurs in check_elements, the function also returns 1.
+ * 
+ * The function reads lines from the file descriptor until it reaches the end of the file. For each line, it calls check_elements to check for game elements.
+ * If check_elements detects a map (returns a value greater than 0), the function stores the line in ptr and returns 0.
+ * If check_elements returns a value less than 0, indicating an error, the function returns 1.
+ * If no map is detected in any line, the function returns 1.
+ */
 int	read_elements(int fd, t_game *g, char **ptr)
 {
 	char	*buffer;
