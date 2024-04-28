@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 03:15:22 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/22 16:27:03 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/04/28 15:27:28 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static int	check_horizontal(char *line, int *ptr, t_ply *p)
 	int	i;
 
 	i = *ptr;
+	printf("line: %s, ptr: %d\n", line, i);
 	if (line[i] != '1')
 		return (1); // border not close
 	while (line[i] && line[i] != ' ')
@@ -73,13 +74,12 @@ int	check_map(char *line, int *ptr, t_ply *p)
 	int	i;
 
 	i = 0;
-	while (line[i])
+	printf("check map line |%s\n", line);
+	while (line[i] && line[i] != '\r' && line[i] != '\n')
 	{
-		i = skip_char(line, ' ', i);
+		i = skip_char(line, " ", i);
 		if (check_horizontal(line, &i, p))
 			return (1);
-		if (line[i] == '\r' || line[i] == '\n')
-			break ;
 		// printf("test i %d %s\n", i, &line[i]);
 	}
 	if (*ptr < i)

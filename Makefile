@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+         #
+#    By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/12 14:22:20 by jngerng           #+#    #+#              #
-#    Updated: 2024/04/27 15:33:41 by jngerng          ###   ########.fr        #
+#    Updated: 2024/04/27 21:50:00 by lchew            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,39 +29,40 @@ OBJ = $(foreach item, $(F_MAIN) $(F_UTLIS) $(F_READ) $(F_GAME), $(OBJ_DIR)/$(ite
 INC = -I includes -I lib/includes
 LIB = -L lib -lft -lm -lmlx -framework OpenGL -framework AppKit
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror #$(CMEM)
+CFLAGS = -Wall -Wextra -Werror $(CMEM)
 CMEM = -fsanitize=address -g3
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/$(UTLIS_DIR)/%.c
-	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	@ mkdir -p $(OBJ_DIR)
+	@ $(CC) $(CFLAGS) $(INC) -c $< -o $@ 
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/$(READ_DIR)/%.c
-	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	@ mkdir -p $(OBJ_DIR)
+	@ $(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/$(GAME_DIR)/%.c
-	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	@ mkdir -p $(OBJ_DIR)
+	@ $(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	@ mkdir -p $(OBJ_DIR)
+	@ $(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 $(NAME): $(OBJ)
-	$(MAKE) -C lib
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIB) $(INC)
+	@ $(MAKE) -C lib
+	@ $(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIB) $(INC)
+	 ./$(NAME) map1.cub
 
 all : $(NAME)
 
 clean:
-	rm -f $(OBJ)
-	if [ $(OBJ_DIR) != "." ]; then \
-		if [ -d $(OBJ_DIR) ]; then rmdir $(OBJ_DIR); fi \
+	@ rm -f $(OBJ)
+	@ if [ $(OBJ_DIR) != "." ]; then \
+	 	if [ -d $(OBJ_DIR) ]; then rmdir $(OBJ_DIR); fi \
 	fi
 
 fclean: clean
-	$(MAKE) fclean -C lib
-	rm -f $(NAME)
+	@ $(MAKE) fclean -C lib
+	@ rm -f $(NAME)
 
 re: fclean all

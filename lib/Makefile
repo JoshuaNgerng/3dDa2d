@@ -29,17 +29,17 @@ CFLAGS = -Wall -Wextra -Werror
 CC = gcc
 
 .c.o:
-	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o) -I $(INC)
+	@ $(CC) $(CFLAGS) -c $< -o $(<:.c=.o) -I $(INC)
 
 all: $(NAME)
-	ar rc $(NAME) $(LIB_OBJ) $(GNL_OBJ)
+	@ ar rc $(NAME) $(LIB_OBJ) $(GNL_OBJ)
 
 $(NAME): $(LIB_OBJ) $(GNL_OBJ)
 
 clean:
-	rm -f $(LIB_OBJ) $(GNL_OBJ)
+	@ rm -f $(LIB_OBJ) $(GNL_OBJ)
 
 fclean: clean
-	rm -f $(NAME)
+	@ rm -f $(NAME)
 
 re: clean all

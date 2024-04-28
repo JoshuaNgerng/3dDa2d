@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:37:10 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/27 15:28:41 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/04/28 14:30:27 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,22 +66,24 @@ int	main(int ac, char **av)
 		return (errmsg(1), 1);
 	make_setting(&g.setting, &g.ply);
 	g.ply.pos = (t_point){.x = -1, .y = -1};
-	g.mlx.mlx = mlx_init();
-	if (!g.mlx.mlx)
-		return (1); // cannot load mlx
+	// g.mlx.mlx = mlx_init();
+	// if (!g.mlx.mlx)
+	// 	return (1); // cannot load mlx
 	if (read_file(&g, av[1]))
 		return (free_game(&g), 1);
-	system("leaks cub3D");
-	*ptr = '\0';
-	g.mlx.win = mlx_new_window(g.mlx.mlx, MAX_WIDTH, MAX_HEIGTH, av[1]);
-	if (!g.mlx.win)
-		return (free_game(&g), 1); // cannot load win
 	// system("leaks cub3D");
-	if (load_art_n_mlx(&g))
-		return (free_game(&g), 1);
-	printf("testing ply pos x(%lf) y(%lf)\n", g.ply.pos.x, g.ply.pos.y);
+	*ptr = '\0';
+	// g.mlx.win = mlx_new_window(g.mlx.mlx, MAX_WIDTH, MAX_HEIGTH, av[1]);
+	// if (!g.mlx.win)
+	// 	return (free_game(&g), 1); // cannot load win
+	// // system("leaks cub3D");
+	// if (load_art_n_mlx(&g))
+	// 	return (free_game(&g), 1);
+	// printf("testing ply pos x(%lf) y(%lf)\n", g.ply.pos.x, g.ply.pos.y);
 	print_map(&g.map);
 	// system("leaks cub3D");
 	// game_loop(&g);
 	return (free_game(&g), 0);
 }
+
+

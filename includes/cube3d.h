@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/27 15:25:04 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/04/28 15:37:10 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,7 +223,7 @@ void	errmsg_errno_var(char type, const char *msg);
 
 /* utilites */
 
-int		skip_char(const char *s, char c, int start);
+int		skip_char(const char *s, char *set, int start);
 int		checkset(char c, const char *s);
 int		strlcpy_over(char *dst, const char *src);
 void	free_game(t_game *g);
