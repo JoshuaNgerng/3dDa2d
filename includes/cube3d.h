@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/27 17:08:34 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/04/29 17:04:08 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,18 @@ typedef enum e_key
 	qkey = 12,
 	ekey = 14
 }	t_key;
+
+typedef enum e_side
+{
+	horizontal = 0,
+	vertical = 1,
+	north = 0,
+	east = 1,
+	south = 2,
+	west = 3,
+	floor_ = 0,
+	sky_ = 1
+}	t_side;
 
 typedef enum e_move
 {
@@ -160,19 +172,32 @@ typedef struct	s_tex
 	t_img	img;
 }	t_tex;
 
+typedef struct s_ray_comp
+{
+	int		map_check;
+	int		step_dir;
+	double	step_size;
+	double	check_dist;
+}	t_ray_comp;
+
 typedef struct s_ray
 {
-	t_point	map_pos;
-	t_point	ray_dir;
-	t_point	delta;
-	t_point	step_dir;
+	int			side;
+	double		height;
+	t_point		ray_dir;
+	t_ray_comp	hori;
+	t_ray_comp	verti;
 }	t_ray;
 
 typedef struct s_set
 {
 	int	cell_width;
 	int	depth_of_focus;
-	int	
+	int	fov;
+	int	move_speed;
+	int	rotation_speed;
+	int	win_width;
+	int	win_height;
 }	t_set;
 
 typedef struct s_map
@@ -235,9 +260,10 @@ int		load_art_n_mlx(t_game *g);
 
 void	change_image_pixel(t_img *img, int x, int y, unsigned int colour);
 void	generate_scene(t_game *g);
+int		raycast_loop(t_ray *r, int ray_no, const t_game *g);
 void	raycasting_walls(t_img *img, const t_game *g);
-int		calculate_wall(t_ray_fin *fin, t_ray_fin *h, t_ray_fin *v, double angle);
-void	draw_wall(t_game *g, const t_ray_dist *r, int ray_no, double angle);
+// int		calculate_wall(t_ray_fin *fin, t_ray_fin *h, t_ray_fin *v, double angle);
+// void	draw_wall(t_game *g, const t_ray_dist *r, int ray_no, double angle);
 
 /* game loop */
 
