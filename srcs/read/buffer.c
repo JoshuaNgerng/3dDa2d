@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 04:50:17 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/19 10:24:01 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/04/30 11:19:27 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	init_buffer_list(t_buffer *buffer, char *line, t_ply *p)
 	buffer->list->next = NULL;
 	buffer->tail = buffer->list;
 	buffer->len = 1;
-	if (p->pos.y >= 0)
-		p->pos.x = 0;
+	if (p->pos.x >= 0)
+		p->pos.y = 0;
 	return (0);
 }
 
@@ -41,8 +41,8 @@ int	cont_buffer_list(t_buffer *buffer, int fd, int *ptr, t_ply *p)
 			break ;
 		if (check_map(line, ptr, p))
 			return (free(line), 1);
-		if (p->pos.x < 0 && p->pos.y >=0)
-			p->pos.x = (double)row - 1;
+		if (p->pos.y < 0 && p->pos.x >=0)
+			p->pos.y = (double)row;
 		new = (t_list_ *) malloc(sizeof(t_list_));
 		if (!new)
 			return (free(line), 1); // error msg malloc

@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 03:15:22 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/22 16:27:03 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/04/30 11:20:55 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static int	check_ply_pos(int col, char dir, t_ply *p)
 {
-	if (p->pos.y >= 0)
+	if (p->pos.x >= 0)
 		return (1); //dup play
-	p->pos.y = (double)col;
+	p->pos.x = (double)col;
 	if (dir == 'N')
 	{
 		p->n_dir = (t_point){.x = 0., .y = -1.};

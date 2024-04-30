@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 17:11:35 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/22 19:04:54 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/04/30 11:23:05 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ int	get_map_pos(const t_point *p, const t_map *m)
 {
 	if (p->x < 0 || p->y < 0)
 		return (-1);
-	if (p->x > m->heigth || p->y > m->width)
+	if (p->y > m->heigth || p->x > m->width)
 		return (-1);
-	return (m->map[(int)p->x * m->width + (int)p->y]);
+	return (m->map[(int)p->y * m->width + (int)p->x]);
 }
 
 void	rotation_matrix(t_point *dst, double sin_, double cos_)

@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:37:10 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/29 17:04:14 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/04/30 11:54:11 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static void	make_setting(t_set *s, t_ply *p, int *ptr)
 	s->depth_of_focus = 100;
 	s->move_speed = 5;
 	s->rotation_speed = 11;
-	s->fov = 90;
-	p->fov = s->fov / 90;
+	// s->fov = 60;
+	p->fov = 0.66;//s->fov / 90;
 	s->win_width = MAX_WIDTH;
 	s->win_height = MAX_HEIGTH;
 	rotate_speed = s->rotation_speed / 100;
@@ -80,9 +80,11 @@ int	main(int ac, char **av)
 	// system("leaks cub3D");
 	if (load_art_n_mlx(&g))
 		return (free_game(&g), 1);
-	// printf("testing ply pos x(%lf) y(%lf)\n", g.ply.pos.x, g.ply.pos.y);
-	// print_map(&g.map);
+	printf("testing ply pos x(%lf) y(%lf)\n", g.ply.pos.x, g.ply.pos.y);
+	print_map(&g.map);
 	// system("leaks cub3D");
+	g.ply.pos.x += 0.5;
+	g.ply.pos.y += 0.5;
 	game_loop(&g);
 	return (free_game(&g), 0);
 }
