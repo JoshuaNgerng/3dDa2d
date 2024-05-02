@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:37:10 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/30 11:54:11 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/02 17:59:38 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,16 @@ static void	make_setting(t_set *s, t_ply *p, int *ptr)
 	s->cell_width = 64;
 	*ptr = s->cell_width;
 	s->depth_of_focus = 100;
-	s->move_speed = 5;
+	s->move_speed = 10;
 	s->rotation_speed = 11;
 	// s->fov = 60;
 	p->fov = 0.66;//s->fov / 90;
+	p->move_speed = (double)s->move_speed / 100;
+	// printf("test rot_speed %lf\n", p->move_speed);
 	s->win_width = MAX_WIDTH;
 	s->win_height = MAX_HEIGTH;
-	rotate_speed = s->rotation_speed / 100;
+	rotate_speed = (double)s->rotation_speed / 100;
+	// printf("test rot_speed %lf\n", rotate_speed);
 	p->rotate_sin[0] = sin(rotate_speed);
 	p->rotate_sin[1] = sin(- rotate_speed);
 	p->rotate_cos[0] = cos(rotate_speed);
@@ -55,6 +58,16 @@ static void	game_loop(t_game *g)
 	mlx_loop(g->mlx.mlx);
 }
 
+void	test_print(const t_ply *p)
+{
+	printf("test ply pos (%lf)(%lf)\n", p->pos.x, p->pos.y);
+	printf("test ply n_dir (%lf)(%lf)\n", p->n_dir.x, p->n_dir.y);
+	printf("test ply p_dir (%lf)(%lf)\n", p->p_dir.x, p->p_dir.y);
+	printf("test ply view (%lf)(%lf)\n", p->view.x, p->view.y);
+	printf("ply rot sin (%lf)(%lf)\n", p->rotate_sin[0], p->rotate_sin[1]);
+	printf("ply rot cos (%lf)(%lf)\n", p->rotate_cos[0], p->rotate_cos[1]);
+}
+
 int	main(int ac, char **av)
 {
 	char			*ptr;
@@ -80,8 +93,9 @@ int	main(int ac, char **av)
 	// system("leaks cub3D");
 	if (load_art_n_mlx(&g))
 		return (free_game(&g), 1);
-	printf("testing ply pos x(%lf) y(%lf)\n", g.ply.pos.x, g.ply.pos.y);
+	// printf("testing ply pos x(%lf) y(%lf)\n", g.ply.pos.x, g.ply.pos.y);
 	print_map(&g.map);
+	test_print(&g.ply);
 	// system("leaks cub3D");
 	g.ply.pos.x += 0.5;
 	g.ply.pos.y += 0.5;

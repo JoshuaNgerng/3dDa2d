@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 21:34:52 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/30 13:08:36 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/02 18:00:26 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	raycast_init(t_ray *r, int ray_no, const t_game *g)
 {
 	double	x_pos;
 
-	x_pos = ((2. * (double)ray_no) / g->setting.win_width) - 1.;
+	x_pos = ((2. * (double)ray_no) / (double)g->setting.win_width) - 1.;
 	r->ray_dir.x = g->ply.n_dir.x + g->ply.view.x * x_pos;
 	r->ray_dir.y = g->ply.n_dir.y + g->ply.view.y * x_pos;
 	printf("col:%d), testing ray_dir x(%lf) y(%lf)\n", ray_no, r->ray_dir.x, r->ray_dir.y);
@@ -66,7 +66,7 @@ double	raycast_fin(t_ray *r, const t_ply *p)
 			r->side = west;
 		else
 			r->side = east;
-		printf("test ray dist %lf\n", perp_dist / r->ray_dir.y);
+		// printf("test ray dist %lf\n", perp_dist / r->ray_dir.y);
 		return (perp_dist);
 		// return (fabs(perp_dist / r->ray_dir.y));
 	}
@@ -76,7 +76,7 @@ double	raycast_fin(t_ray *r, const t_ply *p)
 		r->side = north;
 	else
 		r->side = south;
-	printf("test ray dist %lf\n", perp_dist / r->ray_dir.x);
+	// printf("test ray dist %lf\n", perp_dist / r->ray_dir.x);
 	return (perp_dist);
 	// return (fabs(perp_dist / r->ray_dir.x));
 }
@@ -103,7 +103,7 @@ int	raycast_loop(t_ray *r, int ray_no, const t_game *g)
 		if (map_check == '1')
 			break ;
 	}
-	printf("col:%d), ", ray_no);
+	// printf("col:%d), ", ray_no);
 	r->height = fabs(g->setting.win_height / raycast_fin(r, &g->ply));
 	printf("\n");
 	return (0);

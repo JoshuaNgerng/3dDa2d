@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:51:30 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/27 15:29:25 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/02 17:35:10 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,22 +71,41 @@ int	set_ply_mov(int key, t_game *g)
 	if (key == esc)
 		free_exit(g, 0);
 	if (key == up || key == wkey)
+	{
+		printf("test up\n");
 		g->ply.move_options |= forward;
+	}
 	if (key == down || key == skey)
+	{
+		printf("test down\n");
 		g->ply.move_options |= backward;
+	}
 	if (key == akey)
+	{
+		printf("test left\n");
 		g->ply.move_options |= move_left;
+	}
 	if (key == dkey)
+	{
+		printf("test right\n");
 		g->ply.move_options |= move_right;
+	}
 	if (key == left || key == qkey)
+	{
+		printf("test look left\n");
 		g->ply.move_options |= rotate_left;
+	}
 	if (key == right || key == ekey)
+	{
+		printf("test look right\n");
 		g->ply.move_options |= rotate_right;
+	}
 	return (0);
 }
 
 int	unset_ply_mov(int key, t_game *g)
 {
+	// printf("detect key release\n");
 	if (key == up || key == wkey)
 		g->ply.move_options &= ~forward;
 	if (key == down || key == skey)
@@ -104,9 +123,13 @@ int	unset_ply_mov(int key, t_game *g)
 
 int	animation(t_game *g)
 {
-	if (update_ply_move(&g->ply, g))
+	// static int i;
+	if (!update_ply_move(&g->ply, g))
 		return (0);
-	// generate_scene(g);
-	// mlx_put_image_to_window(g->mlx.mlx, g->mlx.win, g->scene.img, 0, 0);
+	// printf("change detected %d", i ++);
+	// printf(", ply pos (%lf)(%lf)", g->ply.pos.x, g->ply.pos.y);
+	// printf(", ply rot (%lf)(%lf)\n", g->ply.view.x, g->ply.view.y);
+	generate_scene(g);
+	mlx_put_image_to_window(g->mlx.mlx, g->mlx.win, g->scene.img, 0, 0);
 	return (0);
 }
