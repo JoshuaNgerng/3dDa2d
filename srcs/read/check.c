@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 03:15:22 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/02 16:56:31 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/03 10:50:47 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,28 @@ static int	check_ply_pos(int col, char dir, t_ply *p)
 {
 	if (p->pos.x >= 0)
 		return (1); //dup play
-	p->pos.x = (double)col;
+	p->pos.y = (double)col;
 	if (dir == 'N')
 	{
-		p->n_dir = (t_point){.x = 0., .y = -1.};
-		p->view = (t_point){.x = p->fov, .y = 0.};
+		p->n_dir = (t_point){.x = -1., .y = 0.};
+		p->view = (t_point){.x = 0., .y = p->fov};
 	}
 	else if (dir == 'E')
 	{
-		p->n_dir = (t_point){.x = 1., .y = 0.};
-		p->view = (t_point){.x = 0., .y = p->fov};
+		p->n_dir = (t_point){.x = 0., .y = 1.};
+		p->view = (t_point){.x = p->fov, .y = 0.};
 	}
 	else if (dir == 'S')
 	{
-		p->n_dir = (t_point){.x = 0., .y = 1.};
-		p->view = (t_point){.x = -p->fov, .y = 0.};
+		p->n_dir = (t_point){.x = 1., .y = 0.};
+		p->view = (t_point){.x = 0., .y = -p->fov};
 	}
 	else if (dir == 'W')
 	{
-		p->n_dir = (t_point){.x = -1., .y = 0.};
-		p->view = (t_point){.x = 0., .y = -p->fov};
+		p->n_dir = (t_point){.x = 0., .y = -1.};
+		p->view = (t_point){.x = -p->fov, .y = 0.};
 	}
-	p->p_dir = (t_point){.x = p->n_dir.y, .y = -p->n_dir.x};
+	p->p_dir = (t_point){.x = -p->n_dir.y, .y = p->n_dir.x};
 	return (0);
 }
 

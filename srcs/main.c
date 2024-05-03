@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:37:10 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/02 17:59:38 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/03 08:58:22 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,12 @@ static void	game_loop(t_game *g)
 
 void	test_print(const t_ply *p)
 {
-	printf("test ply pos (%lf)(%lf)\n", p->pos.x, p->pos.y);
-	printf("test ply n_dir (%lf)(%lf)\n", p->n_dir.x, p->n_dir.y);
-	printf("test ply p_dir (%lf)(%lf)\n", p->p_dir.x, p->p_dir.y);
-	printf("test ply view (%lf)(%lf)\n", p->view.x, p->view.y);
-	printf("ply rot sin (%lf)(%lf)\n", p->rotate_sin[0], p->rotate_sin[1]);
-	printf("ply rot cos (%lf)(%lf)\n", p->rotate_cos[0], p->rotate_cos[1]);
+	printf("test ply pos x(%lf)y(%lf)\n", p->pos.x, p->pos.y);
+	printf("test ply n_dir x(%lf)y(%lf)\n", p->n_dir.x, p->n_dir.y);
+	printf("test ply p_dir x(%lf)y(%lf)\n", p->p_dir.x, p->p_dir.y);
+	printf("test ply view x(%lf)y(%lf)\n", p->view.x, p->view.y);
+	printf("ply rot sin [0](%lf)[1](%lf)\n", p->rotate_sin[0], p->rotate_sin[1]);
+	printf("ply rot cos [0](%lf)[1](%lf)\n", p->rotate_cos[0], p->rotate_cos[1]);
 }
 
 int	main(int ac, char **av)
