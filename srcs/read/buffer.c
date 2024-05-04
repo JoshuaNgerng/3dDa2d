@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   buffer.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 04:50:17 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/19 10:24:01 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/04 14:54:32 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,10 @@ int	cont_buffer_list(t_buffer *buffer, int fd, int *ptr, t_ply *p)
 			break ;
 		if (check_map(line, ptr, p))
 			return (free(line), 1);
+		printf("test pos %f %f\n", p->pos.x, p->pos.y);
 		if (p->pos.x < 0 && p->pos.y >=0)
 			p->pos.x = (double)row - 1;
+		printf("test pos %f %f\n", p->pos.x, p->pos.y);
 		new = (t_list_ *) malloc(sizeof(t_list_));
 		if (!new)
 			return (free(line), 1); // error msg malloc

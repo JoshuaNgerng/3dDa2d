@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 18:25:35 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/28 15:08:30 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/04 15:01:36 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,12 @@ static int	check_elements(char *line, t_game *g)
 		if (!ft_strncmp(&line[index], dict[i], len))
 			return (store_element(line, index, g, i + len));
 	}
-	if (!check_map(line, &g->map.width, &g->ply))
+	printf("check elements\n");
+	if (!check_map(line, &g->map.width, &g->ply)) // inital width and player position updated here
+	{
+		printf("\nFinished check elements\n\n");
 		return (1);
+	}
 	return (-1);
 }
 
@@ -105,6 +109,7 @@ int	read_elements(int fd, t_game *g, char **ptr)
 	buffer = get_next_line(fd);
 	while (buffer)
 	{
+		printf("check line elements\n");
 		check = check_elements(buffer, g);
 		if (check > 0)
 		{

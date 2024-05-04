@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:51:56 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/19 13:17:19 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/04 16:47:11 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ static char	*make_map(t_buffer *buffer, int width)
 		len = strlcpy_over(&out[index], ptr->line);
 		while (len < width)
 			out[index + len ++] = ' ';
-		// out[index + width] = '\0';
-		// printf("test line\n%s\n out\n%s\n", ptr->line, &out[index]);
+		out[index + width] = '\0';
+		printf("%s\n", &out[index]);
 		index += width;
 		ptr = ptr->next;
 	}
@@ -80,7 +80,13 @@ int	read_file(t_game *g, const char *file)
 	free_buffer(&buffer);
 	if (!g->map.map)
 		return (1);
-	// printf("check line\n");
+	printf("check line\n");
+	int i = 0;
+	while (g->map.map[i])
+	{
+		i++;
+	}
+	printf("len %d\n", i);
 	if (check_map_vertical(&g->map))
 		return (1);
 	return (0);
