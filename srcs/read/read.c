@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:51:56 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/10 11:56:49 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/11 17:04:33 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ static char	*make_map(const t_buffer *buffer, int width)
 		len = strlcpy_over(&out[index], ptr->line);
 		while (len < width)
 			out[index + len ++] = ' ';
+		out[index + width] = '\0';
+		// printf("%s\n", &out[index]);
 		index += width;
 		ptr = ptr->next;
 	}
