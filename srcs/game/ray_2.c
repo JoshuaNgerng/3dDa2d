@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raycasting.c                                       :+:      :+:    :+:   */
+/*   ray_2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:59:14 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/03 13:01:53 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/05 17:38:06 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	raycasting_walls(t_game *g)
 			// printf("test check loop %d %d %lf %lf\n", (int)ray.ray_x, (int)ray.ray_y, ray.x_offset, ray.y_offset);
 			if ((int)ray.ray_x >= 0 && (int)ray.ray_x < g->row && (int)ray.ray_y >= 0 && (int)ray.ray_y < g->size && g->map[(int)ray.ray_x][(int)ray.ray_y] == '1')
 			{
-				height = MAX_HEIGTH / (g->setting.check_dist * step);
+				height = MAX_HEIGHT / (g->setting.check_dist * step);
 				// printf("test height detect %lf\n", height);
 				break ;
 			}

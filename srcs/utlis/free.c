@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:18:18 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/27 15:13:30 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/05 17:37:53 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ int	free_exit(t_game *g, int ext_code)
 
 void	print_map(const t_map *m)
 {
-	printf("height (%d) width (%d)\n", m->heigth, m->width);
-	for (int i = 0; i < m->heigth; i ++)
+	printf("height (%d) width (%d)\n", m->height, m->width);
+	for (int i = 0; i < m->height; i ++)
 	{
 		for (int j = 0; j < m->width; j ++)
 			printf("%c", m->map[i * m->width + j]);

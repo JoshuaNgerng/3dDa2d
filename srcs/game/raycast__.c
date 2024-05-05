@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raycasting.c                                       :+:      :+:    :+:   */
+/*   raycast__.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:19:07 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/19 13:14:01 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/05 17:37:21 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	check_wall(const t_game *g, double x, double y)
 {
-	if (x < 0 || x >= g->map.heigth)
+	if (x < 0 || x >= g->map.height)
 		return (0);
 	if (y < 0 || y >= g->map.width)
 		return (0);

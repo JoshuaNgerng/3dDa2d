@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:51:56 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/04 16:47:11 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/05 17:37:51 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	read_file(t_game *g, const char *file)
 		|| cont_buffer_list(&buffer, fd, &g->map.width, &g->ply))
 		return (free_buffer(&buffer), err_handle(fd));
 	close(fd);
-	g->map.heigth = buffer.len;
+	g->map.height = buffer.len;
 	g->map.map = make_map(&buffer, g->map.width);
 	free_buffer(&buffer);
 	if (!g->map.map)

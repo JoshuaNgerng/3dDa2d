@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:08:12 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/27 15:31:25 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/05 17:38:07 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	load_art_n_mlx(t_game *g)
 	// printf("floor:%x\n", g->env[0].colour.trbg);
 	g->env[0].set = 1;
 	g->env[1].set = 1;
-	g->scene.img = mlx_new_image(g->mlx.mlx, MAX_WIDTH, MAX_HEIGTH);
+	g->scene.img = mlx_new_image(g->mlx.mlx, MAX_WIDTH, MAX_HEIGHT);
 	if (!g->scene.img)
 		return (1); // cannot load image for scene
 	g->scene.pixel_ptr = mlx_get_data_addr(g->scene.img, &g->scene.bits_per_pixel,

@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/28 15:37:10 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/05 17:38:05 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # define BOLDBLUE	"\033[1m\033[34m"
 # define BOLDRED	"\033[1m\033[31m"
 # define MAX_WIDTH	2000
-# define MAX_HEIGTH	1000
+# define MAX_HEIGHT	1000
 # define HEIGHT_LIM	800
 # define DEGREE		0.01745329251
 # define X_EVENT_KEY_PRESS		2
@@ -33,6 +33,8 @@
 # define RAY_UNIT_DIST	0.5
 # define NO_TRANSPARENCY	0
 # define TRANSPARENCY_MINIMAP	125
+# define WALL_MINIMAP "./art/wall_minimap.xpm"
+# define WALL_SIZE_MINIMAP 32
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdlib.h>
@@ -199,9 +201,12 @@ typedef struct s_set
 typedef struct s_map
 {
 	int		width;
-	int		heigth;
+	int		height;
 	int		unit_size;
 	char	*map;
+	int		img_width;
+	int		img_height;
+	char	*mini_wall;
 }	t_map;
 
 typedef struct s_game

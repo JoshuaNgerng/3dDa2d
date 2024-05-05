@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:51:30 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/27 15:29:25 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/05 17:37:19 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	change_player_pos(t_game *g, t_point *ply_pos,
 	check_y = (int)(ply_pos->y + new_y + new_y);
 	// printf("check new pos %d %d\n", check_x, check_y);
 	// printf("test %c %c %c\n", g->map[check_x][(int)ply_pos->y], g->map[(int)ply_pos->x][check_y], g->map[check_x][check_y]);
-	if (check_x < 0 && check_x >= g->map.heigth && check_y >= g->map.width)
+	if (check_x < 0 && check_x >= g->map.height && check_y >= g->map.width)
 		return ;
 	if (g->map.map[check_x * g->map.width + check_y] == '0')
 	{
@@ -42,7 +42,7 @@ static void	change_player_pos(t_game *g, t_point *ply_pos,
 		ply_pos->y += new_y;
 		return ;
 	}
-	if (check_x >= 0 && check_x < g->map.heigth && g->map.map[check_x * g->map.width + (int)ply_pos->y] == '0')
+	if (check_x >= 0 && check_x < g->map.height && g->map.map[check_x * g->map.width + (int)ply_pos->y] == '0')
 		ply_pos->x += new_x;
 	if (check_y >= 0 && check_y < g->map.width && g->map.map[(int)ply_pos->x * g->map.width + check_y] == '0')
 		ply_pos->y += new_y;

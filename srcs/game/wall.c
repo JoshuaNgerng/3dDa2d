@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wall.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 17:21:39 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/05 15:35:44 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/05 17:38:13 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ void	draw_wall(t_ray_fin *fin, const t_ray *r, int counter, t_game *g)
 
 	new_angle(&angle_diff, g->ply.view - r->angle);
 	fin->dist *= cos(angle_diff);
-	height = MAX_HEIGTH / fin->dist;
-	if (height > MAX_HEIGTH)
-		height = MAX_HEIGTH;
-	offset = (MAX_HEIGTH - height) / 2;
+	height = MAX_HEIGHT / fin->dist;
+	if (height > MAX_HEIGHT)
+		height = MAX_HEIGHT;
+	offset = (MAX_HEIGHT - height) / 2;
 	printf("test offest val %lf\n", offset);
 	// printf("test height %d fin dist %lf\n", (int)height, fin->dist);
 	test_draw_red_wall(&g->scene, r->no_ray, height, offset);
@@ -84,10 +84,10 @@ static void	test_draw_red_wall(t_game *g, int ray_no, double dist)
 	c.trabg_parts[1] = 0;
 	c.trabg_parts[2] = 255;
 	c.trabg_parts[3] = 0;
-	height = MAX_HEIGTH / dist;
-	if (height > MAX_HEIGTH)
-		height = MAX_HEIGTH;
-	offset = (MAX_HEIGTH - height) / 2;
+	height = MAX_HEIGHT / dist;
+	if (height > MAX_HEIGHT)
+		height = MAX_HEIGHT;
+	offset = (MAX_HEIGHT - height) / 2;
 	width = -1;
 	// printf("draw wall at %d(%d)(%lf) (%d)\n", ray_no, height, dist, g->setting.wall_strip_width);
 	while (++ width < g->setting.wall_strip_width - 2)
@@ -135,10 +135,10 @@ static void	map_wall_texture_to_image(const t_tex *wall, t_game *g, const t_ray_
 	double	ratio_width;
 
 	return ;
-	height = MAX_HEIGTH / r->dist;
-	if (height > MAX_HEIGTH)
-		height = MAX_HEIGTH;
-	offset = (MAX_HEIGTH - height) / 2;
+	height = MAX_HEIGHT / r->dist;
+	if (height > MAX_HEIGHT)
+		height = MAX_HEIGHT;
+	offset = (MAX_HEIGHT - height) / 2;
 	width = -1;
 	ratio_width = modf(((r->type == 'h') ? (r->ray_x) : (r->ray_y)), &ratio_width) * wall->width;
 	strip = ray_no * g->setting.wall_strip_width;
