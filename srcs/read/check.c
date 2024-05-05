@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 03:15:22 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/11 17:00:45 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/11 17:10:27 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,13 @@ int	check_map(char *line, int *ptr, t_ply *p)
 
 static int check_map_vert_loop(const t_map *m, int row, int col)
 {
-	printf("m->map: %c, m->width: %d, m->height: %d, row: %d, col: %d\n", m->map[row * m->width + col], m->width, m->heigth, row, col);
+	printf("m->map: %c, m->width: %d, m->height: %d, row: %d, col: %d\n", m->map[row * m->width + col], m->width, m->height, row, col);
 	// Loop until a non-empty space is found
-	while (row < m->heigth && m->map[row * m->width + col] == ' ')
+	while (row < m->height && m->map[row * m->width + col] == ' ')
 		row++;
 
 	// Check if the end of the map is reached
-	if (row == m->heigth)
+	if (row == m->height)
 		return (row);
 	
 	printf("check wall\n");
@@ -104,7 +104,7 @@ static int check_map_vert_loop(const t_map *m, int row, int col)
 	if (m->map[row * m->width + col] == '1')
 	{
 		// Loop until a non-wall character is found
-		while (row < m->heigth && m->map[row * m->width + col] == '1')
+		while (row < m->height && m->map[row * m->width + col] == '1')
 		{
 			printf("m->map: %c, m->width: %d, row: %d, col: %d\n", m->map[row * m->width + col], m->width, row, col);
 			row++;
@@ -116,7 +116,7 @@ static int check_map_vert_loop(const t_map *m, int row, int col)
 	// Move to the next row
 	// row++;
 	// Check if the end of the map is reached
-	if (row >= m->heigth)
+	if (row >= m->height)
 		return (row);
 
 	printf("-m->map: %c, m->width: %d, row: %d, col: %d\n", m->map[row * m->width + col], m->width, row, col);
@@ -125,11 +125,11 @@ static int check_map_vert_loop(const t_map *m, int row, int col)
 		return (row);
 
 	// Loop until a non-zero character is found
-	while (row < m->heigth && m->map[row * m->width + col] == '0')
+	while (row < m->height && m->map[row * m->width + col] == '0')
 		row++;
 	printf("row 1: %d\n", row);
 	// Check if the current position is not a wall
-	if(row == m->heigth && m->map[(row - 1) * m->width + col] != '1')
+	if(row == m->height && m->map[(row - 1) * m->width + col] != '1')
 		return (-1);
 	else if (m->map[row * m->width + col] != '1')
 		return (-1);
@@ -142,7 +142,7 @@ int check_map_vertical(const t_map *m)
 	int col;
 
 	// Print map information
-	printf("m->width: %d, m->heigth: %d, m->unit_size: %d\n", m->width, m->heigth, m->unit_size);
+	printf("m->width: %d, m->height: %d, m->unit_size: %d\n", m->width, m->height, m->unit_size);
 	printf("m->map: %s\n", m->map);
 	col = -1;
 	// Loop through each column of the map
@@ -150,7 +150,7 @@ int check_map_vertical(const t_map *m)
 	{
 		row = 0;
 		// Loop through each row of the map
-		while (row < m->heigth)
+		while (row < m->height)
 		{
 			// Call the check_map_vert_loop function to check the vertical map
 			row = check_map_vert_loop(m, row, col);

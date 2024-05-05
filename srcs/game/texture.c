@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:08:12 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/09 17:42:30 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/11 17:10:22 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	load_mlx_img(t_game *g, char *title)
 		g->env[1].colour.mode = (t_trbg){255, 0, 0, NO_TRANSPARENCY};
 	g->env[0].set = 1;
 	g->env[1].set = 1;
-	g->scene.img = mlx_new_image(g->mlx.mlx, MAX_WIDTH, MAX_HEIGTH);
+	g->scene.img = mlx_new_image(g->mlx.mlx, MAX_WIDTH, MAX_HEIGHT);
 	if (!g->scene.img)
 		return (errmsg_config_errno(2), 1);
 	g->scene.pixel_ptr = mlx_get_data_addr(g->scene.img,

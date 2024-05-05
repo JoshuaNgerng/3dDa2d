@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:37:10 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/11 16:42:30 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/11 17:09:50 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,12 @@ int	main(int ac, char **av)
 	if (check_setting(&g.setting, &g.ply))
 		return (1);
 	g.ply.pos = (t_point){.x = -1, .y = -1};
-	g.mlx.mlx = mlx_init();
-	if (!g.mlx.mlx)
-		return (errmsg_config_errno(0), 1);
 	if (read_file(&g, av[1]))
 		return (free_game(&g), 1);
 	*ptr = '\0';
+	g.mlx.mlx = mlx_init();
+	if (!g.mlx.mlx)
+		return (errmsg_config_errno(0), 1);
 	if (load_mlx_img(&g, av[1]))
 		return (free_game(&g), 1);
 	game_loop(&g);

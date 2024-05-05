@@ -6,7 +6,7 @@
 #    By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/12 14:22:20 by jngerng           #+#    #+#              #
-#    Updated: 2024/05/11 16:42:53 by lchew            ###   ########.fr        #
+#    Updated: 2024/05/11 17:05:18 by lchew            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,6 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 $(NAME): $(OBJ)
 	@ $(MAKE) -C lib
 	@ $(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIB) $(INC)
-	 ./$(NAME) map1.cub
 
 all : $(NAME)
 

@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/11 16:44:10 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/11 17:07:46 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@
 
 # define NO_TRANSPARENCY		0
 # define TRANSPARENCY_MINIMAP	125
-
+# define WALL_MINIMAP "./art/wall_minimap.xpm"
+# define WALL_SIZE_MINIMAP 32
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdlib.h>
@@ -199,6 +200,9 @@ typedef struct s_map
 	int		width;
 	int		heigth;
 	char	*map;
+	int		img_width;
+	int		img_height;
+	char	*mini_wall;
 }	t_map;
 
 typedef struct s_game
