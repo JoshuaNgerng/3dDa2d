@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:37:10 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/03 08:58:22 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/06 10:45:37 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,9 @@ int	main(int ac, char **av)
 	// system("leaks cub3D");
 	if (load_art_n_mlx(&g))
 		return (free_game(&g), 1);
-	// printf("testing ply pos x(%lf) y(%lf)\n", g.ply.pos.x, g.ply.pos.y);
-	print_map(&g.map);
-	test_print(&g.ply);
+	// print_map(&g.map);
+	// test_print(&g.ply);
 	// system("leaks cub3D");
-	g.ply.pos.x += 0.5;
-	g.ply.pos.y += 0.5;
 	game_loop(&g);
 	return (free_game(&g), 0);
 }

@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 21:34:52 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/03 13:42:23 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/06 17:28:07 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,15 @@ void	iter_raycast_loop(t_ray_comp *r, int *side_ptr, int side)
 	*side_ptr = side;
 }
 
-double	raycast_fin(t_ray *r, const t_ply *p)
+void	raycast_fin(t_ray *r, const t_ply *p)
 {
-	double	perp_dist;
-	// (void)	p;
+	double	hit_dist;
 
 	if (r->side == horizontal)
 	{
-		perp_dist = - p->pos.x + (double)(r->hori.map_check + ((1 - r->hori.step_dir) / 2));
+		hit_dist = (double)(r->hori.map_check + ((1 - r->hori.step_dir) / 2));
+		r->perp_dist = fabs((hit_dist - p->pos.x) / r->ray_dir.x);
+		r->hitpoint = p->pos.y + r->perp_dist * r->ray_dir.y;
 		// perp_dist = r->hori.check_dist - r->hori.step_size;
 		if (r->ray_dir.x < 0)
 			r->side = west;
@@ -68,17 +69,17 @@ double	raycast_fin(t_ray *r, const t_ply *p)
 			r->side = east;
 		// printf("test ray dist %lf\n", perp_dist / r->ray_dir.y);
 		// return (perp_dist);
-		return (fabs(perp_dist / r->ray_dir.x));
+		return ;
 	}
-	perp_dist = - p->pos.y + (double)(r->verti.map_check+ ((1 - r->verti.step_dir) / 2));
-	// perp_dist = r->verti.check_dist - r->verti.step_size;
+	hit_dist = (double)(r->verti.map_check + ((1 - r->verti.step_dir) / 2));
+	r->perp_dist = fabs((hit_dist - p->pos.y) / r->ray_dir.y);
+	r->hitpoint = p->pos.x + r->perp_dist * r->ray_dir.x;
 	if (r->ray_dir.y < 0)
 		r->side = north;
 	else
 		r->side = south;
 	// printf("test ray dist %lf\n", perp_dist / r->ray_dir.x);
 	// return (perp_dist);
-	return (fabs(perp_dist / r->ray_dir.y));
 }
 
 int	raycast_loop(t_ray *r, int ray_no, const t_game *g)
@@ -104,7 +105,8 @@ int	raycast_loop(t_ray *r, int ray_no, const t_game *g)
 			break ;
 	}
 	// printf("col:%d), ", ray_no);
-	r->height = fabs(g->setting.win_height / raycast_fin(r, &g->ply));
+	raycast_fin(r, &g->ply);
+	// r->hitpoint -= floor(r->hitpoint);
 	// printf("\n");
 	return (0);
 }

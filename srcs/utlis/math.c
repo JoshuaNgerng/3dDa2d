@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 17:11:35 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/03 11:55:21 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/06 08:52:05 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,6 @@
 double	get_distance(double	ax, double ay, double bx, double by)
 {
 	return (sqrt(pow(bx - ax, 2) + pow(by - ay, 2)));
-}
-
-double	new_angle(double *ptr, double new_angle)
-{
-	if (new_angle < 0)
-		new_angle += _2_M_PI;
-	else if (new_angle >= _2_M_PI)
-		new_angle -= _2_M_PI;
-	if (ptr)
-		*ptr = new_angle;
-	return (new_angle);
 }
 
 int	get_map_pos(const t_point *p, const t_map *m)

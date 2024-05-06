@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 03:15:22 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/03 10:50:47 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/06 09:17:39 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,13 @@ int	check_map(char *line, int *ptr, t_ply *p)
 	int	i;
 
 	i = 0;
-	while (line[i])
+	while (line[i] && line[i] != '\r' && line[i] != '\n')
 	{
 		i = skip_char(line, ' ', i);
+		if (!line[i])
+			break ;
 		if (check_horizontal(line, &i, p))
 			return (1);
-		if (line[i] == '\r' || line[i] == '\n')
-			break ;
-		// printf("test i %d %s\n", i, &line[i]);
 	}
 	if (*ptr < i)
 		*ptr = i;
@@ -89,23 +88,24 @@ int	check_map(char *line, int *ptr, t_ply *p)
 
 static int	check_map_vert_loop(const t_map *m, int row, int col)
 {
-	while (m->map[row * m->width + col] == ' ')
+	while (row < m->heigth && m->map[row * m->width + col] == ' ')
 		row ++;
 	if (row == m->heigth)
 		return (row);
 	if (m->map[row * m->width + col] == '1')
 	{
-		while (m->map[row * m->width + col] == '1')
+		while (row < m->heigth && m->map[row * m->width + col] == '1')
 			row ++;
 	}
-	row ++;
+	else
+		return (-1);
 	if (row >= m->heigth)
 		return (row);
 	if (m->map[row * m->width + col] != '0')
 		return (row);
-	while (m->map[row * m->width + col] == '0')
+	while (row < m->heigth && m->map[row * m->width + col] == '0')
 		row ++;
-	if (m->map[row * m->width + col] != '1')
+	if (row >= m->heigth || m->map[row * m->width + col] != '1')
 		return (-1);
 	return (row);
 }

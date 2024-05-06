@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:08:12 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/27 15:31:25 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/06 09:32:23 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ int	load_art_n_mlx(t_game *g)
 		g->env[0].colour.mode = (t_trbg){0, 255, 0, NO_TRANSPARENCY};
 	if (!g->env[1].set)
 		g->env[1].colour.mode = (t_trbg){255, 0, 0, NO_TRANSPARENCY};
-	// printf("sky:%x\n", g->env[1].colour.trbg);
-	// printf("floor:%x\n", g->env[0].colour.trbg);
 	g->env[0].set = 1;
 	g->env[1].set = 1;
 	g->scene.img = mlx_new_image(g->mlx.mlx, MAX_WIDTH, MAX_HEIGTH);
@@ -60,7 +58,5 @@ int	load_art_n_mlx(t_game *g)
 		&g->scene.line_length, &g->scene.endian);
 	if (!g->scene.pixel_ptr)
 		return (1); //cannot access image
-	// g->ply.delta.x = cos(g->ply.view) * MOVE_SPEED;
-	// g->ply.delta.y = sin(g->ply.view) * MOVE_SPEED;
 	return (0);
 }

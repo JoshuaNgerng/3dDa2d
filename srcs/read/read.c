@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:51:56 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/19 13:17:19 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/06 09:47:31 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,11 @@ int	read_file(t_game *g, const char *file)
 	free_buffer(&buffer);
 	if (!g->map.map)
 		return (1);
-	// printf("check line\n");
 	if (check_map_vertical(&g->map))
 		return (1);
+	if (g->ply.pos.x < 0 && g->ply.pos.y < 0)
+		return (1); // ply not found
+	g->ply.pos.x += 0.5;
+	g->ply.pos.y += 0.5;
 	return (0);
 }

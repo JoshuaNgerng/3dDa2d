@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/29 17:04:08 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/06 17:24:23 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,8 @@ typedef struct s_ray_comp
 typedef struct s_ray
 {
 	int			side;
-	double		height;
+	double		perp_dist;
+	double		hitpoint;
 	t_point		ray_dir;
 	t_ray_comp	hori;
 	t_ray_comp	verti;

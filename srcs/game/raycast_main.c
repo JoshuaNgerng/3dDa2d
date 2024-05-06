@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 16:26:45 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/02 17:33:45 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/06 17:25:23 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,24 @@
 
 void	draw_wall(t_img *img, int ray_no, t_ray *r, const t_game *g)
 {
+	double height;
+
+	height = fabs(g->setting.win_height / r->perp_dist);
+}
+
+void	draw_red_wall(t_img *img, int ray_no, t_ray *r, const t_game *g)
+{
 	int			iter;
 	t_colour	test;
-	// int 		offset;
+	double height;
 	int	start;
 	int	end;
 
-	// if (r->height > g->setting.win_height)
-	// 	r->height = g->setting.win_height - 1;
-	// offset = (g->setting.win_height - r->height) / 2;
-	start = (g->setting.win_height - r->height) / 2;
+	height = fabs(g->setting.win_height / r->perp_dist);
+	start = (g->setting.win_height - height) / 2;
 	if (start < 0)
 		start = 0;
-	end = (r->height + g->setting.win_height) / 2;
+	end = (height + g->setting.win_height) / 2;
 	if (end >= g->setting.win_height)
 		end = g->setting.win_height - 1;
 	// printf("testing height huh %d\n", (int)r->height);
