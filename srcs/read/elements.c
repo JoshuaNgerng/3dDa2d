@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 18:25:35 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/08 14:52:31 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/08 17:29:09 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ static int	get_colour_config(const char *line, uint8_t *ptr, int *index)
 	i = *index;
 	val = 0;
 	if (!line[i])
-		return (1); // need three numbers
+		return (1);
 	if (line[i] == '-')
-		return (1); // cannot be negative
+		return (1);
 	while (ft_isdigit(line[i]))
 		val = val * 10 + line[i ++] - '0';
 	if (val > 255)
-		return (1); // cannot exceed 255
+		return (1);
 	*ptr = (uint8_t)val;
 	return (0);
 }
@@ -51,12 +51,12 @@ static int	store_element(char *line, int i, t_game *g, int j)
 	while (++ iter < 3)
 	{
 		if (get_colour_config(line, &g->env[j % 3].colour.trabg_parts[3 - iter], &i))
-			return (-1);
+			return (errmsg_config(3), -1);
 		if (line[i] != ',')
-			return (-1); // delimited by ,
+			return (errmsg_config_var(1, &line[i], 1), -1);
 	}
 	if (get_colour_config(line, &g->env[j % 3].colour.trabg_parts[3 - iter], &i))
-		return (-1);
+		return (errmsg_config(3), -1);
 	return (0);
 }
 
@@ -91,7 +91,8 @@ int	read_elements(int fd, t_game *g, char **ptr)
 	char	*buffer;
 
 	check = 0;
-	buffer = get_next_line(fd);
+	if (get_next_line(fd, &buffer))
+		return (errmsg_file_errno(1, NULL), 1);
 	while (buffer)
 	{
 		check = check_elements(buffer, g);
@@ -102,8 +103,9 @@ int	read_elements(int fd, t_game *g, char **ptr)
 		}
 		free(buffer);
 		if (check < 0)
-			return (1);
-		buffer = get_next_line(fd);
+			return (errmsg_config(2), 1);
+		if (get_next_line(fd, &buffer))
+			return (errmsg_file_errno(1, NULL), 1);
 	}
-	return (1); // map not detected
+	return (errmsg_config(2), 1);
 }

@@ -6,13 +6,18 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/08 14:48:26 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/08 17:14:57 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUBE3D_H
 # define CUBE3D_H
 # define RESET		"\033[0m"
+# define BLACK		"\033[30m"
+# define RED		"\033[31m"
+# define GREEN		"\033[32m"
+# define YELLOW		"\033[33m"
+# define BLUE		"\033[34m"
 # define BOLDCYAN	"\033[1m\033[36m"
 # define BOLDYELLOW	"\033[1m\033[33m"
 # define BOLDGREEN	"\033[1m\033[32m"
@@ -20,7 +25,6 @@
 # define BOLDRED	"\033[1m\033[31m"
 # define MAX_WIDTH	1500
 # define MAX_HEIGTH	1000
-# define HEIGHT_LIM	800
 # define DEGREE		0.01745329251
 # define X_EVENT_KEY_PRESS		2
 # define X_EVENT_KEY_RELEASE	3
@@ -44,19 +48,6 @@
 
 # include <stdio.h>
 
-# ifndef M_PI
-#  define M_PI		3.14159265358979323846	/* pi */
-# endif
-# ifndef M_PI_2
-#  define M_PI_2	1.57079632679489661923	/* pi/2 */
-# endif
-# ifndef M_PI_4
-#  define M_PI_4	0.78539816339744830962	/* pi/4 */
-# endif
-# ifndef M_1_PI
-#  define M_1_PI	0.31830988618379067154	/* 1/pi */
-# endif
-#define _2_M_PI		6.28318530717958647692	/* 2 pi */
 
 typedef enum e_key
 {
@@ -224,9 +215,14 @@ typedef struct s_game
 
 /* error messages */
 
-void	errmsg(char type);
-void	errmsg_var(char type, const char *msg);
-void	errmsg_errno_var(char type, const char *msg);
+void	errmsg_prog(char type);
+void	errmsg_file_errno(char type, const char *s);
+void	errmsg_prog_errno(char type, const char *s, size_t len);
+void	errmsg_config(char type);
+void	errmsg_config_var(char type, const char *msg, size_t len);
+void	errmsg_config_errno(char type);
+void	errmsg_config_errno_var(char type, const char *msg, size_t len);
+
 
 /* utilites */
 

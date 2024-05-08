@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:51:56 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/06 09:47:31 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/08 17:15:37 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	read_file(t_game *g, const char *file)
 
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-		return (errmsg_errno_var(0, file), 1);
+		return (errmsg_file_errno(0, NULL), 1);
 	if (read_elements(fd, g, &ptr))
 		return (err_handle(fd));
 	if (init_buffer_list(&buffer, ptr, &g->ply)
