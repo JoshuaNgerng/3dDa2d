@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/06 17:24:23 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/08 14:48:26 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # define BOLDGREEN	"\033[1m\033[32m"
 # define BOLDBLUE	"\033[1m\033[34m"
 # define BOLDRED	"\033[1m\033[31m"
-# define MAX_WIDTH	2000
+# define MAX_WIDTH	1500
 # define MAX_HEIGTH	1000
 # define HEIGHT_LIM	800
 # define DEGREE		0.01745329251
@@ -29,8 +29,6 @@
 # define DEPTH_OF_FOCUS	8
 # define CHECK_DIST		10
 # define FOV			120
-# define RAY_FREQ		120
-# define RAY_UNIT_DIST	0.5
 # define NO_TRANSPARENCY	0
 # define TRANSPARENCY_MINIMAP	125
 # include <unistd.h>
@@ -131,6 +129,12 @@ typedef struct s_point
 	double	y;
 }	t_point;
 
+typedef struct s_int
+{
+	int	x;
+	int	y;
+}	t_int;
+
 typedef struct s_env
 {
 	char		set;
@@ -192,20 +196,18 @@ typedef struct s_ray
 
 typedef struct s_set
 {
-	int	cell_width;
-	int	depth_of_focus;
 	int	fov;
 	int	move_speed;
 	int	rotation_speed;
 	int	win_width;
 	int	win_height;
+	double	depth_of_focus;
 }	t_set;
 
 typedef struct s_map
 {
 	int		width;
 	int		heigth;
-	int		unit_size;
 	char	*map;
 }	t_map;
 
@@ -229,6 +231,7 @@ void	errmsg_errno_var(char type, const char *msg);
 /* utilites */
 
 int		skip_char(const char *s, char c, int start);
+int		skip_till_end(const char *s, const char *ref, int start);
 int		checkset(char c, const char *s);
 int		strlcpy_over(char *dst, const char *src);
 void	free_game(t_game *g);
@@ -259,7 +262,8 @@ int		load_art_n_mlx(t_game *g);
 
 /* make image  */
 
-void	change_image_pixel(t_img *img, int x, int y, unsigned int colour);
+void	change_image_pixel(t_img *img, int x, int y, uint32_t colour);
+uint32_t	get_image_pixel(const t_tex *tex, int x, int y);
 void	generate_scene(t_game *g);
 int		raycast_loop(t_ray *r, int ray_no, const t_game *g);
 void	raycasting_walls(t_img *img, const t_game *g);

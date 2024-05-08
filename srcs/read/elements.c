@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 18:25:35 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/18 16:26:20 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/08 14:52:31 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,13 @@ static int	get_colour_config(const char *line, uint8_t *ptr, int *index)
 static int	store_element(char *line, int i, t_game *g, int j)
 {
 	int	iter;
+	int	end;
 
 	if (j < 3)
 	{
 		i = skip_char(line, ' ', i);
+		end = skip_till_end(line, "\r\n ", i);
+		line[end] = '\0';
 		if (load_texture(&g->wall[j], g->mlx.mlx, &line[i], -1))
 			return (-1);
 		return (0);

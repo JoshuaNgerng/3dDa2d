@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 18:40:18 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/18 16:59:30 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/08 14:13:00 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 int	skip_char(const char *s, char c, int start)
 {
 	while (s[start] && s[start] == c)
+		start ++;
+	return (start);
+}
+
+int	skip_till_end(const char *s, const char *ref, int start)
+{
+	while (s[start] && !checkset(s[start], ref))
 		start ++;
 	return (start);
 }

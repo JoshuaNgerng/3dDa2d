@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 21:34:52 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/06 17:28:07 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/08 14:48:43 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,19 +84,18 @@ void	raycast_fin(t_ray *r, const t_ply *p)
 
 int	raycast_loop(t_ray *r, int ray_no, const t_game *g)
 {
-	int		no_check; // try max dist check , instead max iter check
 	int		map_check;
 	t_point	map_pos;
 
 	raycast_init(r, ray_no, g);
-	no_check = -1;
-	while (++ no_check < g->setting.depth_of_focus)
+	while (r->hori.check_dist < g->setting.depth_of_focus || r->verti.check_dist < g->setting.depth_of_focus)
 	{
 		if (r->hori.check_dist < r->verti.check_dist)
 			iter_raycast_loop(&r->hori, &r->side, horizontal);
 		else
 			iter_raycast_loop(&r->verti, &r->side, vertical);
-		map_pos = (t_point){.x = (double)r->hori.map_check, .y = (double)r->verti.map_check};
+		map_pos.x = (double)r->hori.map_check;
+		map_pos.y = (double)r->verti.map_check;
 		map_check = get_map_pos(&map_pos, &g->map);
 		// printf("col:%d), testing point x(%lf) y(%lf) -> %c | %d\n", ray_no, map_pos.x, map_pos.y, map_check, map_check);
 		if (map_check < 0)
@@ -105,8 +104,7 @@ int	raycast_loop(t_ray *r, int ray_no, const t_game *g)
 			break ;
 	}
 	// printf("col:%d), ", ray_no);
-	raycast_fin(r, &g->ply);
 	// r->hitpoint -= floor(r->hitpoint);
 	// printf("\n");
-	return (0);
+	return (raycast_fin(r, &g->ply), 0);
 }

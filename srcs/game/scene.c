@@ -6,18 +6,28 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 01:05:00 by jngerng           #+#    #+#             */
-/*   Updated: 2024/04/27 15:29:08 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/08 10:39:33 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-void	change_image_pixel(t_img *img, int x, int y, unsigned int colour)
+void	change_image_pixel(t_img *img, int x, int y, uint32_t colour)
 {
 	int	offset;
 
 	offset = (img->line_length * y) + (x * (img->bits_per_pixel / 8));
-	*((unsigned int *)(img->pixel_ptr + offset)) = colour;
+	*((uint32_t *)(img->pixel_ptr + offset)) = colour;
+}
+
+uint32_t	get_image_pixel(const t_tex *tex, int x, int y)
+{
+	int	offset;
+
+	if (x < 0 || x > tex->width || y < 0 || y > tex->height)
+		return (0x0);
+	offset = (tex->img.line_length * y) + (x * (tex->img.bits_per_pixel / 8));
+	return (*((uint32_t *)(tex->img.pixel_ptr + offset)));
 }
 
 void	put_sky_floor(t_img *scene, const t_game *g, int height, int width)

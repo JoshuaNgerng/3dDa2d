@@ -6,7 +6,7 @@
 #    By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/12 14:22:20 by jngerng           #+#    #+#              #
-#    Updated: 2024/04/29 17:03:36 by jngerng          ###   ########.fr        #
+#    Updated: 2024/05/08 10:41:37 by jngerng          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ OBJ = $(foreach item, $(F_MAIN) $(F_UTLIS) $(F_READ) $(F_GAME), $(OBJ_DIR)/$(ite
 INC = -I includes -I lib/includes
 LIB = -L lib -lft -lm -lmlx -framework OpenGL -framework AppKit
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror #$(CMEM)
+CFLAGS = -Wall -Wextra -Werror $(CMEM)
 CMEM = -fsanitize=address -g3
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/$(UTLIS_DIR)/%.c

@@ -6,27 +6,25 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:37:10 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/06 10:45:37 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/08 14:48:21 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-static void	make_setting(t_set *s, t_ply *p, int *ptr)
+static void	make_setting(t_set *s, t_ply *p)
 {
 	double	rotate_speed;
 
-	s->cell_width = 64;
-	*ptr = s->cell_width;
-	s->depth_of_focus = 100;
 	s->move_speed = 10;
 	s->rotation_speed = 11;
-	// s->fov = 60;
-	p->fov = 0.66;//s->fov / 90;
+	s->fov = 90;
+	p->fov = (double)s->fov / 90;
 	p->move_speed = (double)s->move_speed / 100;
 	// printf("test rot_speed %lf\n", p->move_speed);
 	s->win_width = MAX_WIDTH;
 	s->win_height = MAX_HEIGTH;
+	s->depth_of_focus = MAX_HEIGTH * 1.5;
 	rotate_speed = (double)s->rotation_speed / 100;
 	// printf("test rot_speed %lf\n", rotate_speed);
 	p->rotate_sin[0] = sin(rotate_speed);
@@ -68,6 +66,17 @@ void	test_print(const t_ply *p)
 	printf("ply rot cos [0](%lf)[1](%lf)\n", p->rotate_cos[0], p->rotate_cos[1]);
 }
 
+void	test_text(t_tex *t)
+{
+	int	i;
+
+	i = -1;
+	while (++ i < 4)
+	{
+		printf("test img %p\n", t[i].img.img);
+	}
+}
+
 int	main(int ac, char **av)
 {
 	char			*ptr;
@@ -78,7 +87,7 @@ int	main(int ac, char **av)
 	ptr = check_extent(av[1]);
 	if (!ptr)
 		return (errmsg(1), 1);
-	make_setting(&g.setting, &g.ply, &g.map.unit_size);
+	make_setting(&g.setting, &g.ply);
 	g.ply.pos = (t_point){.x = -1, .y = -1};
 	g.mlx.mlx = mlx_init();
 	if (!g.mlx.mlx)
