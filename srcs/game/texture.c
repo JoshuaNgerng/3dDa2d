@@ -6,21 +6,21 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:08:12 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/08 14:51:39 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/09 17:27:58 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-int	load_texture(t_tex *art, void *mlx, char *path, const char err)
+int	load_texture(t_tex *art, void *mlx, const char *path, size_t str_len)
 {
 	art->img.img = mlx_xpm_file_to_image(mlx, path, &art->width, &art->height);
 	if (!art->img.img)
-		return (errmsg_errno_var(err, path), 1);
-	art->img.pixel_ptr = mlx_get_data_addr(art->img.img, &art->img.bits_per_pixel,
-		&art->img.line_length, &art->img.endian);
+		return (errmsg_img(path, str_len), 1);
+	art->img.pixel_ptr = mlx_get_data_addr(art->img.img,
+			&art->img.bits_per_pixel, &art->img.line_length, &art->img.endian);
 	if (!art->img.pixel_ptr)
-		return (1);
+		return (errmsg_img(path, str_len), 1);
 	return (0);
 }
 
@@ -30,19 +30,23 @@ static int	load_texture_wall(t_game *g)
 	char	**path;
 
 	i = -1;
-	path = (char *[]){"art/floor.xpm", "art/floor.xpm", "art/floor.xpm", "art/floor.xpm"};
+	path = (char *[]){"art/floor.xpm",
+		"art/floor.xpm", "art/floor.xpm", "art/floor.xpm"};
 	while (++ i < 4)
 	{
 		if (g->wall[i].img.img)
 			continue ;
-		if (load_texture(&g->wall[i], g->mlx.mlx, path[i], -1))
+		if (load_texture(&g->wall[i], g->mlx.mlx, path[i], ft_strlen(path[i])))
 			return (1);
 	}
 	return (0);
 }
 
-int	load_art_n_mlx(t_game *g)
+int	load_mlx_img(t_game *g, char *title)
 {
+	g->mlx.win = mlx_new_window(g->mlx.mlx, MAX_WIDTH, MAX_HEIGTH, title);
+	if (!g->mlx.win)
+		return (errmsg_config_errno(1), 1);
 	if (load_texture_wall(g))
 		return (1);
 	if (!g->env[0].set)
@@ -53,10 +57,10 @@ int	load_art_n_mlx(t_game *g)
 	g->env[1].set = 1;
 	g->scene.img = mlx_new_image(g->mlx.mlx, MAX_WIDTH, MAX_HEIGTH);
 	if (!g->scene.img)
-		return (1); // cannot load image for scene
-	g->scene.pixel_ptr = mlx_get_data_addr(g->scene.img, &g->scene.bits_per_pixel,
-		&g->scene.line_length, &g->scene.endian);
+		return (errmsg_config_errno(2), 1);
+	g->scene.pixel_ptr = mlx_get_data_addr(g->scene.img,
+			&g->scene.bits_per_pixel, &g->scene.line_length, &g->scene.endian);
 	if (!g->scene.pixel_ptr)
-		return (1); //cannot access image
+		return (errmsg_config_errno(2), 1);
 	return (0);
 }

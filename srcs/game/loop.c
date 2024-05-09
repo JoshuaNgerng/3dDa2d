@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:51:30 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/06 08:49:39 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/09 17:22:43 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,8 @@ int	unset_ply_mov(int key, t_game *g)
 
 int	animation(t_game *g)
 {
-	// static int i;
 	if (!update_ply_move(&g->ply, g))
 		return (0);
-	// printf("change detected %d", i ++);
-	// printf(", ply pos (%lf)(%lf)", g->ply.pos.x, g->ply.pos.y);
-	// printf(", ply rot (%lf)(%lf)\n", g->ply.view.x, g->ply.view.y);
 	generate_scene(g);
 	mlx_put_image_to_window(g->mlx.mlx, g->mlx.win, g->scene.img, 0, 0);
 	return (0);

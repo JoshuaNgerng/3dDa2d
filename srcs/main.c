@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:37:10 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/08 17:15:12 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/09 15:34:56 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ static void	make_setting(t_set *s, t_ply *p)
 	s->depth_of_focus = MAX_HEIGTH * 1.5;
 	rotate_speed = (double)s->rotation_speed / 100;
 	p->rotate_sin[0] = sin(rotate_speed);
-	p->rotate_sin[1] = sin(- rotate_speed);
+	p->rotate_sin[1] = sin(-rotate_speed);
 	p->rotate_cos[0] = cos(rotate_speed);
-	p->rotate_cos[1] = cos(- rotate_speed);
+	p->rotate_cos[1] = cos(-rotate_speed);
 }
 
 static char	*check_extent(const char *file)
@@ -86,14 +86,11 @@ int	main(int ac, char **av)
 	g.ply.pos = (t_point){.x = -1, .y = -1};
 	g.mlx.mlx = mlx_init();
 	if (!g.mlx.mlx)
-		return (errmsg_config_errno(0), 1); // cannot load mlx
+		return (errmsg_config_errno(0), 1);
 	if (read_file(&g, av[1]))
 		return (free_game(&g), 1);
 	*ptr = '\0';
-	g.mlx.win = mlx_new_window(g.mlx.mlx, MAX_WIDTH, MAX_HEIGTH, av[1]);
-	if (!g.mlx.win)
-		return (free_game(&g), 1); // cannot load win
-	if (load_art_n_mlx(&g))
+	if (load_mlx_img(&g, av[1]))
 		return (free_game(&g), 1);
 	game_loop(&g);
 	return (free_game(&g), 0);

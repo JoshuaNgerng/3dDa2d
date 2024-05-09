@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 01:05:00 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/08 10:39:33 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/09 17:26:54 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,12 @@ void	put_sky_floor(t_img *scene, const t_game *g, int height, int width)
 	int	col;
 
 	row = -1;
-	// printf("test sky %x\n", g->env[1].colour.trbg);
 	while (++ row < height / 2)
 	{
 		col = -1;
 		while (++ col < width)
 			change_image_pixel(scene, col, row, g->env[1].colour.trbg);
 	}
-	// printf("test floor %x\n", g->env[0].colour.trbg);
 	while (row < height)
 	{
 		col = -1;
@@ -53,10 +51,12 @@ void	put_sky_floor(t_img *scene, const t_game *g, int height, int width)
 	}
 }
 
-// put sky and floor
-// then read map and player view to raycast walls
-// put overrwrite bg with walls
-// (bonus) overlay with more transparency a small mini win with view
+/*
+put sky and floor
+then read map and player view to raycast walls
+put overrwrite bg with walls
+(bonus) overlay with more transparency a small mini win with view
+*/
 void	generate_scene(t_game *g)
 {
 	put_sky_floor(&g->scene, g, MAX_HEIGTH, MAX_WIDTH);

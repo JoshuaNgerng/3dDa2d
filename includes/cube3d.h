@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/08 17:14:57 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/09 15:55:31 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,11 +217,11 @@ typedef struct s_game
 
 void	errmsg_prog(char type);
 void	errmsg_file_errno(char type, const char *s);
-void	errmsg_prog_errno(char type, const char *s, size_t len);
+void	errmsg_prog_errno(const char *msg, size_t len);
 void	errmsg_config(char type);
 void	errmsg_config_var(char type, const char *msg, size_t len);
 void	errmsg_config_errno(char type);
-void	errmsg_config_errno_var(char type, const char *msg, size_t len);
+void	errmsg_img(const char *msg, size_t len);
 
 
 /* utilites */
@@ -235,8 +235,6 @@ int		free_exit(t_game *g, int ext_code);
 
 /* math check */
 
-double	get_distance(double	ax, double ay, double bx, double by);
-double	new_angle(double *ptr, double new_angle);
 int		get_map_pos(const t_point *p, const t_map *m);
 void	rotation_matrix(t_point *dst, double sin_, double cos_);
 
@@ -245,7 +243,7 @@ void	rotation_matrix(t_point *dst, double sin_, double cos_);
 int		read_file(t_game *g, const char *file);
 int		read_elements(int fd, t_game *g, char **ptr);
 int		check_map(char *line, int *ptr, t_ply *p);
-int		init_buffer_list(t_buffer *buffer, char *line, t_ply *p);
+int		init_buffer_list(t_buffer *buffer, char *line, t_ply *p, int *ptr_width);
 int		cont_buffer_list(t_buffer *buffer, int fd, int *, t_ply *p);
 int		uniform_map_size(t_game *g);
 int		check_map_vertical(const t_map *m);
@@ -253,8 +251,8 @@ void	free_buffer(t_buffer *b);
 
 /* load mlx and texture */
 
-int		load_texture(t_tex *art, void *mlx, char *path, const char err);
-int		load_art_n_mlx(t_game *g);
+int		load_texture(t_tex *art, void *mlx, const char *path, size_t str_len);
+int		load_mlx_img(t_game *g, char *title);
 
 /* make image  */
 

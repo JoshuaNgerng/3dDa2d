@@ -6,16 +6,11 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 17:11:35 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/06 08:52:05 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/09 15:55:41 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
-
-double	get_distance(double	ax, double ay, double bx, double by)
-{
-	return (sqrt(pow(bx - ax, 2) + pow(by - ay, 2)));
-}
 
 int	get_map_pos(const t_point *p, const t_map *m)
 {

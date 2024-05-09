@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:51:56 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/08 17:15:37 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/09 15:50:18 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static char	*make_map(t_buffer *buffer, int width)
 
 	out = (char *) malloc(((width * buffer->len) + 1) * sizeof(char));
 	if (!out)
-		return (NULL); // errmsg not allocate map
+		return (NULL);
 	ptr = buffer->list;
 	index = 0;
 	while (ptr)
@@ -52,12 +52,19 @@ static char	*make_map(t_buffer *buffer, int width)
 		len = strlcpy_over(&out[index], ptr->line);
 		while (len < width)
 			out[index + len ++] = ' ';
-		// out[index + width] = '\0';
-		// printf("test line\n%s\n out\n%s\n", ptr->line, &out[index]);
 		index += width;
 		ptr = ptr->next;
 	}
 	return (out);
+}
+
+static int	check_ply(t_ply *p)
+{
+	if (p->pos.x < 0 && p->pos.y < 0)
+		return (errmsg_config(0), 1);
+	p->pos.x += 0.5;
+	p->pos.y += 0.5;
+	return (0);
 }
 
 int	read_file(t_game *g, const char *file)
@@ -71,7 +78,7 @@ int	read_file(t_game *g, const char *file)
 		return (errmsg_file_errno(0, NULL), 1);
 	if (read_elements(fd, g, &ptr))
 		return (err_handle(fd));
-	if (init_buffer_list(&buffer, ptr, &g->ply)
+	if (init_buffer_list(&buffer, ptr, &g->ply, &g->map.width)
 		|| cont_buffer_list(&buffer, fd, &g->map.width, &g->ply))
 		return (free_buffer(&buffer), err_handle(fd));
 	close(fd);
@@ -79,12 +86,9 @@ int	read_file(t_game *g, const char *file)
 	g->map.map = make_map(&buffer, g->map.width);
 	free_buffer(&buffer);
 	if (!g->map.map)
-		return (1);
+		return (errmsg_prog_errno("Cannot make map "
+				"from buffer (malloc): ", 38), 1);
 	if (check_map_vertical(&g->map))
 		return (1);
-	if (g->ply.pos.x < 0 && g->ply.pos.y < 0)
-		return (1); // ply not found
-	g->ply.pos.x += 0.5;
-	g->ply.pos.y += 0.5;
-	return (0);
+	return (check_ply(&g->ply));
 }

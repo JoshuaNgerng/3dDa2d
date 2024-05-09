@@ -6,11 +6,27 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 18:25:35 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/08 17:29:09 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/09 15:54:27 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
+
+static char	*skip_empty_line(int fd, char *prev)
+{
+	char	*ptr;
+
+	ptr = prev;
+	while (ptr)
+	{
+		if (ptr && !checkset(ptr[0], "\r\n"))
+			break ;
+		free(ptr);
+		if (get_next_line(fd, &ptr))
+			return (errmsg_file_errno(1, NULL), NULL);
+	}
+	return (ptr);
+}
 
 static int	get_colour_config(const char *line, uint8_t *ptr, int *index)
 {
@@ -25,38 +41,38 @@ static int	get_colour_config(const char *line, uint8_t *ptr, int *index)
 		return (1);
 	while (ft_isdigit(line[i]))
 		val = val * 10 + line[i ++] - '0';
-	if (val > 255)
+	if (val > 255 || val < 0)
 		return (1);
 	*ptr = (uint8_t)val;
+	*index = i;
 	return (0);
 }
 
 static int	store_element(char *line, int i, t_game *g, int j)
 {
-	int	iter;
-	int	end;
+	int		iter;
+	uint8_t	*ptr;
 
 	if (j < 3)
 	{
 		i = skip_char(line, ' ', i);
-		end = skip_till_end(line, "\r\n ", i);
-		line[end] = '\0';
-		if (load_texture(&g->wall[j], g->mlx.mlx, &line[i], -1))
+		iter = skip_till_end(line, "\r\n ", i);
+		line[iter] = '\0';
+		if (load_texture(&g->wall[j], g->mlx.mlx, &line[i], iter - i))
 			return (-1);
 		return (0);
 	}
+	iter = 3;
 	g->env[j % 3].set = 1;
-	g->env[j % 3].colour.trabg_parts[3] = NO_TRANSPARENCY;
-	iter = 0;
-	while (++ iter < 3)
+	*ptr = g->env[j % 3].colour.trabg_parts;
+	*(ptr + iter) = NO_TRANSPARENCY;
+	while (iter -- > 0)
 	{
-		if (get_colour_config(line, &g->env[j % 3].colour.trabg_parts[3 - iter], &i))
+		if (get_colour_config(line, ptr + iter, &i))
 			return (errmsg_config(3), -1);
 		if (line[i] != ',')
 			return (errmsg_config_var(1, &line[i], 1), -1);
 	}
-	if (get_colour_config(line, &g->env[j % 3].colour.trabg_parts[3 - iter], &i))
-		return (errmsg_config(3), -1);
 	return (0);
 }
 
@@ -68,7 +84,7 @@ static int	check_elements(char *line, t_game *g)
 	char	**dict;
 
 	if (!line[0] || checkset(line[0], "\r\n"))
-		return (0);
+		return (-1);
 	index = skip_char(line, ' ', 0);
 	i = -1;
 	len = 3;
@@ -80,32 +96,27 @@ static int	check_elements(char *line, t_game *g)
 		if (!ft_strncmp(&line[index], dict[i], len))
 			return (store_element(line, index, g, i + len));
 	}
-	if (!check_map(line, &g->map.width, &g->ply))
-		return (1);
 	return (-1);
 }
 
 int	read_elements(int fd, t_game *g, char **ptr)
 {
-	int		check;
 	char	*buffer;
 
-	check = 0;
 	if (get_next_line(fd, &buffer))
 		return (errmsg_file_errno(1, NULL), 1);
+	buffer = skip_empty_line(fd, buffer);
 	while (buffer)
 	{
-		check = check_elements(buffer, g);
-		if (check > 0)
-		{
-			*ptr = buffer;
-			return (0);
-		}
+		if (check_elements(buffer, g))
+			break ;
 		free(buffer);
-		if (check < 0)
-			return (errmsg_config(2), 1);
 		if (get_next_line(fd, &buffer))
 			return (errmsg_file_errno(1, NULL), 1);
 	}
-	return (errmsg_config(2), 1);
+	buffer = skip_empty_line(fd, buffer);
+	if (!buffer)
+		return (errmsg_config(2), 1);
+	*ptr = buffer;
+	return (0);
 }

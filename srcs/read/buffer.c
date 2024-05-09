@@ -6,17 +6,20 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 04:50:17 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/06 10:01:42 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/09 15:35:17 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-int	init_buffer_list(t_buffer *buffer, char *line, t_ply *p)
+int	init_buffer_list(t_buffer *buffer, char *line, t_ply *p, int *ptr_width)
 {
+	if (!check_map(line, ptr_width, p))
+		return (free(line), 1);
 	buffer->list = (t_list_ *) malloc(sizeof(t_list_));
 	if (!buffer->list)
-		return (free(line), 1);
+		return (free(line), errmsg_prog_errno("Cannot make "
+				"buffer for line from read (malloc): ", 48), 1);
 	buffer->list->line = line;
 	buffer->list->next = NULL;
 	buffer->tail = buffer->list;
@@ -26,20 +29,31 @@ int	init_buffer_list(t_buffer *buffer, char *line, t_ply *p)
 	return (0);
 }
 
-static void	check_free(char *s)
+static int	make_new_list(t_buffer *buffer, char *line)
 {
-	if (s)
-		free(s);
+	t_list_	*new;
+
+	new = (t_list_ *) malloc(sizeof(t_list_));
+	buffer->tail->next = new;
+	if (!new)
+	{
+		errmsg_prog_errno("Cannot make buffer "
+			"for line from read (malloc): ", 48);
+		return (1);
+	}
+	new->line = line;
+	buffer->tail = buffer->tail->next;
+	buffer->len ++;
 }
 
 int	cont_buffer_list(t_buffer *buffer, int fd, int *ptr, t_ply *p)
 {
 	int		row;
 	char	*line;
-	t_list_	*new;
 
 	row = 0;
-	line = get_next_line(fd);
+	if (get_next_line(fd, &line))
+		return (errmsg_file_errno(1, NULL), 1);
 	while (line && ++ row)
 	{
 		if (!line[0] || line[0] == '\r' || line[0] == '\n')
@@ -48,15 +62,13 @@ int	cont_buffer_list(t_buffer *buffer, int fd, int *ptr, t_ply *p)
 			return (free(line), 1);
 		if (p->pos.x < 0 && p->pos.y >= 0)
 			p->pos.x = (double)row;
-		new = (t_list_ *) malloc(sizeof(t_list_));
-		buffer->tail->next = new;
-		if (!new)
-			return (free(line), 1); // error msg malloc
-		new->line = line;
-		buffer->tail = buffer->tail->next;
-		buffer->len ++;
-		line = get_next_line(fd);
+		if (make_new_list(buffer, line))
+			return (free(line), 1);
+		if (get_next_line(fd, &line))
+			return (errmsg_file_errno(1, NULL), 1);
 	}
 	buffer->tail->next = NULL;
-	return (check_free(line), 0);
+	if (line)
+		free(line);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 03:15:22 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/06 09:17:39 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/09 15:22:29 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	check_ply_pos(int col, char dir, t_ply *p)
 {
 	if (p->pos.x >= 0)
-		return (1); //dup play
+		return (1);
 	p->pos.y = (double)col;
 	if (dir == 'N')
 	{
@@ -47,23 +47,23 @@ static int	check_horizontal(char *line, int *ptr, t_ply *p)
 
 	i = *ptr;
 	if (line[i] != '1')
-		return (1); // border not close
+		return (errmsg_config(4), 1);
 	while (line[i] && line[i] != ' ')
 	{
 		if (checkset(line[i], "NSWE"))
 		{
 			if (check_ply_pos(i, line[i], p))
-				return (1); // more than 1 ply
+				return (errmsg_config(1), 1);
 			line[i] = '0';
 		}
 		else if (checkset(line[i], "\r\n"))
 			break ;
 		else if (!checkset(line[i], "10"))
-			return (1); // invalid char
+			return (errmsg_config_var(0, &line[i], 1), 1);
 		i ++;
 	}
 	if (i - 1 >= 0 && line[i - 1] != '1')
-		return (1); // border not close
+		return (errmsg_config(4), 1);
 	*ptr = i;
 	return (0);
 }
@@ -123,7 +123,7 @@ int	check_map_vertical(const t_map *m)
 		{
 			row = check_map_vert_loop(m, row, col);
 			if (row < 0)
-				return (-1);
+				return (errmsg_config(4), -1);
 		}
 	}
 	return (0);
