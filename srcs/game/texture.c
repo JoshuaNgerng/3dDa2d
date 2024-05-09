@@ -6,13 +6,13 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:08:12 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/09 17:27:58 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/09 17:42:30 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-int	load_texture(t_tex *art, void *mlx, const char *path, size_t str_len)
+int	load_texture(t_tex *art, void *mlx, char *path, size_t str_len)
 {
 	art->img.img = mlx_xpm_file_to_image(mlx, path, &art->width, &art->height);
 	if (!art->img.img)

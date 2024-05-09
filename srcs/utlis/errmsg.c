@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:52:23 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/09 17:37:58 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/09 17:44:11 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void	errmsg_prog(char type)
 
 void	errmsg_file_errno(char type, const char *s)
 {
-	char			*ptr;
-	static char		*fname;
-	static size_t	len;
+	char				*ptr;
+	static const char	*fname;
+	static size_t		len;
 
 	if (!fname)
 	{

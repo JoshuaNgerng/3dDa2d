@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:37:10 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/09 15:34:56 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/09 17:46:10 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static int	check_setting(t_set *s, t_ply *p)
 {
+	(void)s;
+	(void)p;
 	return (0);
 }
 
@@ -88,7 +90,10 @@ int	main(int ac, char **av)
 	if (!g.mlx.mlx)
 		return (errmsg_config_errno(0), 1);
 	if (read_file(&g, av[1]))
+	{
+		system("leaks cub3D");
 		return (free_game(&g), 1);
+	}
 	*ptr = '\0';
 	if (load_mlx_img(&g, av[1]))
 		return (free_game(&g), 1);

@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 04:50:17 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/09 15:35:17 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/09 17:46:56 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	init_buffer_list(t_buffer *buffer, char *line, t_ply *p, int *ptr_width)
 {
-	if (!check_map(line, ptr_width, p))
+	if (check_map(line, ptr_width, p))
 		return (free(line), 1);
 	buffer->list = (t_list_ *) malloc(sizeof(t_list_));
 	if (!buffer->list)
@@ -44,6 +44,7 @@ static int	make_new_list(t_buffer *buffer, char *line)
 	new->line = line;
 	buffer->tail = buffer->tail->next;
 	buffer->len ++;
+	return (0);
 }
 
 int	cont_buffer_list(t_buffer *buffer, int fd, int *ptr, t_ply *p)
@@ -63,7 +64,8 @@ int	cont_buffer_list(t_buffer *buffer, int fd, int *ptr, t_ply *p)
 		if (p->pos.x < 0 && p->pos.y >= 0)
 			p->pos.x = (double)row;
 		if (make_new_list(buffer, line))
-			return (free(line), 1);
+			return (free(line), errmsg_prog_errno("Cannot make buffer "
+			"for line from read (malloc): ", 48), 1);
 		if (get_next_line(fd, &line))
 			return (errmsg_file_errno(1, NULL), 1);
 	}

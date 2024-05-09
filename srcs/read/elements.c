@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 18:25:35 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/09 15:54:27 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/09 17:40:26 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	store_element(char *line, int i, t_game *g, int j)
 	}
 	iter = 3;
 	g->env[j % 3].set = 1;
-	*ptr = g->env[j % 3].colour.trabg_parts;
+	ptr = g->env[j % 3].colour.trabg_parts;
 	*(ptr + iter) = NO_TRANSPARENCY;
 	while (iter -- > 0)
 	{

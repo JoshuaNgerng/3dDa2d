@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/09 15:55:31 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/09 17:41:29 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,7 +251,7 @@ void	free_buffer(t_buffer *b);
 
 /* load mlx and texture */
 
-int		load_texture(t_tex *art, void *mlx, const char *path, size_t str_len);
+int		load_texture(t_tex *art, void *mlx, char *path, size_t str_len);
 int		load_mlx_img(t_game *g, char *title);
 
 /* make image  */
