@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:37:10 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/10 12:06:06 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/10 12:40:09 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ static void	game_loop(t_game *g)
 	mlx_hook(g->mlx.win, esc_key, (1L << 0), &free_exit, g);
 	mlx_hook(g->mlx.win, key_press, 0, &set_ply_mov, g);
 	mlx_hook(g->mlx.win, key_release, 0, &unset_ply_mov, g);
+	mlx_hook(g->mlx.win, mouse_press, 0, &mouse_set_ply, g);
+	mlx_hook(g->mlx.win, mouse_release, 0, &mouse_unset_ply, g);
 	mlx_loop_hook(g->mlx.mlx, &animation, g);
 	mlx_loop(g->mlx.mlx);
 }

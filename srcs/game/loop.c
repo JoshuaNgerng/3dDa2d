@@ -6,11 +6,21 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:51:30 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/09 17:22:43 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/10 12:39:57 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
+
+int	mouse_set_ply(int key, double pos_x, double pos_y, t_game *g)
+{
+	return (0);
+}
+
+int	mouse_unset_ply(int key, double pos_x, double pos_y, t_game *g)
+{
+	return (0);
+}
 
 int	set_ply_mov(int key, t_game *g)
 {
