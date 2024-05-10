@@ -33,16 +33,16 @@ static char	*join_buffer(char *out, char *buffer, int r)
 	return (out);
 }
 
-static char	*read_from_file(int fd, char *stored, int *index)
+static char	*read_from_file(int fd, char *stored, int *index, int *err)
 {
 	int		r;
 	char	*out;
 	char	*buffer;
 
 	out = stored;
-	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	buffer = (char *) malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
-		return (NULL);
+		return (set_err(err), NULL);
 	r = read(fd, buffer, BUFFER_SIZE);
 	while (r > 0)
 	{
@@ -50,17 +50,17 @@ static char	*read_from_file(int fd, char *stored, int *index)
 		*index = 0;
 		if (ft_sp_strchr(out, '\n', index))
 			break ;
-		if (!buffer)
-			return (NULL);
+		if (!out)
+			return (free(buffer), set_err(err), NULL);
 		r = read(fd, buffer, BUFFER_SIZE);
 	}
-	if (r == -1)
-		return (NULL);
 	free(buffer);
+	if (r == -1)
+		return (set_err(err), free(out), NULL);
 	return (out);
 }
 
-static char	*get_line(char *buffer, int n)
+static char	*get_line(char *buffer, int n, int *err)
 {
 	int		i;
 	char	*out;
@@ -70,45 +70,55 @@ static char	*get_line(char *buffer, int n)
 		return (NULL);
 	out = (char *) malloc ((n + 1) * sizeof(char));
 	if (!out)
-		return (NULL);
+		return (set_err(err), NULL);
 	while (++ i < n && buffer[i])
 		out[i] = buffer[i];
 	out[i] = '\0';
 	return (out);
 }
 
-static char	*refresh(char *buffer, int n)
+static char	*refresh(char *buffer, int n, int *err)
 {
 	char	*out;
 
 	out = NULL;
 	if (!buffer)
 		return (NULL);
+	if (!buffer[n])
+		return (free(buffer), NULL);
 	if (buffer[n])
 		out = ft_strjoin(&buffer[n], "");
 	free(buffer);
-	buffer = NULL;
 	if (!out)
-		return (NULL);
+		return (set_err(err), NULL);
 	return (out);
 }
 
-char	*get_next_line(int fd)
+int	get_next_line(int fd, char **output)
 {
+	int			err;
 	int			len;
 	static char	*buffer[1024];
-	char		*output;
 
 	len = 0;
-	output = NULL;
+	err = 0;
+	if (!output)
+		return (0);
+	*output = NULL;
 	if (fd < 0 || fd > 1024 || BUFFER_SIZE < 1 || read(fd, 0, 0) < 0)
-		return (NULL);
-	buffer[fd] = read_from_file(fd, buffer[fd], &len);
+		return (1);
+	if (ft_sp_strchr(buffer[fd], '\n', &len))
+	{
+		*output = get_line(buffer[fd], len, &err);
+		buffer[fd] = refresh(buffer[fd], len, &err);
+		return (err);
+	}
+	buffer[fd] = read_from_file(fd, buffer[fd], &len, &err);
 	if (!buffer[fd])
-		return (NULL);
-	if (buffer[fd] && len == 0)
+		return (err);
+	if (len == 0)
 		ft_sp_strchr(buffer[fd], '\n', &len);
-	output = get_line(buffer[fd], len);
-	buffer[fd] = refresh(buffer[fd], len);
-	return (output);
+	*output = get_line(buffer[fd], len, &err);
+	buffer[fd] = refresh(buffer[fd], len, &err);
+	return (err);
 }

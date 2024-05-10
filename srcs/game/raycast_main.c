@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 16:26:45 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/09 17:26:11 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/10 11:40:51 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,16 @@
 void	draw_wall(t_img *img, int ray_no, t_ray *r, const t_game *g)
 {
 	int			iter;
+	int			height;
 	t_int		screen_pos;
 	t_int		texture_pos;
-	int			height;
 	const t_tex	*ptr;
 
 	ptr = &(g->wall[r->side]);
 	if (!(ptr->img.img))
 		return ;
-	height = (int)fabs(g->setting.win_height / r->perp_dist);
-	r->hitpoint -= floor(r->hitpoint);
-	texture_pos.x = (int)(r->hitpoint * ptr->width);
+	height = (int) fabs(g->setting.win_height / r->perp_dist);
+	texture_pos.x = (int) (r->hitpoint * ptr->width);
 	if (r->side > vertical && r->ray_dir.y < 0.)
 		texture_pos.x = ptr->width - texture_pos.x - 1;
 	else if (r->side <= vertical && r->ray_dir.x > 0.)
@@ -49,9 +48,9 @@ void	draw_red_wall(t_img *img, int ray_no, t_ray *r, const t_game *g)
 {
 	int			iter;
 	t_colour	test;
-	double height;
-	int	start;
-	int	end;
+	double		height;
+	int			start;
+	int			end;
 
 	height = fabs(g->setting.win_height / r->perp_dist);
 	start = (g->setting.win_height - height) / 2;

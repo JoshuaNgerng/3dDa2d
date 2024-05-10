@@ -6,36 +6,38 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:37:10 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/09 17:46:10 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/10 12:06:06 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-static int	check_setting(t_set *s, t_ply *p)
+static void	make_setting(t_set *s)
 {
-	(void)s;
-	(void)p;
-	return (0);
-}
-
-static void	make_setting(t_set *s, t_ply *p)
-{
-	double	rotate_speed;
-
 	s->move_speed = 10;
 	s->rotation_speed = 11;
 	s->fov = 90;
-	p->fov = (double)s->fov / 90;
-	p->move_speed = (double)s->move_speed / 100;
 	s->win_width = MAX_WIDTH;
 	s->win_height = MAX_HEIGTH;
-	s->depth_of_focus = MAX_HEIGTH * 1.5;
+}
+
+static int	check_setting(t_set *s, t_ply *p)
+{
+	double	rotate_speed;
+
+	if (s->move_speed > 50 || s->rotation_speed > 45)
+		return (1);
+	if (s->fov > 120 || s->fov < 30)
+		return (1);
+	p->fov = (double)s->fov / 90;
+	p->move_speed = (double)s->move_speed / 100;
+	p->depth_of_focus = (double)MAX_HEIGTH * 1.5;
 	rotate_speed = (double)s->rotation_speed / 100;
 	p->rotate_sin[0] = sin(rotate_speed);
 	p->rotate_sin[1] = sin(-rotate_speed);
 	p->rotate_cos[0] = cos(rotate_speed);
 	p->rotate_cos[1] = cos(-rotate_speed);
+	return (0);
 }
 
 static char	*check_extent(const char *file)
@@ -54,22 +56,12 @@ static void	game_loop(t_game *g)
 {
 	generate_scene(g);
 	mlx_put_image_to_window(g->mlx.mlx, g->mlx.win, g->scene.img, 0, 0);
-	mlx_hook(g->mlx.win, 17, (1L << 0), &free_exit, g);
-	mlx_hook(g->mlx.win, X_EVENT_KEY_PRESS, 0, &set_ply_mov, g);
-	mlx_hook(g->mlx.win, X_EVENT_KEY_RELEASE, 0, &unset_ply_mov, g);
+	mlx_hook(g->mlx.win, esc_key, (1L << 0), &free_exit, g);
+	mlx_hook(g->mlx.win, key_press, 0, &set_ply_mov, g);
+	mlx_hook(g->mlx.win, key_release, 0, &unset_ply_mov, g);
 	mlx_loop_hook(g->mlx.mlx, &animation, g);
 	mlx_loop(g->mlx.mlx);
 }
-
-// void	test_print(const t_ply *p)
-// {
-// 	printf("test ply pos x(%lf)y(%lf)\n", p->pos.x, p->pos.y);
-// 	printf("test ply n_dir x(%lf)y(%lf)\n", p->n_dir.x, p->n_dir.y);
-// 	printf("test ply p_dir x(%lf)y(%lf)\n", p->p_dir.x, p->p_dir.y);
-// 	printf("test ply view x(%lf)y(%lf)\n", p->view.x, p->view.y);
-// 	printf("ply rot sin [0](%lf)[1](%lf)\n", p->rotate_sin[0], p->rotate_sin[1]);
-// 	printf("ply rot cos [0](%lf)[1](%lf)\n", p->rotate_cos[0], p->rotate_cos[1]);
-// }
 
 int	main(int ac, char **av)
 {
@@ -82,7 +74,7 @@ int	main(int ac, char **av)
 	ptr = check_extent(av[1]);
 	if (!ptr)
 		return (errmsg_prog(1), 1);
-	make_setting(&g.setting, &g.ply);
+	make_setting(&g.setting);
 	if (check_setting(&g.setting, &g.ply))
 		return (1);
 	g.ply.pos = (t_point){.x = -1, .y = -1};
@@ -90,10 +82,7 @@ int	main(int ac, char **av)
 	if (!g.mlx.mlx)
 		return (errmsg_config_errno(0), 1);
 	if (read_file(&g, av[1]))
-	{
-		system("leaks cub3D");
 		return (free_game(&g), 1);
-	}
 	*ptr = '\0';
 	if (load_mlx_img(&g, av[1]))
 		return (free_game(&g), 1);

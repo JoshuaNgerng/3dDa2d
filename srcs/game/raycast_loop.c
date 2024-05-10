@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 21:34:52 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/08 14:48:43 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/10 11:56:21 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ int	raycast_loop(t_ray *r, int ray_no, const t_game *g)
 	t_point	map_pos;
 
 	raycast_init(r, ray_no, g);
-	while (r->hori.check_dist < g->setting.depth_of_focus || r->verti.check_dist < g->setting.depth_of_focus)
+	while (r->hori.check_dist < g->ply.depth_of_focus
+			|| r->verti.check_dist < g->ply.depth_of_focus)
 	{
 		if (r->hori.check_dist < r->verti.check_dist)
 			iter_raycast_loop(&r->hori, &r->side, horizontal);
@@ -106,5 +107,7 @@ int	raycast_loop(t_ray *r, int ray_no, const t_game *g)
 	// printf("col:%d), ", ray_no);
 	// r->hitpoint -= floor(r->hitpoint);
 	// printf("\n");
-	return (raycast_fin(r, &g->ply), 0);
+	raycast_fin(r, &g->ply);
+	r->hitpoint -= floor(r->hitpoint);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:18:18 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/09 17:22:09 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/10 08:42:02 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	free_game(t_game *g)
 		mlx_destroy_image(g->mlx.mlx, g->scene.img);
 	if (g->mlx.win)
 		mlx_destroy_window(g->mlx.mlx, g->mlx.win);
+	system("leaks cub3D");
 	// if (g->mlx.mlx)
 	// {
 		// mlx_destroy_display(g->mlx.mlx);

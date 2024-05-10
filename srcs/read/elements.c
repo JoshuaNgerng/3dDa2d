@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 18:25:35 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/09 17:40:26 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/10 10:35:27 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char	*skip_empty_line(int fd, char *prev)
 	ptr = prev;
 	while (ptr)
 	{
-		if (ptr && !checkset(ptr[0], "\r\n"))
+		if (ptr && ptr[0] && !checkset(ptr[0], "\r\n"))
 			break ;
 		free(ptr);
 		if (get_next_line(fd, &ptr))
@@ -70,7 +70,7 @@ static int	store_element(char *line, int i, t_game *g, int j)
 	{
 		if (get_colour_config(line, ptr + iter, &i))
 			return (errmsg_config(3), -1);
-		if (line[i] != ',')
+		if (line[i] != ',' && iter > 0)
 			return (errmsg_config_var(1, &line[i], 1), -1);
 	}
 	return (0);

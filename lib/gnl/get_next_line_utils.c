@@ -26,3 +26,8 @@ char	*ft_sp_strchr(const char *s, int c, int *i)
 	(*i)++;
 	return ((char *)s);
 }
+
+void	set_err(int *err)
+{
+	*err = 1;
+}

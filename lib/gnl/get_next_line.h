@@ -22,10 +22,10 @@
 #  define BUFFER_SIZE 69
 # endif
 
-char	*get_next_line(int fd);
+int		get_next_line(int fd, char **output);
 size_t	ft_strlen(const char *str);
-void	*ft_calloc(size_t nmemb, size_t size);
 char	*ft_sp_strchr(const char *s, int c, int *i);
+void	set_err(int *err);
 char	*ft_strjoin(char const *s1, char const *s2);
 
 #endif

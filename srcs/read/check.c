@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 03:15:22 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/09 15:22:29 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/10 11:22:15 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,10 @@ int	check_map(char *line, int *ptr, t_ply *p)
 	int	i;
 
 	i = 0;
-	while (line[i] && line[i] != '\r' && line[i] != '\n')
+	while (line[i])
 	{
 		i = skip_char(line, ' ', i);
-		if (!line[i])
+		if (!line[i] || line[i] == '\r' || line[i] == '\n')
 			break ;
 		if (check_horizontal(line, &i, p))
 			return (1);

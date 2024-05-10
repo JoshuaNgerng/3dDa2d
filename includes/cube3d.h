@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/09 17:41:29 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/10 12:05:48 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,13 @@
 # define BOLDGREEN	"\033[1m\033[32m"
 # define BOLDBLUE	"\033[1m\033[34m"
 # define BOLDRED	"\033[1m\033[31m"
+
 # define MAX_WIDTH	1500
 # define MAX_HEIGTH	1000
-# define DEGREE		0.01745329251
-# define X_EVENT_KEY_PRESS		2
-# define X_EVENT_KEY_RELEASE	3
-# define ROTATION_SPEED	DEGREE * 5
-# define MOVE_SPEED		0.5
-# define DEPTH_OF_FOCUS	8
-# define CHECK_DIST		10
-# define FOV			120
-# define NO_TRANSPARENCY	0
+
+# define NO_TRANSPARENCY		0
 # define TRANSPARENCY_MINIMAP	125
+
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdlib.h>
@@ -46,8 +41,12 @@
 # include "mlx.h"
 # include "libft.h"
 
-# include <stdio.h>
-
+typedef enum e_x_event
+{
+	key_press = 2,
+	key_release = 3,
+	esc_key = 17
+}	t_x_event;
 
 typedef enum e_key
 {
@@ -143,6 +142,7 @@ typedef struct s_ply
 	char	move_options;
 	double	move_speed;
 	double	fov; // .66 or 1.0
+	double	depth_of_focus;
 	t_point	pos;
 	t_point	n_dir; // dir 
 	t_point	p_dir; // x_dir
@@ -192,7 +192,6 @@ typedef struct s_set
 	int	rotation_speed;
 	int	win_width;
 	int	win_height;
-	double	depth_of_focus;
 }	t_set;
 
 typedef struct s_map
