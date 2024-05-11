@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:51:56 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/11 17:16:52 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/11 17:50:56 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,6 @@ int	read_file(t_game *g, const char *file)
 		return (errmsg_prog_errno("Cannot make map "
 				"from buffer (malloc): ", 38), 1);
 	if (check_map_vertical(&g->map))
-	{
-		printf("Error: Map is not closed\n");
 		return (1);
 	return (check_ply(&g->ply));
 }

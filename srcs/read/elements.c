@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/11 17:18:40 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/11 17:26:16 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ static int	store_element(char *line, int i, t_game *g, int j)
 	if (j < 3)
 	{
 		i = skip_char(line, " ", i);
-		// iter = skip_till_end(line, "\r\n ", i);
-		// line[iter] = '\0';
+		iter = skip_till_end(line, "\r\n ", i);
+		line[iter] = '\0';
 		if (load_texture(&g->wall[j], g->mlx.mlx, &line[i], iter - i))
 			return (-1);
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/11 17:19:01 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/11 17:35:44 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int	checkset(char c, const char *s)
 		if (*s == c)
 			return (1);
 		s++;
-		s++;
 	}
 	return (0);
 }
@@ -95,7 +94,6 @@ int	strlcpy_over(char *dst, const char *src)
 	int	i;
 
 	i = -1;
-	while (src[++i])
 	while (src[++i])
 	{
 		dst[i] = src[i];

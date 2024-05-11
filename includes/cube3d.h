@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/11 17:17:13 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/11 17:25:34 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define BOLDRED	"\033[1m\033[31m"
 
 # define MAX_WIDTH	1500
-# define MAX_HEIGTH	1000
+# define MAX_HEIGHT	1000
 
 # define NO_TRANSPARENCY		0
 # define TRANSPARENCY_MINIMAP	125
@@ -42,6 +42,7 @@
 # include <errno.h>
 # include <stdint.h>
 # include <string.h>
+# include <stdio.h>
 # include "mlx.h"
 # include "libft.h"
 
@@ -201,11 +202,8 @@ typedef struct s_set
 typedef struct s_map
 {
 	int		width;
-	int		heigth;
+	int		height;
 	char	*map;
-	int		img_width;
-	int		img_height;
-	char	*mini_wall;
 	int		img_width;
 	int		img_height;
 	char	*mini_wall;
@@ -235,7 +233,7 @@ void	errmsg_img(const char *msg, size_t len);
 
 /* utilites */
 
-int		skip_char(const char *s, char c, int start);
+int 	skip_char(const char *s, char *set, int i);
 int		skip_till_end(const char *s, const char *ref, int start);
 int		checkset(char c, const char *s);
 int		strlcpy_over(char *dst, const char *src);

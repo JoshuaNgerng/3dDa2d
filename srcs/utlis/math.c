@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/11 17:18:57 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/11 17:24:38 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	get_map_pos(const t_point *p, const t_map *m)
 {
 	if (p->x < 0 || p->y < 0)
 		return (-1);
-	if (p->y > m->width || p->x > m->heigth)
+	if (p->y > m->width || p->x > m->height)
 		return (-1);
 	return (m->map[(int)p->x * m->width + (int)p->y]);
 }

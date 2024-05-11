@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:08:12 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/11 17:18:21 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/11 17:37:24 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	load_texture_wall(t_game *g)
 
 int	load_mlx_img(t_game *g, char *title)
 {
-	g->mlx.win = mlx_new_window(g->mlx.mlx, MAX_WIDTH, MAX_HEIGTH, title);
+	g->mlx.win = mlx_new_window(g->mlx.mlx, MAX_WIDTH, MAX_HEIGHT, title);
 	if (!g->mlx.win)
 		return (errmsg_config_errno(1), 1);
 	if (load_texture_wall(g))
