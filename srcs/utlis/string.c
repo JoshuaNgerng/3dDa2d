@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/15 18:40:18 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/11 17:04:41 by lchew            ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/05/11 17:19:01 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "cube3d.h"
 
@@ -56,10 +57,25 @@ int	checkset(char c, const char *s)
 		if (*s == c)
 			return (1);
 		s++;
+		s++;
 	}
 	return (0);
 }
 
+/**
+ * @brief Copies a string from src to dst and stops when it encounters a 
+ * '\\r' or '\\n' character in src.
+ * 
+ * @param dst The destination string.
+ * @param src The source string.
+ * 
+ * @return The number of characters copied from src to dst.
+ * 
+ * This function copies characters from the source string (src) to the 
+ * destination string (dst) until it encounters a '\\r' or '\\n' character 
+ * in src.
+ * It returns the number of characters copied from src to dst.
+ */
 /**
  * @brief Copies a string from src to dst and stops when it encounters a 
  * '\\r' or '\\n' character in src.
@@ -79,6 +95,7 @@ int	strlcpy_over(char *dst, const char *src)
 	int	i;
 
 	i = -1;
+	while (src[++i])
 	while (src[++i])
 	{
 		dst[i] = src[i];

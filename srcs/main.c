@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/14 12:37:10 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/11 17:13:27 by lchew            ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/05/11 17:17:52 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "cube3d.h"
 
@@ -91,5 +92,7 @@ int	main(int ac, char **av)
 	game_loop(&g);
 	return (free_game(&g), 0);
 }
+
+
 
 
