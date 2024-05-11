@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/11 18:02:51 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/11 20:01:08 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,14 @@
 # include <string.h>
 # include "mlx.h"
 # include "libft.h"
+#include <stdio.h>
 
 typedef enum e_x_event
 {
 	key_press = 2,
 	key_release = 3,
-	mouse_press = 5,
-	mouse_release = 6,
+	mouse_press = 4,
+	mouse_release = 5,
 	esc_key = 17
 }	t_x_event;
 
@@ -97,8 +98,8 @@ typedef struct s_trbg
 
 typedef union colour
 {
-	t_trbg		mode;
-	uint8_t		trabg_parts[4];
+	t_trbg		mode; // mode.trans
+	uint8_t		trabg_parts[4]; // index 3 is transparency
 	uint32_t	trbg;
 }	t_colour;
 

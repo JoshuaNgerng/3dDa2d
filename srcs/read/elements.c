@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 18:25:35 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/10 10:35:27 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/11 19:56:51 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,31 +48,32 @@ static int	get_colour_config(const char *line, uint8_t *ptr, int *index)
 	return (0);
 }
 
-static int	store_element(char *line, int i, t_game *g, int j)
+static int	store_element(char *line, int index, t_game *g, int type)
 {
 	int		iter;
 	uint8_t	*ptr;
 
-	if (j < 3)
+	index = skip_char(line, ' ', index);
+	if (type < 3)
 	{
-		i = skip_char(line, ' ', i);
-		iter = skip_till_end(line, "\r\n ", i);
+		iter = skip_till_end(line, "\r\n ", index);
 		line[iter] = '\0';
-		if (load_texture(&g->wall[j], g->mlx.mlx, &line[i], iter - i))
+		if (load_texture(&g->wall[type], g->mlx.mlx, &line[index], iter - index))
 			return (-1);
 		return (0);
 	}
 	iter = 3;
-	g->env[j % 3].set = 1;
-	ptr = g->env[j % 3].colour.trabg_parts;
+	g->env[type % 4].set = 1;
+	ptr = g->env[type % 4].colour.trabg_parts;
 	*(ptr + iter) = NO_TRANSPARENCY;
 	while (iter -- > 0)
 	{
-		if (get_colour_config(line, ptr + iter, &i))
+		if (get_colour_config(line, ptr +iter, &index))
 			return (errmsg_config(3), -1);
-		if (line[i] != ',' && iter > 0)
-			return (errmsg_config_var(1, &line[i], 1), -1);
+		if (line[index ++] != ',' && iter > 0)
+			return (errmsg_config_var(1, &line[index], 1), -1);
 	}
+	// may handle / check garbage char after handle storing part
 	return (0);
 }
 
@@ -84,7 +85,7 @@ static int	check_elements(char *line, t_game *g)
 	char	**dict;
 
 	if (!line[0] || checkset(line[0], "\r\n"))
-		return (-1);
+		return (1);
 	index = skip_char(line, ' ', 0);
 	i = -1;
 	len = 3;
@@ -94,13 +95,14 @@ static int	check_elements(char *line, t_game *g)
 		if (i == 4)
 			len = 2;
 		if (!ft_strncmp(&line[index], dict[i], len))
-			return (store_element(line, index, g, i + len));
+			return (store_element(line, index + len, g, i));
 	}
-	return (-1);
+	return (1);
 }
 
 int	read_elements(int fd, t_game *g, char **ptr)
 {
+	int		check;
 	char	*buffer;
 
 	if (get_next_line(fd, &buffer))
@@ -108,8 +110,11 @@ int	read_elements(int fd, t_game *g, char **ptr)
 	buffer = skip_empty_line(fd, buffer);
 	while (buffer)
 	{
-		if (check_elements(buffer, g))
-			break ;
+		check = check_elements(buffer, g);
+		if (check < 0)
+			return (free(buffer), 1);
+		if (check > 0)
+			break;
 		free(buffer);
 		if (get_next_line(fd, &buffer))
 			return (errmsg_file_errno(1, NULL), 1);

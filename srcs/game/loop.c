@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:51:30 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/11 18:03:01 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/11 20:01:27 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,22 @@
 
 int	mouse_set_ply(int key, double pos_x, double pos_y, t_game *g)
 {
-	int		half_width;
+	// int		half_width = 0;
 	(void) pos_y;
+	(void) pos_x;
+	(void) g;
 
 	if (key != 1)
 		return (0);
-	half_width = g->setting.win_width / 2;
-	if (pos_x == half_width)
-		return (0);
-	if (pos_x < half_width)
-		g->ply.move_options |= rotate_left;
-	else
-		g->ply.move_options |= rotate_right;
+	// printf("press\n");
+	// half_width = g->setting.win_width / 2;
+	// printf("half width %d\n", half_width);
+	// if (pos_x == half_width)
+	// 	return (0);
+	// if (pos_x < half_width)
+	// 	g->ply.move_options |= rotate_left;
+	// else
+	// 	g->ply.move_options |= rotate_right;
 	return (0);
 }
 
@@ -33,13 +37,15 @@ int	mouse_unset_ply(int key, double pos_x, double pos_y, t_game *g)
 {
 	(void) pos_x;
 	(void) pos_y;
+	(void) g;
 
 	if (key != 1)
 		return (0);
-	if (g->ply.move_options & rotate_left)
-		g->ply.move_options &= ~rotate_left;
-	else if (g->ply.move_options & rotate_right)
-		g->ply.move_options &= ~rotate_right;
+	// printf("release\n");
+	// if (g->ply.move_options & rotate_left)
+	// 	g->ply.move_options &= ~rotate_left;
+	// else if (g->ply.move_options & rotate_right)
+	// 	g->ply.move_options &= ~rotate_right;
 	return (0);
 }
 
