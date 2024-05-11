@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:51:56 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/05 17:37:51 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/11 14:46:06 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static char	*make_map(t_buffer *buffer, int width)
 		while (len < width)
 			out[index + len ++] = ' ';
 		out[index + width] = '\0';
-		printf("%s\n", &out[index]);
+		// printf("%s\n", &out[index]);
 		index += width;
 		ptr = ptr->next;
 	}
@@ -80,14 +80,17 @@ int	read_file(t_game *g, const char *file)
 	free_buffer(&buffer);
 	if (!g->map.map)
 		return (1);
-	printf("check line\n");
+	// printf("check line\n");
 	int i = 0;
 	while (g->map.map[i])
 	{
 		i++;
 	}
-	printf("len %d\n", i);
+	// printf("len %d\n", i);
 	if (check_map_vertical(&g->map))
+	{
+		printf("Error: Map is not closed\n");
 		return (1);
+	}
 	return (0);
 }

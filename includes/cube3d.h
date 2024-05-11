@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/05 17:38:05 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/11 14:31:47 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,6 +251,7 @@ int		cont_buffer_list(t_buffer *buffer, int fd, int *, t_ply *p);
 int		uniform_map_size(t_game *g);
 int		check_map_vertical(const t_map *m);
 void	free_buffer(t_buffer *b);
+int		create_minimap(t_game *g);
 
 /* load mlx and texture */
 

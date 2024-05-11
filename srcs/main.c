@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:37:10 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/05 17:44:19 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/11 14:46:27 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,16 +72,23 @@ int	main(int ac, char **av)
 	*ptr = '\0';
 	g.mlx.mlx = mlx_init();
 	if (!g.mlx.mlx)
+	{
+		printf("cannot load mlx\n");
 		return (1); // cannot load mlx
+	}
 	g.mlx.win = mlx_new_window(g.mlx.mlx, MAX_WIDTH, MAX_HEIGHT, av[1]);
 	if (!g.mlx.win)
+	{
+		printf("cannot load win\n");
 		return (free_game(&g), 1); // cannot load win
+	}
 	// // system("leaks cub3D");
 	// if (load_art_n_mlx(&g))
 	// 	return (free_game(&g), 1);
 	// printf("testing ply pos x(%lf) y(%lf)\n", g.ply.pos.x, g.ply.pos.y);
 	print_map(&g.map);
-	create_map(g);
+	create_minimap(&g);
+	mlx_loop(g.mlx.mlx);
 	// system("leaks cub3D");
 	// game_loop(&g);
 	return (free_game(&g), 0);
