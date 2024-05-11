@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/11 20:01:08 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/11 22:29:47 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ typedef enum e_side
 	horizontal = 0,
 	vertical = 1,
 	north = 0,
-	east = 1,
-	south = 2,
+	east = 2,
+	south = 1,
 	west = 3,
 	floor_ = 0,
 	sky_ = 1
@@ -212,7 +212,7 @@ typedef struct s_game
 	t_set	setting;
 	t_img	scene;
 	t_env	env[2]; //FC
-	t_tex	wall[4]; //NESW
+	t_tex	wall[4]; //NSWE
 }	t_game;
 
 /* error messages */

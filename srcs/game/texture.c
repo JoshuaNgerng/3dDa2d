@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:08:12 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/09 17:42:30 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/11 22:31:24 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ static int	load_texture_wall(t_game *g)
 	int		i;
 	char	**path;
 
-	i = -1;
+	i = -1; // N S W E
 	path = (char *[]){"art/floor.xpm",
-		"art/floor.xpm", "art/floor.xpm", "art/floor.xpm"};
+		"art/wall_1.xpm", "art/eagle.xpm", "art/bluestone.xpm"};
 	while (++ i < 4)
 	{
 		if (g->wall[i].img.img)
