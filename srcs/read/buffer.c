@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 04:50:17 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/10 11:17:01 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/11 18:17:18 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static int	make_new_list(t_buffer *buffer, char *line)
 	}
 	new->line = line;
 	buffer->tail = new;
+	new->next = NULL;
 	buffer->len ++;
 	return (0);
 }

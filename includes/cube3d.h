@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/10 12:05:48 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/11 18:02:51 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ typedef enum e_x_event
 {
 	key_press = 2,
 	key_release = 3,
+	mouse_press = 5,
+	mouse_release = 6,
 	esc_key = 17
 }	t_x_event;
 
@@ -265,9 +267,10 @@ void	raycasting_walls(t_img *img, const t_game *g);
 
 /* game loop */
 
-int		handle_input(int key, t_game *g);
 int		set_ply_mov(int key, t_game *g);
 int		unset_ply_mov(int key, t_game *g);
+int		mouse_set_ply(int key, double pos_x, double pos_y, t_game *g);
+int		mouse_unset_ply(int key, double pos_x, double pos_y, t_game *g);
 int		update_ply_move(t_ply *p, const t_game *g);
 int		animation(t_game *g);
 
