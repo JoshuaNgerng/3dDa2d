@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/11 17:53:32 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/11 18:47:47 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static int	make_new_list(t_buffer *buffer, char *line)
 	}
 	new->line = line;
 	buffer->tail = new;
+	new->next = NULL;
 	buffer->len ++;
 	return (0);
 }

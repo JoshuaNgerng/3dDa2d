@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/11 17:26:16 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/11 18:48:16 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,41 +91,15 @@ static int	check_elements(char *line, t_game *g)
 	len = 3;
 	dict = (char *[6]){"NO ", "SO ", "WE ", "EA ", "F ", "C "};
 	while (++i < 6)
-	while (++i < 6)
 	{
 		if (i == 4)
 			len = 2;
 		if (!ft_strncmp(&line[index], dict[i], len))
 			return (store_element(line, index, g, i + len));
 	}
-	// printf("check elements\n");
-	if (!check_map(line, &g->map.width, &g->ply)) // inital width and player position updated here
-	{
-		// printf("\nFinished check elements\n\n");
-	// printf("check elements\n");
-	if (!check_map(line, &g->map.width, &g->ply)) // inital width and player position updated here
-	{
-		// printf("\nFinished check elements\n\n");
-		return (1);
-	}
-	}
 	return (-1);
 }
 
-/**
- * @brief Reads game elements from a file descriptor and stores them in a t_game structure.
- * 
- * @param fd The file descriptor from which to read.
- * @param g The t_game structure in which to store the game elements.
- * @param ptr A pointer to a string where the first line of the map will be stored.
- * 
- * @return Returns 0 if a map is detected in the file, and 1 otherwise. If an error occurs in check_elements, the function also returns 1.
- * 
- * The function reads lines from the file descriptor until it reaches the end of the file. For each line, it calls check_elements to check for game elements.
- * If check_elements detects a map (returns a value greater than 0), the function stores the line in ptr and returns 0.
- * If check_elements returns a value less than 0, indicating an error, the function returns 1.
- * If no map is detected in any line, the function returns 1.
- */
 /**
  * @brief Reads game elements from a file descriptor and stores them in a t_game structure.
  * 
@@ -149,7 +123,6 @@ int	read_elements(int fd, t_game *g, char **ptr)
 	buffer = skip_empty_line(fd, buffer);
 	while (buffer)
 	{
-		printf("check line elements\n");
 		if (check_elements(buffer, g))
 			break ;
 		free(buffer);

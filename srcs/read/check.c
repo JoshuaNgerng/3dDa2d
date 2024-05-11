@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/11 17:34:53 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/11 18:49:11 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 
 static int	check_ply_pos(int col, char dir, t_ply *p)
 {
-	printf("chk ply pos %f %f\n", p->pos.x, p->pos.y);
-	if (p->pos.x >= 0) // changed from y to x??
+	if (p->pos.x >= 0)
 		return (1);
 	p->pos.y = (double)col;
 	if (dir == 'N')
@@ -62,7 +61,9 @@ static int	check_horizontal(char *line, int *ptr, t_ply *p)
 		else if (checkset(line[i], "\r\n"))
 			break ;
 		else if (!checkset(line[i], "10"))
+		{
 			return (errmsg_config_var(0, &line[i], 1), 1);
+		}
 		i ++;
 	}
 	if (i - 1 >= 0 && line[i - 1] != '1')
@@ -76,6 +77,7 @@ int	check_map(char *line, int *ptr, t_ply *p)
 	int	i;
 
 	i = 0;
+	
 	// printf("check map line |%s\n", line);
 	while (line[i] && line[i] != '\r' && line[i] != '\n')
 	{
