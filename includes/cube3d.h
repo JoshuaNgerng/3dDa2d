@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/11 19:02:58 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/12 19:06:19 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@
 # define TRANSPARENCY_MINIMAP	125
 # define WALL_MINIMAP "./art/wall_minimap.xpm"
 # define WALL_SIZE_MINIMAP 32
-# define WALL_MINIMAP "./art/wall_minimap.xpm"
-# define WALL_SIZE_MINIMAP 32
+# define PLAYER_MINIMAP "./art/player_minimap.xpm"
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdlib.h>

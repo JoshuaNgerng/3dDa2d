@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:51:30 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/11 19:02:37 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/12 19:12:37 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int	mouse_set_ply(int key, double pos_x, double pos_y, t_game *g)
 {
 	int		half_width;
 	(void) pos_y;
-
+	printf("game %p\n", g);
+	
 	if (key != 1)
 		return (0);
 	half_width = g->setting.win_width / 2;
@@ -84,6 +85,7 @@ int	animation(t_game *g)
 {
 	if (!update_ply_move(&g->ply, g))
 		return (0);
+	mlx_clear_window(g->mlx.mlx, g->mlx.win);
 	generate_scene(g);
 	mlx_put_image_to_window(g->mlx.mlx, g->mlx.win, g->scene.img, 0, 0);
 	create_minimap(g);
