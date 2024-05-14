@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/11 17:35:44 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/14 10:44:28 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@
  * @param c The character set to skip.
  * @param i The index at which to start skipping.
  * 
- * @return Returns the index of the first occurrence of a character not in 'set' 
+ * @return Returns the index of the first occurrence of a character 'c' 
  * after 'i', or the end of the string if no such character is found.
  */
-int skip_char(const char *s, char *set, int i)
+int skip_char(const char *s, char c, int i)
 {
 	while (s[i])
 	{
-		if (!checkset(s[i], set))
+		if (s[i] != c)
 			break ;
 		++i;
 	}
@@ -61,20 +61,6 @@ int	checkset(char c, const char *s)
 	return (0);
 }
 
-/**
- * @brief Copies a string from src to dst and stops when it encounters a 
- * '\\r' or '\\n' character in src.
- * 
- * @param dst The destination string.
- * @param src The source string.
- * 
- * @return The number of characters copied from src to dst.
- * 
- * This function copies characters from the source string (src) to the 
- * destination string (dst) until it encounters a '\\r' or '\\n' character 
- * in src.
- * It returns the number of characters copied from src to dst.
- */
 /**
  * @brief Copies a string from src to dst and stops when it encounters a 
  * '\\r' or '\\n' character in src.

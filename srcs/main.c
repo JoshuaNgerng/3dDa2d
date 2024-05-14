@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:37:10 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/14 10:22:24 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/14 11:42:46 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ static void	game_loop(t_game *g)
 {
 	generate_scene(g);
 	mlx_put_image_to_window(g->mlx.mlx, g->mlx.win, g->scene.img, 0, 0);
+	create_minimap(g);
 	mlx_hook(g->mlx.win, esc_key, (1L << 0), &free_exit, g);
 	mlx_hook(g->mlx.win, key_press, 0, &set_ply_mov, g);
 	mlx_hook(g->mlx.win, key_release, 0, &unset_ply_mov, g);

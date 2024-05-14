@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/11 17:42:12 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/14 11:43:12 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,4 @@ void	generate_scene(t_game *g)
 	put_sky_floor(&g->scene, g, MAX_HEIGHT, MAX_WIDTH);
 	put_sky_floor(&g->scene, g, MAX_HEIGHT, MAX_WIDTH);
 	raycasting_walls(&g->scene, g);
-	// put_minimap(&g->scene, g);
 }

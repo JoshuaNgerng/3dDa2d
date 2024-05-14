@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 03:15:22 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/14 10:23:48 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/14 10:59:57 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 
 static int	check_ply_pos(int col, char dir, t_ply *p)
 {
-	printf("chk ply pos %f %f\n", p->pos.x, p->pos.y);
-	if (p->pos.x >= 0) // changed from y to x??
+	if (p->pos.x >= 0)
 		return (1);
 	p->pos.y = (double)col;
 	if (dir == 'N')
@@ -48,7 +47,6 @@ static int	check_horizontal(char *line, int *ptr, t_ply *p)
 	int	i;
 
 	i = *ptr;
-	// printf("line starting pos: %d, line: %s\n", i, line);
 	if (line[i] != '1')
 		return (errmsg_config(4), 1);
 	while (line[i] && line[i] != ' ')
@@ -76,9 +74,11 @@ int	check_map(char *line, int *ptr, t_ply *p)
 	int	i;
 
 	i = 0;
-	while (line[i] && line[i] != '\r' && line[i] != '\n')
+	while (line[i])
 	{
-		i = skip_char(line, " ", i);
+		i = skip_char(line, ' ', i);
+		if (line[i] == '\r' || line[i] == '\n')
+			break ;
 		if (check_horizontal(line, &i, p))
 			return (1);
 	}
@@ -129,7 +129,5 @@ int check_map_vertical(const t_map *m)
 				return (errmsg_config(4), -1);
 		}
 	}
-
-
 	return (0);
 }

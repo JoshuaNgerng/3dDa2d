@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/14 10:20:08 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/14 11:17:16 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,7 +236,7 @@ void	errmsg_img(const char *msg, size_t len);
 
 /* utilites */
 
-int 	skip_char(const char *s, char *set, int i);
+int		skip_char(const char *s, char c, int i);
 int		skip_till_end(const char *s, const char *ref, int start);
 int		checkset(char c, const char *s);
 int		strlcpy_over(char *dst, const char *src);
@@ -245,7 +245,7 @@ int		free_exit(t_game *g, int ext_code);
 
 /* math check */
 
-int		get_map_pos(const t_point *p, const t_map *m);
+int		get_map_pos(t_int p, const t_map *m);
 void	rotation_matrix(t_point *dst, double sin_, double cos_);
 
 /* read from file */

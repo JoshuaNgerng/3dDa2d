@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 18:21:04 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/09 17:22:52 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/14 11:41:34 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,24 @@
 int	update_move(t_point *ply, const t_point *move, const t_game *g, int dir)
 {
 	int		update;
-	t_point	check;
+	t_int	check;
+	t_point	buffer;
 
 	update = 0;
-	check = (t_point){ply->x, ply->y};
-	check.x += dir * move->x * g->ply.move_speed;
-	if (get_map_pos(&check, &g->map) == '0')
+	buffer = (t_point){ply->x, ply->y};
+	buffer.x += dir * move->x * g->ply.move_speed;
+	check = (t_int){(int)buffer.x, (int)buffer.y};
+	if (get_map_pos(check, &g->map) == '0')
 	{
-		*ply = (t_point){check.x, check.y};
+		*ply = (t_point){buffer.x, buffer.y};
 		update = 1;
 	}
-	check = (t_point){ply->x, ply->y};
-	check.y += dir * move->y * g->ply.move_speed;
-	if (get_map_pos(&check, &g->map) == '0')
+	buffer = (t_point){ply->x, ply->y};
+	buffer.y += dir * move->y * g->ply.move_speed;
+	check = (t_int){(int)buffer.x, (int)buffer.y};
+	if (get_map_pos(check, &g->map) == '0')
 	{
-		*ply = (t_point){check.x, check.y};
+		*ply = (t_point){buffer.x, buffer.y};
 		update = 1;
 	}
 	return (update);
