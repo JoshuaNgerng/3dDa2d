@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:03:31 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/14 13:03:38 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/14 13:21:31 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ void	errmsg_config(char type)
 		write(2, "Invalid colour code 0 to 255 only", 33);
 	else if (type == 4)
 		write(2, "Map have no close borders (1)", 29);
+	else if (type == 5)
+		write(2, "Invalid character after element identifier", 42);
 	write(2, RESET "\n", 5);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 18:25:35 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/14 13:02:55 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/14 13:22:15 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,14 +90,19 @@ static int	check_elements(char *line, t_game *g)
 	i = -1;
 	len = 3;
 	dict = (char *[6]){"NO ", "SO ", "WE ", "EA ", "F ", "C "};
-	while (++i < 6)
+	while (++ i < 6)
 	{
 		if (i == 4)
 			len = 2;
 		if (!ft_strncmp(&line[index], dict[i], len))
 			return (store_element(line, index + len, g, i));
 	}
-	// may handle / check garbage char after handle storing part
+	while (line[index])
+	{
+		if (!checkset(line[index], " \r\n"))
+			return (errmsg_config(5), -1);
+		index ++;
+	}
 	return (1);
 }
 
