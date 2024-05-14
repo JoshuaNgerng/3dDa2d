@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 16:26:45 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/14 12:57:38 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/14 17:33:24 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	draw_wall(t_img *img, int ray_no, t_ray *r, const t_game *g)
 	const t_tex	*ptr;
 
 	ptr = &(g->wall[r->side]);
+	if (r->door)
+		ptr = &(g->door.texture[g->door.sprite[r->index].counter]);
 	if (!(ptr->img.img))
 		return ;
 	draw.screen_pos.x = ray_no;

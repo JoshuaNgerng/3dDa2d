@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 18:21:04 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/14 12:23:41 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/14 17:29:35 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	update_angle(t_ply *p, int dir)
 	return (1);
 }
 
-int	update_ply_move(t_ply *p, const t_game *g)
+int	update_ply_move(t_ply *p, t_door *d, const t_game *g)
 {
 	int	update;
 

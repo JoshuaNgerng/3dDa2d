@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 21:34:52 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/14 12:28:04 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/14 17:29:11 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,12 @@ int	raycast_loop(t_ray *r, int ray_no, const t_game *g)
 				(int)r->verti.map_check}, &g->map);
 		if (map_check < 0)
 			return (1);
-		if (map_check == '1')
+		if (map_check != '0')
+		{
+			if (map_check == 'D')
+				r->door = get_counter(&r->index, &g->door);
 			break ;
+		}
 	}
 	raycast_fin(r, &g->ply);
 	r->hitpoint -= floor(r->hitpoint);

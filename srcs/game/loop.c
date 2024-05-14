@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:51:30 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/14 12:26:45 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/14 17:30:44 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,11 @@ int	unset_ply_mov(int key, t_game *g)
 
 int	animation(t_game *g)
 {
-	if (update_ply_move(&g->ply, g))
+	if (update_ply_move(&g->ply, &g->door, g))
 		generate_scene(g);
 	mlx_put_image_to_window(g->mlx.mlx, g->mlx.win, g->scene.img, 0, 0);
 	if (g->ply.move_options & map_option)
 		create_minimap(g);
+	update_door_counter(g);
 	return (0);
 }
