@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:51:56 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/11 18:14:20 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/14 10:27:14 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ static char	*make_map(const t_buffer *buffer, int width)
 		len = strlcpy_over(&out[index], ptr->line);
 		while (len < width)
 			out[index + len ++] = ' ';
+		out[index + width] = '\0';
+		// printf("%s\n", &out[index]);
 		index += width;
 		ptr = ptr->next;
 	}
@@ -84,7 +86,7 @@ int	read_file(t_game *g, const char *file)
 	if (cont_buffer_list(&buffer, fd, &g->map.width, &g->ply))
 		return (free_buffer(&buffer), err_handle(fd));
 	close(fd);
-	g->map.heigth = buffer.len;
+	g->map.height = buffer.len;
 	g->map.map = make_map(&buffer, g->map.width);
 	free_buffer(&buffer);
 	if (!g->map.map)

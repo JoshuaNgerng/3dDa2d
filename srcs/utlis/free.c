@@ -6,9 +6,10 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:18:18 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/11 18:20:05 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/14 10:27:31 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "cube3d.h"
 
@@ -47,8 +48,8 @@ int	free_exit(t_game *g, int ext_code)
 
 // void	print_map(const t_map *m)
 // {
-// 	printf("height (%d) width (%d)\n", m->heigth, m->width);
-// 	for (int i = 0; i < m->heigth; i ++)
+// 	printf("height (%d) width (%d)\n", m->height, m->width);
+// 	for (int i = 0; i < m->height; i ++)
 // 	{
 // 		for (int j = 0; j < m->width; j ++)
 // 			printf("%c", m->map[i * m->width + j]);

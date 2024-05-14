@@ -6,7 +6,7 @@
 #    By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/12 14:22:20 by jngerng           #+#    #+#              #
-#    Updated: 2024/05/11 18:37:41 by jngerng          ###   ########.fr        #
+#    Updated: 2024/05/14 10:16:46 by jngerng          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ GAME_DIR = game
 OBJ_DIR = obj
 F_MAIN = main
 F_UTLIS = errmsg free math string
-F_READ = read elements check buffer
+F_READ = read elements check buffer map
 F_GAME = loop ply texture scene raycast_main raycast_loop
 SRC_M = $(foreach item, $(F_MAIN), $(SRC_DIR)/$(item).c)
 SRC_U = $(foreach item, $(F_UTLIS), $(SRC_DIR)/$(UTLIS_DIR)/$(item).c)
@@ -33,35 +33,35 @@ CFLAGS = -Wall -Wextra -Werror $(CMEM)
 CMEM = -fsanitize=address -g3
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/$(UTLIS_DIR)/%.c
-	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	@ mkdir -p $(OBJ_DIR)
+	@ $(CC) $(CFLAGS) $(INC) -c $< -o $@ 
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/$(READ_DIR)/%.c
-	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	@ mkdir -p $(OBJ_DIR)
+	@ $(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/$(GAME_DIR)/%.c
-	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	@ mkdir -p $(OBJ_DIR)
+	@ $(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	@ mkdir -p $(OBJ_DIR)
+	@ $(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 $(NAME): $(OBJ)
-	$(MAKE) -C lib
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIB) $(INC)
+	@ $(MAKE) -C lib
+	@ $(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIB) $(INC)
 
 all : $(NAME)
 
 clean:
-	rm -f $(OBJ)
-	if [ $(OBJ_DIR) != "." ]; then \
-		if [ -d $(OBJ_DIR) ]; then rmdir $(OBJ_DIR); fi \
+	@ rm -f $(OBJ)
+	@ if [ $(OBJ_DIR) != "." ]; then \
+	 	if [ -d $(OBJ_DIR) ]; then rmdir $(OBJ_DIR); fi \
 	fi
 
 fclean: clean
-	$(MAKE) fclean -C lib
-	rm -f $(NAME)
+	@ $(MAKE) fclean -C lib
+	@ rm -f $(NAME)
 
 re: fclean all

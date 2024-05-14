@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:08:12 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/11 22:31:24 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/14 10:21:44 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	load_texture_wall(t_game *g)
 
 int	load_mlx_img(t_game *g, char *title)
 {
-	g->mlx.win = mlx_new_window(g->mlx.mlx, MAX_WIDTH, MAX_HEIGTH, title);
+	g->mlx.win = mlx_new_window(g->mlx.mlx, MAX_WIDTH, MAX_HEIGHT, title);
 	if (!g->mlx.win)
 		return (errmsg_config_errno(1), 1);
 	if (load_texture_wall(g))
@@ -55,7 +55,7 @@ int	load_mlx_img(t_game *g, char *title)
 		g->env[1].colour.mode = (t_trbg){255, 0, 0, NO_TRANSPARENCY};
 	g->env[0].set = 1;
 	g->env[1].set = 1;
-	g->scene.img = mlx_new_image(g->mlx.mlx, MAX_WIDTH, MAX_HEIGTH);
+	g->scene.img = mlx_new_image(g->mlx.mlx, MAX_WIDTH, MAX_HEIGHT);
 	if (!g->scene.img)
 		return (errmsg_config_errno(2), 1);
 	g->scene.pixel_ptr = mlx_get_data_addr(g->scene.img,

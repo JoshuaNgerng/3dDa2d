@@ -6,9 +6,10 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/11 22:29:47 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/14 10:20:08 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef CUBE3D_H
 # define CUBE3D_H
@@ -25,11 +26,14 @@
 # define BOLDRED	"\033[1m\033[31m"
 
 # define MAX_WIDTH	1500
-# define MAX_HEIGTH	1000
+# define MAX_HEIGHT	1000
 
 # define NO_TRANSPARENCY		0
 # define TRANSPARENCY_MINIMAP	125
-
+# define WALL_MINIMAP "./art/wall_minimap.xpm"
+# define WALL_SIZE_MINIMAP 32
+# define WALL_MINIMAP "./art/wall_minimap.xpm"
+# define WALL_SIZE_MINIMAP 32
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdlib.h>
@@ -38,6 +42,7 @@
 # include <errno.h>
 # include <stdint.h>
 # include <string.h>
+# include <stdio.h>
 # include "mlx.h"
 # include "libft.h"
 #include <stdio.h>
@@ -200,8 +205,11 @@ typedef struct s_set
 typedef struct s_map
 {
 	int		width;
-	int		heigth;
+	int		height;
 	char	*map;
+	int		img_width;
+	int		img_height;
+	char	*mini_wall;
 }	t_map;
 
 typedef struct s_game
@@ -228,7 +236,7 @@ void	errmsg_img(const char *msg, size_t len);
 
 /* utilites */
 
-int		skip_char(const char *s, char c, int start);
+int 	skip_char(const char *s, char *set, int i);
 int		skip_till_end(const char *s, const char *ref, int start);
 int		checkset(char c, const char *s);
 int		strlcpy_over(char *dst, const char *src);
@@ -250,6 +258,8 @@ int		cont_buffer_list(t_buffer *buffer, int fd, int *, t_ply *p);
 int		uniform_map_size(t_game *g);
 int		check_map_vertical(const t_map *m);
 void	free_buffer(t_buffer *b);
+int		create_minimap(t_game *g);
+int		create_minimap(t_game *g);
 
 /* load mlx and texture */
 

@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   scene.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/19 01:05:00 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/09 17:37:45 by jngerng          ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/05/11 17:42:12 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "cube3d.h"
 
@@ -59,7 +60,8 @@ put overrwrite bg with walls
 */
 void	generate_scene(t_game *g)
 {
-	put_sky_floor(&g->scene, g, MAX_HEIGTH, MAX_WIDTH);
+	put_sky_floor(&g->scene, g, MAX_HEIGHT, MAX_WIDTH);
+	put_sky_floor(&g->scene, g, MAX_HEIGHT, MAX_WIDTH);
 	raycasting_walls(&g->scene, g);
 	// put_minimap(&g->scene, g);
 }
