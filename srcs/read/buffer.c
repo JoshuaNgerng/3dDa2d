@@ -6,10 +6,9 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 04:50:17 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/14 10:22:35 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/14 12:59:25 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "cube3d.h"
 
@@ -68,7 +67,7 @@ int	cont_buffer_list(t_buffer *buffer, int fd, int *ptr, t_ply *p)
 			p->pos.x = (double)row;
 		if (make_new_list(buffer, line))
 			return (free(line), errmsg_prog_errno("Cannot make buffer "
-			"for line from read (malloc): ", 48), 1);
+					"for line from read (malloc): ", 48), 1);
 		if (get_next_line(fd, &line))
 			return (errmsg_file_errno(1, NULL), 1);
 	}

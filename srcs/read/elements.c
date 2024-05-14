@@ -6,10 +6,9 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 18:25:35 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/14 10:26:52 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/14 13:02:55 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "cube3d.h"
 
@@ -59,7 +58,8 @@ static int	store_element(char *line, int index, t_game *g, int type)
 	{
 		iter = skip_till_end(line, "\r\n ", index);
 		line[iter] = '\0';
-		if (load_texture(&g->wall[type], g->mlx.mlx, &line[index], iter - index))
+		if (load_texture(&g->wall[type],
+				g->mlx.mlx, &line[index], iter - index))
 			return (-1);
 		return (0);
 	}
@@ -69,12 +69,11 @@ static int	store_element(char *line, int index, t_game *g, int type)
 	*(ptr + iter) = NO_TRANSPARENCY;
 	while (iter -- > 0)
 	{
-		if (get_colour_config(line, ptr +iter, &index))
+		if (get_colour_config(line, ptr + iter, &index))
 			return (errmsg_config(3), -1);
 		if (line[index ++] != ',' && iter > 0)
 			return (errmsg_config_var(1, &line[index], 1), -1);
 	}
-	// may handle / check garbage char after handle storing part
 	return (0);
 }
 
@@ -92,13 +91,13 @@ static int	check_elements(char *line, t_game *g)
 	len = 3;
 	dict = (char *[6]){"NO ", "SO ", "WE ", "EA ", "F ", "C "};
 	while (++i < 6)
-	while (++i < 6)
 	{
 		if (i == 4)
 			len = 2;
 		if (!ft_strncmp(&line[index], dict[i], len))
 			return (store_element(line, index + len, g, i));
 	}
+	// may handle / check garbage char after handle storing part
 	return (1);
 }
 
@@ -130,7 +129,7 @@ int	read_elements(int fd, t_game *g, char **ptr)
 		if (check < 0)
 			return (free(buffer), 1);
 		if (check > 0)
-			break;
+			break ;
 		free(buffer);
 		if (get_next_line(fd, &buffer))
 			return (errmsg_file_errno(1, NULL), 1);

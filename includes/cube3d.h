@@ -6,10 +6,9 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/14 11:17:16 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/14 12:51:50 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef CUBE3D_H
 # define CUBE3D_H
@@ -45,7 +44,7 @@
 # include <stdio.h>
 # include "mlx.h"
 # include "libft.h"
-#include <stdio.h>
+# include <stdio.h>
 
 typedef enum e_x_event
 {
@@ -68,7 +67,8 @@ typedef enum e_key
 	skey = 1,
 	dkey = 2,
 	qkey = 12,
-	ekey = 14
+	ekey = 14,
+	mkey = 46
 }	t_key;
 
 typedef enum e_side
@@ -90,7 +90,8 @@ typedef enum e_move
 	move_left = 1 << 2,
 	move_right = 1 << 3,
 	rotate_left = 1 << 4,
-	rotate_right = 1 << 5
+	rotate_right = 1 << 5,
+	map_option = 1 << 6,
 }	t_move;
 
 typedef struct s_trbg
@@ -103,8 +104,8 @@ typedef struct s_trbg
 
 typedef union colour
 {
-	t_trbg		mode; // mode.trans
-	uint8_t		trabg_parts[4]; // index 3 is transparency
+	t_trbg		mode;
+	uint8_t		trabg_parts[4];
 	uint32_t	trbg;
 }	t_colour;
 
@@ -159,7 +160,7 @@ typedef struct s_ply
 	double	rotate_cos[2];
 }	t_ply;
 
-typedef struct	s_img
+typedef struct s_img
 {
 	void	*img;
 	char	*pixel_ptr;
@@ -168,7 +169,7 @@ typedef struct	s_img
 	int		endian;
 }	t_img;
 
-typedef struct	s_tex
+typedef struct s_tex
 {
 	int		width;
 	int		height;
@@ -186,12 +187,20 @@ typedef struct s_ray_comp
 typedef struct s_ray
 {
 	int			side;
+	int			height;
 	double		perp_dist;
 	double		hitpoint;
 	t_point		ray_dir;
 	t_ray_comp	hori;
 	t_ray_comp	verti;
 }	t_ray;
+
+typedef struct s_draw
+{
+	int		height;
+	t_int	screen_pos;
+	t_int	texture_pos;
+}	t_draw;
 
 typedef struct s_set
 {
@@ -233,7 +242,6 @@ void	errmsg_config_var(char type, const char *msg, size_t len);
 void	errmsg_config_errno(char type);
 void	errmsg_img(const char *msg, size_t len);
 
-
 /* utilites */
 
 int		skip_char(const char *s, char c, int i);
@@ -253,8 +261,9 @@ void	rotation_matrix(t_point *dst, double sin_, double cos_);
 int		read_file(t_game *g, const char *file);
 int		read_elements(int fd, t_game *g, char **ptr);
 int		check_map(char *line, int *ptr, t_ply *p);
-int		init_buffer_list(t_buffer *buffer, char *line, t_ply *p, int *ptr_width);
-int		cont_buffer_list(t_buffer *buffer, int fd, int *, t_ply *p);
+int		init_buffer_list(t_buffer *buffer, char *line,
+			t_ply *p, int *ptr_width);
+int		cont_buffer_list(t_buffer *buffer, int fd, int *ptr, t_ply *p);
 int		uniform_map_size(t_game *g);
 int		check_map_vertical(const t_map *m);
 void	free_buffer(t_buffer *b);
@@ -273,8 +282,6 @@ uint32_t	get_image_pixel(const t_tex *tex, int x, int y);
 void	generate_scene(t_game *g);
 int		raycast_loop(t_ray *r, int ray_no, const t_game *g);
 void	raycasting_walls(t_img *img, const t_game *g);
-// int		calculate_wall(t_ray_fin *fin, t_ray_fin *h, t_ray_fin *v, double angle);
-// void	draw_wall(t_game *g, const t_ray_dist *r, int ray_no, double angle);
 
 /* game loop */
 

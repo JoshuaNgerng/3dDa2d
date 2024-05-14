@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   errmsg.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/11 17:18:46 by lchew            ###   ########.fr       */
+/*   Created: 2024/05/14 13:03:31 by jngerng           #+#    #+#             */
+/*   Updated: 2024/05/14 13:03:38 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "cube3d.h"
 

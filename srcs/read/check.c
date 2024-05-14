@@ -6,10 +6,9 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 03:15:22 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/14 10:59:57 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/14 13:00:19 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "cube3d.h"
 
@@ -82,12 +81,12 @@ int	check_map(char *line, int *ptr, t_ply *p)
 		if (check_horizontal(line, &i, p))
 			return (1);
 	}
-	if (*ptr < i) // check width, if stored width is smaller than current width
-		*ptr = i; // update width
+	if (*ptr < i)
+		*ptr = i;
 	return (0);
 }
 
-static int check_map_vert_loop(const t_map *m, int row, int col)
+static int	check_map_vert_loop(const t_map *m, int row, int col)
 {
 	while (row < m->height && m->map[row * m->width + col] == ' ')
 		row++;
@@ -106,17 +105,17 @@ static int check_map_vert_loop(const t_map *m, int row, int col)
 		return (row);
 	while (row < m->height && m->map[row * m->width + col] == '0')
 		row++;
-	if(row == m->height && m->map[(row - 1) * m->width + col] != '1')
+	if (row == m->height && m->map[(row - 1) * m->width + col] != '1')
 		return (-1);
 	else if (m->map[row * m->width + col] != '1')
 		return (-1);
 	return (row);
 }
 
-int check_map_vertical(const t_map *m)
+int	check_map_vertical(const t_map *m)
 {
-	int row;
-	int col;
+	int	row;
+	int	col;
 
 	col = -1;
 	while (++col < m->width)

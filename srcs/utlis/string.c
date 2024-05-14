@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/14 10:44:28 by jngerng          ###   ########.fr       */
+/*   Created: 2024/05/14 13:03:58 by jngerng           #+#    #+#             */
+/*   Updated: 2024/05/14 13:04:16 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "cube3d.h"
 
@@ -24,7 +23,7 @@
  * @return Returns the index of the first occurrence of a character 'c' 
  * after 'i', or the end of the string if no such character is found.
  */
-int skip_char(const char *s, char c, int i)
+int	skip_char(const char *s, char c, int i)
 {
 	while (s[i])
 	{
