@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/12 19:06:19 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/15 22:52:24 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define WALL_MINIMAP "./art/wall_minimap.xpm"
 # define WALL_SIZE_MINIMAP 32
 # define PLAYER_MINIMAP "./art/player_minimap.xpm"
+# define VIEW_MINIMAP "./art/view_minimap.xpm"
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdlib.h>
@@ -44,6 +45,7 @@
 # include <stdio.h>
 # include "mlx.h"
 # include "libft.h"
+# include <limits.h>
 
 typedef enum e_x_event
 {
