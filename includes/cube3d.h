@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/14 17:33:04 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/16 17:15:21 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,9 @@ typedef enum e_key
 	dkey = 2,
 	qkey = 12,
 	ekey = 14,
-	mkey = 46
+	mkey = 46,
+	lshift = 257,
+	rshift = 258
 }	t_key;
 
 typedef enum e_side
@@ -81,6 +83,10 @@ typedef enum e_side
 	west = 3,
 	floor_ = 0,
 	sky_ = 1,
+	wall = 0,
+	door = 1,
+	key = 2,
+	undef = -1
 }	t_side;
 
 typedef enum e_move
@@ -91,7 +97,8 @@ typedef enum e_move
 	move_right = 1 << 3,
 	rotate_left = 1 << 4,
 	rotate_right = 1 << 5,
-	map_option = 1 << 6,
+	interact_door = 1 << 6,
+	map_option = 1 << 7
 }	t_move;
 
 typedef struct s_trbg
@@ -150,7 +157,7 @@ typedef struct s_ply
 {
 	char	move_options;
 	double	move_speed;
-	double	fov; 
+	double	fov;
 	double	depth_of_focus;
 	t_point	pos;
 	t_point	n_dir;
@@ -162,19 +169,23 @@ typedef struct s_ply
 
 typedef struct s_img
 {
-	void	*img;
-	char	*pixel_ptr;
+	int		width;
+	int		height;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+	void	*img;
+	char	*pixel_ptr;
 }	t_img;
 
-typedef struct s_tex
+typedef struct s_ray_fin
 {
-	int		width;
+	uint8_t	side;
+	uint8_t	type;
 	int		height;
-	t_img	img;
-}	t_tex;
+	double	perp_dist;
+	double	hitpoint;
+}	t_ray_fin;
 
 typedef struct s_ray_comp
 {
@@ -186,37 +197,36 @@ typedef struct s_ray_comp
 
 typedef struct s_ray
 {
-	uint8_t		door;
 	uint8_t		side;
-	int			index;
-	int			height;
-	double		perp_dist;
-	double		hitpoint;
+	int			ray_no;
 	t_point		ray_dir;
 	t_ray_comp	hori;
 	t_ray_comp	verti;
+	t_ray_fin	fin[3];
 }	t_ray;
 
 typedef struct s_draw
 {
-	int		height;
-	t_int	screen_pos;
-	t_int	texture_pos;
+	int			height;
+	t_int		screen_pos;
+	t_int		texture_pos;
+	const t_img	*texture;
 }	t_draw;
 
 typedef struct s_ani
 {
 	int8_t	status;
-	int8_t	counter;
+	int		counter;
 	t_int	pos;
 }	t_ani;
 
-typedef struct s_door
+typedef struct t_asset
 {
-	uint32_t	len;
-	t_ani		*sprite;
-	t_tex		*texture[4];
-}	t_door;
+	int		len;
+	int		max_index;
+	t_ani	*sprite;
+	t_img	*texture;
+}	t_asset;
 
 typedef struct s_set
 {
@@ -244,71 +254,89 @@ typedef struct s_game
 	t_ply	ply;
 	t_set	setting;
 	t_img	scene;
+	t_img	mini_map;
 	t_env	env[2];
-	t_tex	wall[4];
-	t_door	door;
+	t_img	wall[4];
+	t_img	door_img;
+	t_img	key_img[4];
+	t_asset	door;
+	t_asset	key;
 }	t_game;
 
 /* error messages */
 
-void	errmsg_prog(char type);
-void	errmsg_file_errno(char type, const char *s);
-void	errmsg_prog_errno(const char *msg, size_t len);
-void	errmsg_config(char type);
-void	errmsg_config_var(char type, const char *msg, size_t len);
-void	errmsg_config_errno(char type);
-void	errmsg_img(const char *msg, size_t len);
+void		errmsg_prog(char type);
+void		errmsg_file_errno(char type, const char *s);
+void		errmsg_prog_errno(const char *msg, size_t len);
+void		errmsg_config(char type);
+void		errmsg_config_var(char type, const char *msg, size_t len);
+void		errmsg_config_errno(char type);
+void		errmsg_img(const char *msg, size_t len);
 
 /* utilites */
 
-int		skip_char(const char *s, char c, int i);
-int		skip_till_end(const char *s, const char *ref, int start);
-int		checkset(char c, const char *s);
-int		strlcpy_over(char *dst, const char *src);
-void	free_game(t_game *g);
-int		free_exit(t_game *g, int ext_code);
+int			skip_char(const char *s, char c, int i);
+int			skip_till_end(const char *s, const char *ref, int start);
+int			checkset(char c, const char *s);
+int			strlcpy_over(char *dst, const char *src);
+void		free_game(t_game *g);
+int			free_exit(t_game *g, int ext_code);
 
 /* math check */
 
-int		get_map_pos(t_int p, const t_map *m);
-void	rotation_matrix(t_point *dst, double sin_, double cos_);
+int			get_map_pos(t_int p, const t_map *m);
+void		rotation_matrix(t_point *dst, double sin_, double cos_);
 
 /* read from file */
 
-int		read_file(t_game *g, const char *file);
-int		read_elements(int fd, t_game *g, char **ptr);
-int		check_map(char *line, int *ptr, t_ply *p);
-int		init_buffer_list(t_buffer *buffer, char *line,
-			t_ply *p, int *ptr_width);
-int		cont_buffer_list(t_buffer *buffer, int fd, int *ptr, t_ply *p);
-int		uniform_map_size(t_game *g);
-int		check_map_vertical(const t_map *m);
-void	free_buffer(t_buffer *b);
-int		create_minimap(t_game *g);
+int			read_file(t_game *g, const char *file);
+int			read_elements(int fd, t_game *g, char **ptr);
+int			set_ply_pos(int col, char dir, t_ply *p);
+int			check_map(char *line, int *ptr, t_game *g);
+int			init_buffer_list(t_buffer *buffer, char *line,
+				t_ply *p, int *ptr_width);
+int			cont_buffer_list(t_buffer *buffer, int fd, int *ptr, t_ply *p);
+int			uniform_map_size(t_game *g);
+int			check_map_vertical(const t_map *m, t_asset *d, t_asset *k);
+void		free_buffer(t_buffer *b);
 
 /* load mlx and texture */
 
-int		load_texture(t_tex *art, void *mlx, char *path, size_t str_len);
-int		load_mlx_img(t_game *g, char *title);
+int			load_texture(t_img *art, void *mlx, char *path, size_t str_len);
+int			load_mlx_img(t_game *g, char *title);
 
 /* make image  */
 
-void	change_image_pixel(t_img *img, int x, int y, uint32_t colour);
-uint32_t	get_image_pixel(const t_tex *tex, int x, int y);
-void	generate_scene(t_game *g);
-int		raycast_loop(t_ray *r, int ray_no, const t_game *g);
-void	raycasting_walls(t_img *img, const t_game *g);
-void	update_door_counter(t_game *g);
+void		change_image_pixel(t_img *img, int x, int y, uint32_t colour);
+uint32_t	get_image_pixel(const t_img *img, int x, int y);
+void		generate_scene(t_game *g);
+int			raycast_check(t_ray *r, const t_game *g);
+int			raycast_loop(t_ray *r, const t_game *g);
+void		raycasting_walls(t_img *img, const t_game *g);
+int			create_minimap(t_game *g);
 
 /* game loop */
 
-int		set_ply_mov(int key, t_game *g);
-int		unset_ply_mov(int key, t_game *g);
-int		mouse_set_ply(int key, double pos_x, double pos_y, t_game *g);
-int		mouse_unset_ply(int key, double pos_x, double pos_y, t_game *g);
-int		update_ply_move(t_ply *p, t_door *d, const t_game *g);
-int		animation(t_game *g);
+int			set_ply_mov(int key, t_game *g);
+int			unset_ply_mov(int key, t_game *g);
+int			mouse_set_ply(int key, double pos_x, double pos_y, t_game *g);
+int			mouse_unset_ply(int key, double pos_x, double pos_y, t_game *g);
+int			update_ply_move(t_ply *p, const t_game *g);
+int			update_interact(t_asset *door, t_asset *key, const t_game *g);
+int			main_loop(t_game *g);
 
-void	print_map(const t_map *m);
+/* asset */
+
+void		add_asset(t_asset *a, t_int pos);
+int			get_asset_index(const t_asset *a, t_int pos);
+void		update_key(t_asset *key, const t_ply *ply);
+
+/* door */
+
+void		update_door(const t_map *m, const t_ply *ply, t_asset *door);
+void		update_door_counter(t_asset *door);
+int			get_door_status(const t_asset *door, t_int pos);
+
+void		print_map(const t_map *m);
 
 #endif

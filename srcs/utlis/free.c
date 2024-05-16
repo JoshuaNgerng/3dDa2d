@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:18:18 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/14 13:03:50 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/15 13:19:15 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,30 @@ void	free_game(t_game *g)
 {
 	int	i;
 
-	free(g->map.map);
+	if (g->map.map)
+		free(g->map.map);
 	if (!g->mlx.mlx)
 		return ;
 	i = -1;
 	while (++ i < 4)
 	{
-		if (g->wall[i].img.img)
-			mlx_destroy_image(g->mlx.mlx, g->wall[i].img.img);
+		if (g->wall[i].img)
+			mlx_destroy_image(g->mlx.mlx, g->wall[i].img);
+	}
+	if (g->door.len > 0)
+	{
+		i = -1;
+		while (++ i < 4)
+		{
+			if (g->door.texture[i]->img)
+				mlx_destroy_image(g->mlx.mlx, g->door.texture[i]->img);
+		}
+		free(g->door.sprite);
 	}
 	if (g->scene.img)
 		mlx_destroy_image(g->mlx.mlx, g->scene.img);
+	if (g->mini_map.img)
+		mlx_destroy_image(g->mlx.mlx, g->mini_map.img);
 	if (g->mlx.win)
 		mlx_destroy_window(g->mlx.mlx, g->mlx.win);
 	// system("leaks cub3D");

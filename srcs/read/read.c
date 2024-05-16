@@ -6,22 +6,18 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:51:56 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/14 13:22:22 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/16 16:34:52 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-static int	err_handle(int fd)
-{
-	close(fd);
-	return (1);
-}
-
-void	free_buffer(t_buffer *b)
+int	free_buffer_n_fd(int fd, t_buffer *b)
 {
 	t_list_	*ptr;
 
+	if (fd > 2)
+		close(fd);
 	if (!b->list)
 		return ;
 	while (b->list)
@@ -32,39 +28,48 @@ void	free_buffer(t_buffer *b)
 			free(ptr->line);
 		free(ptr);
 	}
+	return (1);
 }
 
-static char	*make_map(const t_buffer *buffer, int width)
+static int	make_map(t_map *m, const t_buffer *buffer, int width)
 {
 	int		len;
 	int		index;
 	t_list_	*ptr;
-	char	*out;
 
-	out = (char *) malloc(((width * buffer->len) + 1) * sizeof(char));
-	if (!out)
-		return (NULL);
+	m->height = buffer->len;
+	m->map = (char *) malloc(((width * buffer->len) + 1) * sizeof(char));
+	if (!m->map)
+		return (1);
 	ptr = buffer->list;
 	index = 0;
 	while (ptr)
 	{
-		len = strlcpy_over(&out[index], ptr->line);
+		len = strlcpy_over(&m->map[index], ptr->line);
 		while (len < width)
-			out[index + len ++] = ' ';
-		out[index + width] = '\0';
+			m->map[index + len ++] = ' ';
+		m->map[index + width] = '\0';
 		index += width;
 		ptr = ptr->next;
 	}
-	out[index] = '\0';
-	return (out);
+	m->map[index] = '\0';
+	return (0);
 }
 
-static int	check_ply(t_ply *p)
+int	load_game_components(t_game *g)
 {
-	if (p->pos.x < 0 && p->pos.y < 0)
-		return (errmsg_config(0), 1);
-	p->pos.x += 0.5;
-	p->pos.y += 0.5;
+	if (g->door.len > 0)
+	{
+		g->door.sprite = (t_ani *) malloc(g->door.len * sizeof(t_ani));
+		if (!g->door.sprite)
+			return (1);
+	}
+	if (g->key.len > 0)
+	{
+		g->key.sprite = (t_ani *) malloc(g->key.len * sizeof(t_ani));
+		if (!g->key.sprite)
+			return (1);
+	}
 	return (0);
 }
 
@@ -79,19 +84,20 @@ int	read_file(t_game *g, const char *file)
 	if (fd < 0)
 		return (errmsg_file_errno(0, NULL), 1);
 	if (read_elements(fd, g, &ptr))
-		return (err_handle(fd));
-	if (init_buffer_list(&buffer, ptr, &g->ply, &g->map.width))
-		return (free_buffer(&buffer), err_handle(fd));
-	if (cont_buffer_list(&buffer, fd, &g->map.width, &g->ply))
-		return (free_buffer(&buffer), err_handle(fd));
-	close(fd);
-	g->map.height = buffer.len;
-	g->map.map = make_map(&buffer, g->map.width);
-	free_buffer(&buffer);
-	if (!g->map.map)
-		return (errmsg_prog_errno("Cannot make map "
-				"from buffer (malloc): ", 38), 1);
-	if (check_map_vertical(&g->map))
+		return (free_buffer_n_fd(fd, NULL));
+	if (init_buffer_list(&buffer, ptr, &g->ply, &g->map.width)
+		|| cont_buffer_list(&buffer, fd, &g->map.width, &g->ply))
+		return (free_buffer_n_fd(fd, &buffer));
+	if (make_map(&g->map, &buffer, g->map.width))
+		return (errmsg_prog_errno("Cannot make map"
+				" from buffer (malloc): ", 38), free_buffer_n_fd(fd, &buffer));
+	free_buffer_n_fd(fd, &buffer);
+	if (load_game_components(g))
 		return (1);
-	return (check_ply(&g->ply));
+	if (check_map_vertical(&g->map, &g->door, &g->key))
+		return (1);
+	if (g->ply.pos.x < 0 && g->ply.pos.y < 0)
+		return (errmsg_config(0), 1);
+	g->ply.pos = (t_point){.x = g->ply.pos.x + 0.5, .y = g->ply.pos.y + 0.5};
+	return (0);
 }

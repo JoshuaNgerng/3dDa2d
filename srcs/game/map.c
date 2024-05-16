@@ -3,19 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 20:03:50 by lchew             #+#    #+#             */
-/*   Updated: 2024/05/11 17:48:27 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/15 14:24:47 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
+int	get_map_pos(t_int p, const t_map *m)
+{
+	if (p.x < 0 || p.y < 0)
+		return (-1);
+	if (p.y > m->width || p.x > m->height)
+		return (-1);
+	return (m->map[p.x * m->width + p.y]);
+}
+
 int	create_minimap(t_game *g)
 {
-	int		row;
-	int		col;
+	int	row;
+	int	col;
 
 	row = 0;
 	g->map.mini_wall = mlx_xpm_file_to_image(g->mlx.mlx, WALL_MINIMAP,

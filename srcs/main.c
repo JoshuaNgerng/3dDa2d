@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:37:10 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/14 12:07:26 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/16 16:35:30 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,12 @@ static char	*check_extent(const char *file)
 
 static void	game_loop(t_game *g)
 {
+	g->env[0].set = 1;
+	g->env[1].set = 1;
+	g->door.texture = &g->door_img;
+	g->key.texture = &g->key_img;
+	g->door.max_index = 1;
+	g->key.max_index = 4;
 	generate_scene(g);
 	mlx_put_image_to_window(g->mlx.mlx, g->mlx.win, g->scene.img, 0, 0);
 	g->ply.move_options ^= map_option;
@@ -63,7 +69,7 @@ static void	game_loop(t_game *g)
 	mlx_hook(g->mlx.win, key_release, 0, &unset_ply_mov, g);
 	mlx_hook(g->mlx.win, mouse_press, 0, &mouse_set_ply, g);
 	mlx_hook(g->mlx.win, mouse_release, 0, &mouse_unset_ply, g);
-	mlx_loop_hook(g->mlx.mlx, &animation, g);
+	mlx_loop_hook(g->mlx.mlx, &main_loop, g);
 	mlx_loop(g->mlx.mlx);
 }
 

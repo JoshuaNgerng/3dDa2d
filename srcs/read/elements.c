@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 18:25:35 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/14 13:22:15 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/15 13:35:29 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ static int	check_elements(char *line, t_game *g)
 }
 
 /**
- * @brief Reads game elements from a file descriptor and stores them in a t_game structure.
+ * @brief Reads game elements from a file descriptor and stores them into t_game struct.
  * 
  * @param fd The file descriptor from which to read.
  * @param g The t_game structure in which to store the game elements.
