@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:51:56 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/16 16:34:52 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/17 14:25:08 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int	free_buffer_n_fd(int fd, t_buffer *b)
 
 	if (fd > 2)
 		close(fd);
-	if (!b->list)
-		return ;
+	if (!b || !b->list)
+		return (1);
 	while (b->list)
 	{
 		ptr = b->list;
@@ -85,8 +85,8 @@ int	read_file(t_game *g, const char *file)
 		return (errmsg_file_errno(0, NULL), 1);
 	if (read_elements(fd, g, &ptr))
 		return (free_buffer_n_fd(fd, NULL));
-	if (init_buffer_list(&buffer, ptr, &g->ply, &g->map.width)
-		|| cont_buffer_list(&buffer, fd, &g->map.width, &g->ply))
+	if (init_buffer_list(&buffer, ptr, g)
+		|| cont_buffer_list(&buffer, fd, g))
 		return (free_buffer_n_fd(fd, &buffer));
 	if (make_map(&g->map, &buffer, g->map.width))
 		return (errmsg_prog_errno("Cannot make map"

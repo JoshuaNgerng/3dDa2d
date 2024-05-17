@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:51:30 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/16 14:24:16 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/17 16:51:19 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,21 @@
 
 int	mouse_set_ply(int key, double pos_x, double pos_y, t_game *g)
 {
-	// int		half_width = 0;
+	int		half_width;
 	(void) pos_y;
 	(void) pos_x;
-	(void) g;
+	// (void) g;
 
 	if (key != 1)
 		return (0);
-	// half_width = g->setting.win_width / 2;
-	// if (pos_x == half_width)
-	// 	return (0);
-	// if (pos_x < half_width)
-	// 	g->ply.move_options |= rotate_left;
-	// else
-	// 	g->ply.move_options |= rotate_right;
+	printf("%p\n", g);
+	half_width = g->setting.win_width / 2;
+	if (pos_x == half_width)
+		return (0);
+	if (pos_x < half_width)
+		g->ply.move_options |= rotate_left;
+	else
+		g->ply.move_options |= rotate_right;
 	return (0);
 }
 
@@ -35,11 +36,11 @@ int	mouse_unset_ply(int key, double pos_x, double pos_y, t_game *g)
 {
 	(void) pos_x;
 	(void) pos_y;
-	(void) g;
+	// (void) g;
 
 	if (key != 1)
 		return (0);
-	// g->ply.move_options &= ~(rotate_left + rotate_right);
+	g->ply.move_options &= ~(rotate_left + rotate_right);
 	// printf("release\n");
 	return (0);
 }
@@ -87,12 +88,12 @@ int	unset_ply_mov(int key, t_game *g)
 int	main_loop(t_game *g)
 {
 	if (update_ply_move(&g->ply, g))
-		generate_scene(g);
+		raycasting_walls(&g->scene, g);
 	if (g->ply.move_options & interact_door)
 		update_door(&g->map, &g->ply, &g->door);
 	mlx_put_image_to_window(g->mlx.mlx, g->mlx.win, g->scene.img, 0, 0);
 	if (g->ply.move_options & map_option)
-		create_minimap(g);
+		create_minimap(&g->mini_map, g);
 	g->ply.move_options &= ~interact_door;
 	update_door_counter(&g->door);
 	update_key(&g->key, &g->ply);

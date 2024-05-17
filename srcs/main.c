@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:37:10 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/16 16:35:30 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/17 17:02:06 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,19 @@ static void	game_loop(t_game *g)
 	g->env[0].set = 1;
 	g->env[1].set = 1;
 	g->door.texture = &g->door_img;
-	g->key.texture = &g->key_img;
+	g->key.texture = g->key_img;
 	g->door.max_index = 1;
 	g->key.max_index = 4;
-	generate_scene(g);
+	raycasting_walls(&g->scene, g);
 	mlx_put_image_to_window(g->mlx.mlx, g->mlx.win, g->scene.img, 0, 0);
 	g->ply.move_options ^= map_option;
-	create_minimap(g);
-	mlx_hook(g->mlx.win, esc_key, (1L << 0), &free_exit, g);
-	mlx_hook(g->mlx.win, key_press, 0, &set_ply_mov, g);
-	mlx_hook(g->mlx.win, key_release, 0, &unset_ply_mov, g);
-	mlx_hook(g->mlx.win, mouse_press, 0, &mouse_set_ply, g);
-	mlx_hook(g->mlx.win, mouse_release, 0, &mouse_unset_ply, g);
+	create_minimap(&g->mini_map, g);
+	printf("%p\n", g);
+	mlx_hook(g->mlx.win, esc_key, (1L << 17), &free_exit, g);
+	mlx_hook(g->mlx.win, key_press, (1L << 0), &set_ply_mov, g);
+	mlx_hook(g->mlx.win, key_release, (1L << 1), &unset_ply_mov, g);
+	mlx_hook(g->mlx.win, mouse_press, (1L << 2), &mouse_set_ply, g);
+	mlx_hook(g->mlx.win, mouse_release, (1L << 3), &mouse_unset_ply, g);
 	mlx_loop_hook(g->mlx.mlx, &main_loop, g);
 	mlx_loop(g->mlx.mlx);
 }

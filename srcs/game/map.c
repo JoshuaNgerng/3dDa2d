@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 20:03:50 by lchew             #+#    #+#             */
-/*   Updated: 2024/05/15 14:24:47 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/17 16:48:36 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,44 @@ int	get_map_pos(t_int p, const t_map *m)
 	return (m->map[p.x * m->width + p.y]);
 }
 
-int	create_minimap(t_game *g)
+void	padd_empty()
 {
-	int	row;
-	int	col;
+	;
+}
 
-	row = 0;
-	g->map.mini_wall = mlx_xpm_file_to_image(g->mlx.mlx, WALL_MINIMAP,
-			&g->map.img_width, &g->map.img_height);
-	while (row < g->map.height)
+void	add_block()
+{
+	;
+}
+
+int	create_minimap(t_img *minimap, const t_game *g)
+{
+	int		map_char;
+	t_int	iter;
+	t_int	ref_pos;
+
+	(void)minimap;
+	iter.x = -1;
+	while (++ iter.x < 7)
 	{
-		col = 0;
-		while (col < g->map.width && g->map.map[row * g->map.width + col] != '\0')
+		ref_pos.x = g->ply.pos.x - 3;
+		iter.y = -1;
+		while (++ iter.y < 7)
 		{
-			if (g->map.map[row * g->map.width + col] == '1')
-				mlx_put_image_to_window(g->mlx.mlx, g->mlx.win,
-					g->map.mini_wall, col * WALL_SIZE_MINIMAP, row * WALL_SIZE_MINIMAP);
-			++col;
+			map_char = get_map_pos(ref_pos, &g->map);
+			if (map_char < 0)
+				padd_empty();
+			else if (map_char == ' ')
+				;
+			else if (map_char == '1')
+				;
+			else if (map_char == '0')
+				;
+			else if (map_char == 'D')
+				;
+			else if (map_char == 'K')
+				;
 		}
-		++row;
 	}
 	return (0);
 }

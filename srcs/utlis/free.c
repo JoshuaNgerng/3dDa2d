@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:18:18 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/15 13:19:15 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/17 15:19:20 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,13 @@ void	free_game(t_game *g)
 	if (g->map.map)
 		free(g->map.map);
 	if (!g->mlx.mlx)
+	{
+		if (g->door.sprite)
+			free(g->door.sprite);
+		if (g->key.sprite)
+			free(g->key.sprite);
 		return ;
+	}
 	i = -1;
 	while (++ i < 4)
 	{
@@ -28,13 +34,13 @@ void	free_game(t_game *g)
 	}
 	if (g->door.len > 0)
 	{
-		i = -1;
-		while (++ i < 4)
-		{
-			if (g->door.texture[i]->img)
-				mlx_destroy_image(g->mlx.mlx, g->door.texture[i]->img);
-		}
+		mlx_destroy_image(g->mlx.mlx, g->door_img.img);
 		free(g->door.sprite);
+	}
+	if (g->key.len > 0)
+	{
+		mlx_destroy_image(g->mlx.mlx, g->key_img->img);
+		free(g->key.sprite);
 	}
 	if (g->scene.img)
 		mlx_destroy_image(g->mlx.mlx, g->scene.img);
@@ -48,7 +54,7 @@ void	free_game(t_game *g)
 		// mlx_destroy_display(g->mlx.mlx);
 		// free(g->mlx.mlx);
 	// }
-	// system("leaks cub3D");
+	system("leaks cub3D");
 }
 
 int	free_exit(t_game *g, int ext_code)

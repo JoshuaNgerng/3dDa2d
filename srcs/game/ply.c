@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 18:21:04 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/16 16:42:24 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/17 10:09:20 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int	update_move(t_point *ply, const t_point *move, const t_game *g, int d
 	map_pos = (t_int){(int)check.x, (int)check.y};
 	update.x = get_map_pos(map_pos, &g->map);
 	if (update.x == '0' || update.x == 'K'
-		|| (update.x == 'D' && get_door_status(&g->door, map_pos) == 1))
+		|| (update.x == 'D' && get_door_status(&g->door, map_pos, NULL) == 1))
 	{
 		*ply = (t_point){check.x, check.y};
 		update.y = 1;
@@ -70,7 +70,7 @@ static int	update_move(t_point *ply, const t_point *move, const t_game *g, int d
 	map_pos = (t_int){(int)check.x, (int)check.y};
 	update.x = get_map_pos(map_pos, &g->map);
 	if (update.x == '0' || update.x == 'K'
-		|| (update.x == 'D' && get_door_status(&g->door, map_pos) == 1))
+		|| (update.x == 'D' && get_door_status(&g->door, map_pos, NULL) == 1))
 	{
 		*ply = (t_point){check.x, check.y};
 		update.y = 1;

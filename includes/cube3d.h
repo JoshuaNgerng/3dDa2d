@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/16 17:15:21 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/17 16:46:03 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@
 # include <stdint.h>
 # include <string.h>
 # include <stdio.h>
+# include <limits.h>
 # include "mlx.h"
 # include "libft.h"
 # include <stdio.h>
@@ -86,7 +87,7 @@ typedef enum e_side
 	wall = 0,
 	door = 1,
 	key = 2,
-	undef = -1
+	undef = UCHAR_MAX
 }	t_side;
 
 typedef enum e_move
@@ -180,11 +181,12 @@ typedef struct s_img
 
 typedef struct s_ray_fin
 {
-	uint8_t	side;
-	uint8_t	type;
-	int		height;
-	double	perp_dist;
-	double	hitpoint;
+	uint8_t		side;
+	uint8_t		type;
+	int			index;
+	int			height;
+	double		perp_dist;
+	double		hitpoint;
 }	t_ray_fin;
 
 typedef struct s_ray_comp
@@ -208,8 +210,11 @@ typedef struct s_ray
 typedef struct s_draw
 {
 	int			height;
+	int			win_height;
 	t_int		screen_pos;
 	t_int		texture_pos;
+	t_img		*scene;
+	uint32_t	env[2];
 	const t_img	*texture;
 }	t_draw;
 
@@ -244,8 +249,12 @@ typedef struct s_map
 	char	*map;
 	int		img_width;
 	int		img_height;
-	char	*mini_wall;
 }	t_map;
+
+// typedef struct s_mmap
+// {
+	
+// }	t_mmap;
 
 typedef struct s_game
 {
@@ -279,13 +288,9 @@ int			skip_char(const char *s, char c, int i);
 int			skip_till_end(const char *s, const char *ref, int start);
 int			checkset(char c, const char *s);
 int			strlcpy_over(char *dst, const char *src);
+int			check_line_end(const char *line, int index);
 void		free_game(t_game *g);
 int			free_exit(t_game *g, int ext_code);
-
-/* math check */
-
-int			get_map_pos(t_int p, const t_map *m);
-void		rotation_matrix(t_point *dst, double sin_, double cos_);
 
 /* read from file */
 
@@ -293,9 +298,8 @@ int			read_file(t_game *g, const char *file);
 int			read_elements(int fd, t_game *g, char **ptr);
 int			set_ply_pos(int col, char dir, t_ply *p);
 int			check_map(char *line, int *ptr, t_game *g);
-int			init_buffer_list(t_buffer *buffer, char *line,
-				t_ply *p, int *ptr_width);
-int			cont_buffer_list(t_buffer *buffer, int fd, int *ptr, t_ply *p);
+int			init_buffer_list(t_buffer *buffer, char *line, t_game *g);
+int			cont_buffer_list(t_buffer *buffer, int fd, t_game *g);
 int			uniform_map_size(t_game *g);
 int			check_map_vertical(const t_map *m, t_asset *d, t_asset *k);
 void		free_buffer(t_buffer *b);
@@ -311,9 +315,12 @@ void		change_image_pixel(t_img *img, int x, int y, uint32_t colour);
 uint32_t	get_image_pixel(const t_img *img, int x, int y);
 void		generate_scene(t_game *g);
 int			raycast_check(t_ray *r, const t_game *g);
-int			raycast_loop(t_ray *r, const t_game *g);
 void		raycasting_walls(t_img *img, const t_game *g);
-int			create_minimap(t_game *g);
+
+/* mini map */
+
+int			create_minimap(t_img *minimap, const t_game *g);
+int			get_map_pos(t_int p, const t_map *m);
 
 /* game loop */
 
@@ -325,6 +332,12 @@ int			update_ply_move(t_ply *p, const t_game *g);
 int			update_interact(t_asset *door, t_asset *key, const t_game *g);
 int			main_loop(t_game *g);
 
+/* draw */
+
+void	draw_wall(t_img *img, t_ray *r, const t_game *g);
+void	draw_door(t_img *img, t_ray *r, const t_game *g);
+void	draw_key(t_img *img, t_ray *r, const t_game *g);
+
 /* asset */
 
 void		add_asset(t_asset *a, t_int pos);
@@ -335,7 +348,7 @@ void		update_key(t_asset *key, const t_ply *ply);
 
 void		update_door(const t_map *m, const t_ply *ply, t_asset *door);
 void		update_door_counter(t_asset *door);
-int			get_door_status(const t_asset *door, t_int pos);
+int			get_door_status(const t_asset *door, t_int pos, int *index_ptr);
 
 void		print_map(const t_map *m);
 
