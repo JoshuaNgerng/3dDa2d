@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 04:50:17 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/14 13:22:19 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/17 14:21:05 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	make_new_list(t_buffer *buffer, char *line)
 	{
 		errmsg_prog_errno("Cannot make buffer "
 			"for line from read (malloc): ", 48);
-		return (1);
+		return (free(line), 1);
 	}
 	new->line = line;
 	buffer->tail = new;
@@ -66,7 +66,7 @@ int	cont_buffer_list(t_buffer *buffer, int fd, int *ptr, t_ply *p)
 		if (p->pos.x < 0 && p->pos.y >= 0)
 			p->pos.x = (double)row;
 		if (make_new_list(buffer, line))
-			return (free(line), errmsg_prog_errno("Cannot make buffer "
+			return (errmsg_prog_errno("Cannot make buffer "
 					"for line from read (malloc): ", 48), 1);
 		if (get_next_line(fd, &line))
 			return (errmsg_file_errno(1, NULL), 1);

@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/14 12:51:50 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/17 14:26:52 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,6 +248,7 @@ int		skip_char(const char *s, char c, int i);
 int		skip_till_end(const char *s, const char *ref, int start);
 int		checkset(char c, const char *s);
 int		strlcpy_over(char *dst, const char *src);
+int		check_line_end(const char *line, int index);
 void	free_game(t_game *g);
 int		free_exit(t_game *g, int ext_code);
 
