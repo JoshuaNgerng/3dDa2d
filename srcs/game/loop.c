@@ -6,22 +6,19 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:51:30 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/17 16:51:19 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/20 14:36:54 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-int	mouse_set_ply(int key, double pos_x, double pos_y, t_game *g)
+int	mouse_set_ply(int key, int pos_x, int pos_y, t_game *g)
 {
 	int		half_width;
 	(void) pos_y;
-	(void) pos_x;
-	// (void) g;
 
 	if (key != 1)
 		return (0);
-	printf("%p\n", g);
 	half_width = g->setting.win_width / 2;
 	if (pos_x == half_width)
 		return (0);
@@ -32,16 +29,14 @@ int	mouse_set_ply(int key, double pos_x, double pos_y, t_game *g)
 	return (0);
 }
 
-int	mouse_unset_ply(int key, double pos_x, double pos_y, t_game *g)
+int	mouse_unset_ply(int key, int pos_x, int pos_y, t_game *g)
 {
 	(void) pos_x;
 	(void) pos_y;
-	// (void) g;
 
 	if (key != 1)
 		return (0);
 	g->ply.move_options &= ~(rotate_left + rotate_right);
-	// printf("release\n");
 	return (0);
 }
 
@@ -93,7 +88,7 @@ int	main_loop(t_game *g)
 		update_door(&g->map, &g->ply, &g->door);
 	mlx_put_image_to_window(g->mlx.mlx, g->mlx.win, g->scene.img, 0, 0);
 	if (g->ply.move_options & map_option)
-		create_minimap(&g->mini_map, g);
+		create_minimap(&g->minimap, &g->mlx, g);
 	g->ply.move_options &= ~interact_door;
 	update_door_counter(&g->door);
 	update_key(&g->key, &g->ply);

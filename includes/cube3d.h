@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/17 16:46:03 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/20 14:37:49 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,6 +240,8 @@ typedef struct s_set
 	int	rotation_speed;
 	int	win_width;
 	int	win_height;
+	int	minimap_width;
+	int	minimap_height;
 }	t_set;
 
 typedef struct s_map
@@ -251,10 +253,16 @@ typedef struct s_map
 	int		img_height;
 }	t_map;
 
-// typedef struct s_mmap
-// {
-	
-// }	t_mmap;
+typedef struct s_mmap
+{
+	int			block_width;
+	int			block_height;
+	int			block_per_row;
+	int			block_per_col;
+	int			padding_x;
+	int			padding_y;
+	t_colour	block_colour[5];
+}	t_mmap;
 
 typedef struct s_game
 {
@@ -263,7 +271,8 @@ typedef struct s_game
 	t_ply	ply;
 	t_set	setting;
 	t_img	scene;
-	t_img	mini_map;
+	t_img	minimap;
+	t_mmap	minimap_info;
 	t_env	env[2];
 	t_img	wall[4];
 	t_img	door_img;
@@ -319,24 +328,26 @@ void		raycasting_walls(t_img *img, const t_game *g);
 
 /* mini map */
 
-int			create_minimap(t_img *minimap, const t_game *g);
+int			create_minimap(t_img *minimap, t_mlx *mlx, const t_game *g);
+void		empty_minimap_init(t_img *minimap, const t_game *g);
+void		refresh_minimap(t_img *minimap, const t_game *g);
 int			get_map_pos(t_int p, const t_map *m);
 
 /* game loop */
 
 int			set_ply_mov(int key, t_game *g);
 int			unset_ply_mov(int key, t_game *g);
-int			mouse_set_ply(int key, double pos_x, double pos_y, t_game *g);
-int			mouse_unset_ply(int key, double pos_x, double pos_y, t_game *g);
+int			mouse_set_ply(int key, int pos_x, int pos_y, t_game *g);
+int			mouse_unset_ply(int key, int pos_x, int pos_y, t_game *g);
 int			update_ply_move(t_ply *p, const t_game *g);
 int			update_interact(t_asset *door, t_asset *key, const t_game *g);
 int			main_loop(t_game *g);
 
 /* draw */
 
-void	draw_wall(t_img *img, t_ray *r, const t_game *g);
-void	draw_door(t_img *img, t_ray *r, const t_game *g);
-void	draw_key(t_img *img, t_ray *r, const t_game *g);
+void		draw_wall(t_img *img, t_ray *r, const t_game *g);
+void		draw_door(t_img *img, t_ray *r, const t_game *g);
+void		draw_key(t_img *img, t_ray *r, const t_game *g);
 
 /* asset */
 

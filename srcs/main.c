@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:37:10 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/17 17:02:06 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/20 16:35:17 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static void	make_setting(t_set *s)
 	s->fov = 90;
 	s->win_width = MAX_WIDTH;
 	s->win_height = MAX_HEIGHT;
+	s->minimap_width = 385;
+	s->minimap_height = 260;
 }
 
 static int	check_setting(t_set *s, t_ply *p)
@@ -63,8 +65,8 @@ static void	game_loop(t_game *g)
 	raycasting_walls(&g->scene, g);
 	mlx_put_image_to_window(g->mlx.mlx, g->mlx.win, g->scene.img, 0, 0);
 	g->ply.move_options ^= map_option;
-	create_minimap(&g->mini_map, g);
-	printf("%p\n", g);
+	empty_minimap_init(&g->minimap, g);
+	create_minimap(&g->minimap, &g->mlx, g);
 	mlx_hook(g->mlx.win, esc_key, (1L << 17), &free_exit, g);
 	mlx_hook(g->mlx.win, key_press, (1L << 0), &set_ply_mov, g);
 	mlx_hook(g->mlx.win, key_release, (1L << 1), &unset_ply_mov, g);
