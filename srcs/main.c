@@ -6,10 +6,9 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/15 21:47:43 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/22 14:52:34 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "cube3d.h"
 
@@ -57,13 +56,13 @@ static void	game_loop(t_game *g)
 {
 	generate_scene(g);
 	mlx_put_image_to_window(g->mlx.mlx, g->mlx.win, g->scene.img, 0, 0);
+	g->ply.move_options ^= map_option;
 	create_minimap(g);
 	mlx_hook(g->mlx.win, esc_key, (1L << 0), &free_exit, g);
 	mlx_hook(g->mlx.win, key_press, 0, &set_ply_mov, g);
 	mlx_hook(g->mlx.win, key_release, 0, &unset_ply_mov, g);
-	// mlx_mouse_hook(g->mlx.win, mouse_set_ply, g);
-	// mlx_hook(g->mlx.win, mouse_press, 0, &mouse_set_ply, g);
-	// mlx_hook(g->mlx.win, mouse_release, 0, &mouse_unset_ply, g);
+	mlx_hook(g->mlx.win, mouse_press, 0, &mouse_set_ply, g);
+	mlx_hook(g->mlx.win, mouse_release, 0, &mouse_unset_ply, g);
 	mlx_loop_hook(g->mlx.mlx, &animation, g);
 	mlx_loop(g->mlx.mlx);
 }
@@ -83,18 +82,14 @@ int	main(int ac, char **av)
 	if (check_setting(&g.setting, &g.ply))
 		return (1);
 	g.ply.pos = (t_point){.x = -1, .y = -1};
-	if (read_file(&g, av[1]))
-		return (free_game(&g), 1);
-	*ptr = '\0';
 	g.mlx.mlx = mlx_init();
 	if (!g.mlx.mlx)
 		return (errmsg_config_errno(0), 1);
+	if (read_file(&g, av[1]))
+		return (free_game(&g), 1);
+	*ptr = '\0';
 	if (load_mlx_img(&g, av[1]))
 		return (free_game(&g), 1);
 	game_loop(&g);
 	return (free_game(&g), 0);
 }
-
-
-
-

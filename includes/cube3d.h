@@ -6,10 +6,9 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/15 22:52:24 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/22 14:53:05 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef CUBE3D_H
 # define CUBE3D_H
@@ -46,13 +45,14 @@
 # include "mlx.h"
 # include "libft.h"
 # include <limits.h>
+# include <stdio.h>
 
 typedef enum e_x_event
 {
 	key_press = 2,
 	key_release = 3,
-	mouse_press = 5,
-	mouse_release = 6,
+	mouse_press = 4,
+	mouse_release = 5,
 	esc_key = 17
 }	t_x_event;
 
@@ -68,7 +68,8 @@ typedef enum e_key
 	skey = 1,
 	dkey = 2,
 	qkey = 12,
-	ekey = 14
+	ekey = 14,
+	mkey = 46
 }	t_key;
 
 typedef enum e_side
@@ -76,8 +77,8 @@ typedef enum e_side
 	horizontal = 0,
 	vertical = 1,
 	north = 0,
-	east = 1,
-	south = 2,
+	east = 2,
+	south = 1,
 	west = 3,
 	floor_ = 0,
 	sky_ = 1
@@ -90,7 +91,8 @@ typedef enum e_move
 	move_left = 1 << 2,
 	move_right = 1 << 3,
 	rotate_left = 1 << 4,
-	rotate_right = 1 << 5
+	rotate_right = 1 << 5,
+	map_option = 1 << 6,
 }	t_move;
 
 typedef struct s_trbg
@@ -159,7 +161,7 @@ typedef struct s_ply
 	double	rotate_cos[2];
 }	t_ply;
 
-typedef struct	s_img
+typedef struct s_img
 {
 	void	*img;
 	char	*pixel_ptr;
@@ -168,7 +170,7 @@ typedef struct	s_img
 	int		endian;
 }	t_img;
 
-typedef struct	s_tex
+typedef struct s_tex
 {
 	int		width;
 	int		height;
@@ -186,12 +188,20 @@ typedef struct s_ray_comp
 typedef struct s_ray
 {
 	int			side;
+	int			height;
 	double		perp_dist;
 	double		hitpoint;
 	t_point		ray_dir;
 	t_ray_comp	hori;
 	t_ray_comp	verti;
 }	t_ray;
+
+typedef struct s_draw
+{
+	int		height;
+	t_int	screen_pos;
+	t_int	texture_pos;
+}	t_draw;
 
 typedef struct s_set
 {
@@ -220,7 +230,7 @@ typedef struct s_game
 	t_set	setting;
 	t_img	scene;
 	t_env	env[2]; //FC
-	t_tex	wall[4]; //NESW
+	t_tex	wall[4]; //NSWE
 }	t_game;
 
 /* error messages */
@@ -233,19 +243,19 @@ void	errmsg_config_var(char type, const char *msg, size_t len);
 void	errmsg_config_errno(char type);
 void	errmsg_img(const char *msg, size_t len);
 
-
 /* utilites */
 
-int 	skip_char(const char *s, char *set, int i);
+int		skip_char(const char *s, char c, int i);
 int		skip_till_end(const char *s, const char *ref, int start);
 int		checkset(char c, const char *s);
 int		strlcpy_over(char *dst, const char *src);
+int		check_line_end(const char *line, int index);
 void	free_game(t_game *g);
 int		free_exit(t_game *g, int ext_code);
 
 /* math check */
 
-int		get_map_pos(const t_point *p, const t_map *m);
+int		get_map_pos(t_int p, const t_map *m);
 void	rotation_matrix(t_point *dst, double sin_, double cos_);
 
 /* read from file */
@@ -253,8 +263,9 @@ void	rotation_matrix(t_point *dst, double sin_, double cos_);
 int		read_file(t_game *g, const char *file);
 int		read_elements(int fd, t_game *g, char **ptr);
 int		check_map(char *line, int *ptr, t_ply *p);
-int		init_buffer_list(t_buffer *buffer, char *line, t_ply *p, int *ptr_width);
-int		cont_buffer_list(t_buffer *buffer, int fd, int *, t_ply *p);
+int		init_buffer_list(t_buffer *buffer, char *line,
+			t_ply *p, int *ptr_width);
+int		cont_buffer_list(t_buffer *buffer, int fd, int *ptr, t_ply *p);
 int		uniform_map_size(t_game *g);
 int		check_map_vertical(const t_map *m);
 void	free_buffer(t_buffer *b);
@@ -273,8 +284,6 @@ uint32_t	get_image_pixel(const t_tex *tex, int x, int y);
 void	generate_scene(t_game *g);
 int		raycast_loop(t_ray *r, int ray_no, const t_game *g);
 void	raycasting_walls(t_img *img, const t_game *g);
-// int		calculate_wall(t_ray_fin *fin, t_ray_fin *h, t_ray_fin *v, double angle);
-// void	draw_wall(t_game *g, const t_ray_dist *r, int ray_no, double angle);
 
 /* game loop */
 

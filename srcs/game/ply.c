@@ -6,11 +6,29 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 18:21:04 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/09 17:22:52 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/14 12:23:41 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
+
+int	get_map_pos(t_int p, const t_map *m)
+{
+	if (p.x < 0 || p.y < 0)
+		return (-1);
+	if (p.y > m->width || p.x > m->height)
+		return (-1);
+	return (m->map[p.x * m->width + p.y]);
+}
+
+void	rotation_matrix(t_point *dst, double sin_, double cos_)
+{
+	t_point	buffer;
+
+	buffer = (t_point){.x = dst->x, .y = dst->y};
+	dst->x = (buffer.x * cos_) - (buffer.y * sin_);
+	dst->y = (buffer.x * sin_) + (buffer.y * cos_);
+}
 
 int	update_move(t_point *ply, const t_point *move, const t_game *g, int dir)
 {
@@ -20,14 +38,14 @@ int	update_move(t_point *ply, const t_point *move, const t_game *g, int dir)
 	update = 0;
 	check = (t_point){ply->x, ply->y};
 	check.x += dir * move->x * g->ply.move_speed;
-	if (get_map_pos(&check, &g->map) == '0')
+	if (get_map_pos((t_int){(int)check.x, (int)check.y}, &g->map) == '0')
 	{
 		*ply = (t_point){check.x, check.y};
 		update = 1;
 	}
 	check = (t_point){ply->x, ply->y};
 	check.y += dir * move->y * g->ply.move_speed;
-	if (get_map_pos(&check, &g->map) == '0')
+	if (get_map_pos((t_int){(int)check.x, (int)check.y}, &g->map) == '0')
 	{
 		*ply = (t_point){check.x, check.y};
 		update = 1;

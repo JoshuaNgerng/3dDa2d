@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   string.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/11 17:35:44 by lchew            ###   ########.fr       */
+/*   Created: 2024/05/14 13:03:58 by jngerng           #+#    #+#             */
+/*   Updated: 2024/05/17 14:34:42 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "cube3d.h"
 
@@ -21,14 +20,14 @@
  * @param c The character set to skip.
  * @param i The index at which to start skipping.
  * 
- * @return Returns the index of the first occurrence of a character not in 'set' 
+ * @return Returns the index of the first occurrence of a character 'c' 
  * after 'i', or the end of the string if no such character is found.
  */
-int skip_char(const char *s, char *set, int i)
+int	skip_char(const char *s, char c, int i)
 {
 	while (s[i])
 	{
-		if (!checkset(s[i], set))
+		if (s[i] != c)
 			break ;
 		++i;
 	}
@@ -75,20 +74,6 @@ int	checkset(char c, const char *s)
  * in src.
  * It returns the number of characters copied from src to dst.
  */
-/**
- * @brief Copies a string from src to dst and stops when it encounters a 
- * '\\r' or '\\n' character in src.
- * 
- * @param dst The destination string.
- * @param src The source string.
- * 
- * @return The number of characters copied from src to dst.
- * 
- * This function copies characters from the source string (src) to the 
- * destination string (dst) until it encounters a '\\r' or '\\n' character 
- * in src.
- * It returns the number of characters copied from src to dst.
- */
 int	strlcpy_over(char *dst, const char *src)
 {
 	int	i;
@@ -101,4 +86,15 @@ int	strlcpy_over(char *dst, const char *src)
 			return (i);
 	}
 	return (i);
+}
+
+int	check_line_end(const char *line, int index)
+{
+	while (line[index])
+	{
+		if (!checkset(line[index], " \r\n"))
+			return (errmsg_config(5), -1);
+		index ++;
+	}
+	return (0);
 }

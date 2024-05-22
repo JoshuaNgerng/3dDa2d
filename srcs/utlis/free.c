@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/11 17:24:37 by lchew            ###   ########.fr       */
+/*   Created: 2024/03/18 18:18:18 by jngerng           #+#    #+#             */
+/*   Updated: 2024/05/14 13:03:50 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "cube3d.h"
 
@@ -30,7 +29,7 @@ void	free_game(t_game *g)
 		mlx_destroy_image(g->mlx.mlx, g->scene.img);
 	if (g->mlx.win)
 		mlx_destroy_window(g->mlx.mlx, g->mlx.win);
-	system("leaks cub3D");
+	// system("leaks cub3D");
 	// if (g->mlx.mlx)
 	// {
 		// mlx_destroy_display(g->mlx.mlx);

@@ -6,41 +6,45 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 16:26:45 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/10 11:40:51 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/14 12:57:38 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
+void	draw_wall_init(t_ray *r, t_draw *d, const t_tex *ptr, const t_game *g)
+{
+	d->texture_pos.x = (int)(r->hitpoint * ptr->width);
+	if (r->side > vertical && r->ray_dir.y < 0.)
+		d->texture_pos.x = ptr->width - d->texture_pos.x - 1;
+	else if (r->side <= vertical && r->ray_dir.x > 0.)
+		d->texture_pos.x = ptr->width - d->texture_pos.x - 1;
+	d->screen_pos.y = (g->setting.win_height - r->height) / 2;
+	if (d->screen_pos.y < 0)
+		d->screen_pos.y = 0;
+}
+
 void	draw_wall(t_img *img, int ray_no, t_ray *r, const t_game *g)
 {
 	int			iter;
-	int			height;
-	t_int		screen_pos;
-	t_int		texture_pos;
+	t_draw		draw;
 	const t_tex	*ptr;
 
 	ptr = &(g->wall[r->side]);
 	if (!(ptr->img.img))
 		return ;
-	height = (int) fabs(g->setting.win_height / r->perp_dist);
-	texture_pos.x = (int) (r->hitpoint * ptr->width);
-	if (r->side > vertical && r->ray_dir.y < 0.)
-		texture_pos.x = ptr->width - texture_pos.x - 1;
-	else if (r->side <= vertical && r->ray_dir.x > 0.)
-		texture_pos.x = ptr->width - texture_pos.x - 1;
-	screen_pos.x = ray_no;
-	screen_pos.y = (g->setting.win_height - height) / 2;
-	if (screen_pos.y < 0)
-		screen_pos.y = 0;
+	draw.screen_pos.x = ray_no;
+	r->height = (int)fabs(g->setting.win_height / r->perp_dist);
+	draw_wall_init(r, &draw, ptr, g);
 	iter = -1;
-	while (++ iter < height && screen_pos.y < g->setting.win_height)
+	while (++ iter < r->height && draw.screen_pos.y < g->setting.win_height)
 	{
-		texture_pos.y = (screen_pos.y * 2 - g->setting.win_height + height) \
-					* ((ptr->height / 2.) / height);
-		change_image_pixel(img, screen_pos.x, screen_pos.y,
-			get_image_pixel(ptr, texture_pos.x, texture_pos.y));
-		screen_pos.y ++;
+		draw.texture_pos.y = \
+			(draw.screen_pos.y * 2 - g->setting.win_height + r->height)
+			* ((ptr->height / 2.) / r->height);
+		change_image_pixel(img, draw.screen_pos.x, draw.screen_pos.y,
+			get_image_pixel(ptr, draw.texture_pos.x, draw.texture_pos.y));
+		draw.screen_pos.y ++;
 	}
 }
 
@@ -76,6 +80,5 @@ void	raycasting_walls(t_img *img, const t_game *g)
 		if (raycast_loop(&ray, ray_no, g))
 			continue ;
 		draw_wall(img, ray_no, &ray, g);
-		// draw_red_wall(img, ray_no, &ray, g);
 	}
 }

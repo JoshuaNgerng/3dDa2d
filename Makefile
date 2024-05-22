@@ -6,7 +6,7 @@
 #    By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/12 14:22:20 by jngerng           #+#    #+#              #
-#    Updated: 2024/05/11 19:05:42 by lchew            ###   ########.fr        #
+#    Updated: 2024/05/22 14:53:13 by lchew            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,9 @@ READ_DIR = read
 GAME_DIR = game
 OBJ_DIR = obj
 F_MAIN = main
-F_UTLIS = errmsg free math string
+F_UTLIS = errmsg free string
 F_READ = read elements check buffer map
-F_GAME = loop ply texture scene raycast_main raycast_loop #wall raycasting
+F_GAME = loop ply texture scene raycast_main raycast_loop
 SRC_M = $(foreach item, $(F_MAIN), $(SRC_DIR)/$(item).c)
 SRC_U = $(foreach item, $(F_UTLIS), $(SRC_DIR)/$(UTLIS_DIR)/$(item).c)
 SRC_R = $(foreach item, $(F_READ), $(SRC_DIR)/$(READ_DIR)/$(item).c)
