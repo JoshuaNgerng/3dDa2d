@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:37:10 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/24 21:10:16 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 02:46:36 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static int	check_setting(t_set *s, t_ply *p)
 	if (s->move_speed > 50 || s->rotation_speed > 45)
 		return (1);
 	if (s->fov > 120 || s->fov < 30)
+		return (1);
+	if (s->win_height < 10 || s->win_width < 10)
 		return (1);
 	p->fov = (double)s->fov / 90;
 	p->move_speed = (double)s->move_speed / 100;
@@ -60,10 +62,9 @@ static void	game_loop(t_game *g)
 	g->env[1].set = 1;
 	g->door.texture = &g->door_img;
 	g->key.texture = g->key_img;
-	printf("test %d\n", g->door_img.height / g->scene.height);
-	g->door.max_index = g->door_img.height - 10;
+	// printf("test %d\n", g->door_img.height / g->scene.height);
 	g->key.max_index = 4;
-	print_map(&g->map);
+	// print_map(&g->map);
 	raycasting_walls(&g->scene, g);
 	mlx_put_image_to_window(g->mlx.mlx, g->mlx.win, g->scene.img, 0, 0);
 	g->ply.move_options ^= map_option;

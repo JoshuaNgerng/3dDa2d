@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 16:26:45 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/24 21:54:50 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 02:37:10 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ void	draw_wall(t_img *img, t_ray *r, const t_game *g)
 	t_draw	draw;
 
 	draw.scene = img;
-	draw.texture = &(g->wall[r->side]);
+	draw.texture = &(g->wall[r->fin[wall].side]);
+	// printf("side %d\n", r->fin[wall].side);
 	// printf("type %d\n", r->fin[wall].type);
 	if (r->fin[wall].type == door)
 	{
