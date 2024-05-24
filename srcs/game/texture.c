@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:08:12 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/20 16:13:19 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/24 22:40:10 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,24 +82,30 @@ static int	load_texture_key(t_game *g)
 
 void	set_minimap_info(t_mmap *m, const t_game *g)
 {
-	m->block_height = 10;
-	m->block_width = 10;
-	m->padding_x = 5;
-	m->padding_y = 5;
-	m->block_per_row = (g->setting.minimap_width - m->padding_x) / m->block_width;
-	m->block_per_col = (g->setting.minimap_height - m->padding_y) / m->block_height;\
-	m->block_colour[0] = (t_colour){.mode.transparency = 125, .mode.red = 128, .mode.blue = 128, .mode.green = 128};
-	m->block_colour[1] = (t_colour){.mode.transparency = 125, .mode.red = 100, .mode.blue = 50, .mode.green = 50};
-	m->block_colour[2] = (t_colour){.mode.transparency = 125};
-	m->block_colour[3] = (t_colour){.mode.transparency = 125, .mode.green = 128};
-	m->block_colour[4] = (t_colour){.mode.transparency = 125, .mode.blue = 100};
+	m->block_size.y = 15;
+	m->block_size.x = 15;
+	m->border_size.x = 5;
+	m->border_size.y = 5;
+	m->block_border_size.x = 2;
+	m->block_border_size.y = 2;
+	m->block_per_row = (g->setting.minimap_width - m->border_size.x)
+		/ m->block_size.x;
+	m->block_per_col = (g->setting.minimap_height - m->border_size.y)
+		/ m->block_size.y;
+	m->grey = (t_colour){.mode.transparency = 150,
+		.mode.red = 128, .mode.blue = 128, .mode.green = 128};
+	m->empty = (t_colour){.mode.transparency = 175,
+		.mode.red = 100, .mode.blue = 50, .mode.green = 50};
+	m->black = (t_colour){.mode.transparency = 128};
+	m->door = (t_colour){.mode.transparency = 128, .mode.green = 128};
+	m->key = (t_colour){.mode.transparency = 128, .mode.blue = 100};
 }
 
 int	load_mlx_img(t_game *g, char *title)
 {
 	char	*path;
 
-	g->mlx.win = mlx_new_window(g->mlx.mlx, MAX_WIDTH, MAX_HEIGHT, title);
+	g->mlx.win = mlx_new_window(g->mlx.mlx, g->setting.win_width,  g->setting.win_height, title);
 	if (!g->mlx.win)
 		return (errmsg_config_errno(1), 1);
 	if (load_texture_wall(g))
@@ -109,6 +115,11 @@ int	load_mlx_img(t_game *g, char *title)
 		path = "art/purplestone.xpm";
 		if (load_texture(&g->door_img, g->mlx.mlx, path, ft_strlen(path)))
 			return (1);
+		int	i = -1;
+		g->door.max_index = g->door_img.height - 10;
+		while (++ i < g->door.len)
+			g->door.sprite[i].counter = g->door.max_index;
+		printf("door img data width %d height %d\n", g->door_img.width, g->door_img.height);
 	}
 	if (load_texture_key(g))
 		return (1);
@@ -121,6 +132,6 @@ int	load_mlx_img(t_game *g, char *title)
 	if (load_img(&g->minimap, g->mlx.mlx, g->setting.minimap_width, g->setting.minimap_height))
 		return (errmsg_config_errno(3), 1);
 	set_minimap_info(&g->minimap_info, g);
-	printf("minimap width(%d), height(%d), block width(%d) height (%d), block_per (%d) (%d)\n", g->minimap.width, g->minimap.height, g->minimap_info.block_width, g->minimap_info.block_height, g->minimap_info.block_per_row, g->minimap_info.block_per_col);
+	// printf("minimap width(%d), height(%d), block width(%d) height (%d), block_per (%d) (%d)\n", g->minimap.width, g->minimap.height, g->minimap_info.block_size.y, g->minimap_info.block_size.x, g->minimap_info.block_per_row, g->minimap_info.block_per_col);
 	return (0);
 }

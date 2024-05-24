@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:51:30 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/20 14:36:54 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/24 21:26:19 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,15 +82,15 @@ int	unset_ply_mov(int key, t_game *g)
 
 int	main_loop(t_game *g)
 {
-	if (update_ply_move(&g->ply, g))
-		raycasting_walls(&g->scene, g);
+	update_ply_move(&g->ply, g);
 	if (g->ply.move_options & interact_door)
 		update_door(&g->map, &g->ply, &g->door);
+	raycasting_walls(&g->scene, g);
 	mlx_put_image_to_window(g->mlx.mlx, g->mlx.win, g->scene.img, 0, 0);
 	if (g->ply.move_options & map_option)
 		create_minimap(&g->minimap, &g->mlx, g);
 	g->ply.move_options &= ~interact_door;
 	update_door_counter(&g->door);
-	update_key(&g->key, &g->ply);
+	update_key(&g->map, &g->key, &g->ply);
 	return (0);
 }

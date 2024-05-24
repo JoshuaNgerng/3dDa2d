@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:18:18 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/20 14:39:20 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/24 18:05:00 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ void	free_game(t_game *g)
 		mlx_destroy_image(g->mlx.mlx, g->minimap.img);
 	if (g->mlx.win)
 		mlx_destroy_window(g->mlx.mlx, g->mlx.win);
-	// system("leaks cub3D");
+	system("leaks cub3D");
 	// if (g->mlx.mlx)
 	// {
 		// mlx_destroy_display(g->mlx.mlx);
 		// free(g->mlx.mlx);
 	// }
-	system("leaks cub3D");
+	// system("leaks cub3D");
 }
 
 int	free_exit(t_game *g, int ext_code)
@@ -64,13 +64,13 @@ int	free_exit(t_game *g, int ext_code)
 	return (0);
 }
 
-// void	print_map(const t_map *m)
-// {
-// 	printf("height (%d) width (%d)\n", m->height, m->width);
-// 	for (int i = 0; i < m->height; i ++)
-// 	{
-// 		for (int j = 0; j < m->width; j ++)
-// 			printf("%c", m->map[i * m->width + j]);
-// 		printf("\n");
-// 	}
-// }
+void	print_map(const t_map *m)
+{
+	printf("height (%d) width (%d)\n", m->height, m->width);
+	for (int i = 0; i < m->height; i ++)
+	{
+		for (int j = 0; j < m->width; j ++)
+			printf("%c", m->map[i * m->width + j]);
+		printf("\n");
+	}
+}

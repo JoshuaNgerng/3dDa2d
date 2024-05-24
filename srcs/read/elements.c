@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 18:25:35 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/17 14:36:59 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/24 18:12:54 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,20 @@ static int	get_colour_config(const char *line, uint8_t *ptr, int *index)
 {
 	int	i;
 	int	val;
+	int	len;
 
 	i = *index;
 	val = 0;
+	len = 0;
 	if (!line[i])
 		return (1);
-	if (line[i] == '-')
-		return (1);
-	while (ft_isdigit(line[i]))
+	// if (line[i] == '-')
+	// 	return (1);
+	while (ft_isdigit(line[i]) && len < 4)
+	{
 		val = val * 10 + line[i ++] - '0';
+		len ++;
+	}
 	if (val > 255 || val < 0)
 		return (1);
 	*ptr = (uint8_t)val;
@@ -61,12 +66,11 @@ static int	store_element(char *line, int index, t_game *g, int type)
 		if (load_texture(&g->wall[type],
 				g->mlx.mlx, &line[index], iter - index))
 			return (-1);
-		return (check_line_end(line, index));
+		return (check_line_end(line, index, &errmsg_config, 5));
 	}
 	iter = 3;
 	g->env[type % 4].set = 1;
 	ptr = g->env[type % 4].colour.trabg_parts;
-	*(ptr + iter) = NO_TRANSPARENCY;
 	while (iter -- > 0)
 	{
 		if (get_colour_config(line, ptr + iter, &index))
@@ -74,7 +78,7 @@ static int	store_element(char *line, int index, t_game *g, int type)
 		if (line[index ++] != ',' && iter > 0)
 			return (errmsg_config_var(1, &line[index], 1), -1);
 	}
-	return (check_line_end(line, index));
+	return (check_line_end(line, index, &errmsg_config, 5));
 }
 
 static int	check_elements(char *line, t_game *g)

@@ -6,40 +6,42 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 16:26:45 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/17 16:20:38 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/24 21:54:50 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-static void	draw_init(t_ray_fin *object, t_draw *d, const t_ray *r, const t_game *g)
+static
+void	draw_init(t_ray_fin *obj, t_draw *d, const t_ray *r, const t_game *g)
 {
 	d->win_height = g->setting.win_height;
 	d->env[floor_] = g->env[floor_].colour.trbg;
 	d->env[sky_] = g->env[sky_].colour.trbg;
-	object->hitpoint -= floor(object->hitpoint);
-	object->height = (int)fabs(g->setting.win_height / object->perp_dist);
-	d->texture_pos.x = (int)(object->hitpoint * d->texture->width);
-	if ((object->side == north || object->side == south) && r->ray_dir.y < 0.)
+	obj->hitpoint -= floor(obj->hitpoint);
+	obj->height = (int)fabs(g->setting.win_height / obj->perp_dist);
+	d->texture_pos.x = (int)(obj->hitpoint * d->texture->width);
+	if ((obj->side == north || obj->side == south) && r->ray_dir.y < 0.)
 		d->texture_pos.x = d->texture->width - d->texture_pos.x - 1;
-	else if ((object->side == west || object->side == east) && r->ray_dir.x > 0.)
+	else if ((obj->side == west || obj->side == east)
+			&& r->ray_dir.x > 0.)
 		d->texture_pos.x = d->texture->width - d->texture_pos.x - 1;
-	d->screen_pos.y = (g->setting.win_height - object->height) / 2;
+	d->screen_pos.y = (g->setting.win_height - obj->height) / 2;
 	if (d->screen_pos.y < 0)
 		d->screen_pos.y = 0;
 }
 
-static void	drawing_loop(t_draw *d, const t_ray_fin *object, int offset)
+static void	drawing_loop(t_draw *d, const t_ray_fin *obj, int offset)
 {
 	int	iter;
 
 	iter = -1;
-	while (++ iter < object->height && d->screen_pos.y < d->win_height)
+	while (++ iter < obj->height && d->screen_pos.y < d->win_height)
 	{
-		d->texture_pos.y = d->screen_pos.y * 2 - d->win_height + object->height;
-		d->texture_pos.y *= ((d->texture->height / 2.) / object->height);
+		d->texture_pos.y = d->screen_pos.y * 2 - d->win_height + obj->height;
+		d->texture_pos.y *= ((d->texture->height / 2.) / obj->height);
 		d->texture_pos.y += offset;
-		if (d->texture_pos.y > d->texture->height)
+		if (d->texture_pos.y >= d->texture->height)
 			break ;
 		change_image_pixel(d->scene, d->screen_pos.x, d->screen_pos.y,
 			get_image_pixel(d->texture, d->texture_pos.x, d->texture_pos.y));
@@ -54,8 +56,12 @@ void	draw_wall(t_img *img, t_ray *r, const t_game *g)
 
 	draw.scene = img;
 	draw.texture = &(g->wall[r->side]);
+	// printf("type %d\n", r->fin[wall].type);
 	if (r->fin[wall].type == door)
+	{
+		// printf("test wall\n");
 		draw.texture = &(g->door_img);
+	}
 	if (!(draw.texture->img))
 		return ;
 	draw.screen_pos.x = r->ray_no;
@@ -66,7 +72,8 @@ void	draw_wall(t_img *img, t_ray *r, const t_game *g)
 	drawing_loop(&draw, &r->fin[wall], 0);
 	while (draw.screen_pos.y < draw.win_height)
 	{
-		change_image_pixel(draw.scene, draw.screen_pos.x, draw.screen_pos.y, draw.env[floor_]);
+		change_image_pixel(draw.scene,
+			draw.screen_pos.x, draw.screen_pos.y,draw.env[floor_]);
 		draw.screen_pos.y ++;
 	}
 }
@@ -83,7 +90,8 @@ void	draw_door(t_img *img, t_ray *r, const t_game *g)
 		return ;
 	draw.screen_pos.x = r->ray_no;
 	draw_init(&r->fin[door], &draw, r, g);
-	drawing_loop(&draw, &r->fin[door], g->key.sprite->counter);
+	drawing_loop(&draw, &r->fin[door],
+		g->door.sprite[r->fin[door].index].counter);
 }
 
 void	draw_key(t_img *img, t_ray *r, const t_game *g)

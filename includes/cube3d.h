@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/20 14:37:49 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/24 21:24:27 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,12 +181,12 @@ typedef struct s_img
 
 typedef struct s_ray_fin
 {
-	uint8_t		side;
-	uint8_t		type;
-	int			index;
-	int			height;
-	double		perp_dist;
-	double		hitpoint;
+	uint8_t	side;
+	uint8_t	type;
+	int		index;
+	int		height;
+	double	perp_dist;
+	double	hitpoint;
 }	t_ray_fin;
 
 typedef struct s_ray_comp
@@ -249,19 +249,21 @@ typedef struct s_map
 	int		width;
 	int		height;
 	char	*map;
-	int		img_width;
-	int		img_height;
 }	t_map;
 
 typedef struct s_mmap
 {
-	int			block_width;
-	int			block_height;
 	int			block_per_row;
 	int			block_per_col;
-	int			padding_x;
-	int			padding_y;
-	t_colour	block_colour[5];
+	t_int		border_size; // x width , y height
+	t_int		block_size; // x width , y height
+	t_int		block_border_size;
+	t_colour	empty;
+	t_colour	door;
+	t_colour	key;
+	t_colour	border;
+	t_colour	black;
+	t_colour	grey;
 }	t_mmap;
 
 typedef struct s_game
@@ -297,7 +299,8 @@ int			skip_char(const char *s, char c, int i);
 int			skip_till_end(const char *s, const char *ref, int start);
 int			checkset(char c, const char *s);
 int			strlcpy_over(char *dst, const char *src);
-int			check_line_end(const char *line, int index);
+int			check_line_end(const char *line, int index,
+				void (*f)(char ), char errtype);
 void		free_game(t_game *g);
 int			free_exit(t_game *g, int ext_code);
 
@@ -328,6 +331,8 @@ void		raycasting_walls(t_img *img, const t_game *g);
 
 /* mini map */
 
+void		draw_horizontal(t_img *img, t_int range, int row, t_colour c);
+void		draw_small_circle(t_img *minimap, const t_game *g);
 int			create_minimap(t_img *minimap, t_mlx *mlx, const t_game *g);
 void		empty_minimap_init(t_img *minimap, const t_game *g);
 void		refresh_minimap(t_img *minimap, const t_game *g);
@@ -351,9 +356,9 @@ void		draw_key(t_img *img, t_ray *r, const t_game *g);
 
 /* asset */
 
-void		add_asset(t_asset *a, t_int pos);
+void		add_asset(t_asset *a, t_int pos, int counter);
 int			get_asset_index(const t_asset *a, t_int pos);
-void		update_key(t_asset *key, const t_ply *ply);
+void		update_key(t_map *m, t_asset *key, const t_ply *ply);
 
 /* door */
 
@@ -362,5 +367,6 @@ void		update_door_counter(t_asset *door);
 int			get_door_status(const t_asset *door, t_int pos, int *index_ptr);
 
 void		print_map(const t_map *m);
+int			test_minimap(int keycode, t_game *g);
 
 #endif

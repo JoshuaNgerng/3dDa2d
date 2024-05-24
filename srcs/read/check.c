@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 03:15:22 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/17 13:59:30 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/23 16:49:52 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,9 @@ static int	check_map_vert_loop(const t_map *m, t_int iter, t_asset *door, t_asse
 	while (checkset(m->map[iter.x * m->width + iter.y], "0DK"))
 	{
 		if (m->map[iter.x * m->width + iter.y] == 'D')
-			add_asset(door, iter);
+			add_asset(door, iter, 0);
 		if (m->map[iter.x * m->width + iter.y] == 'K')
-			add_asset(key, iter);
+			add_asset(key, iter, key->max_index % 4);
 		iter.x ++;
 	}
 	if (iter.x == m->height && m->map[(iter.x - 1) * m->width + iter.y] != '1')

@@ -6,23 +6,24 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 21:34:52 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/17 11:30:18 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/24 18:52:31 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-static t_ray_comp	raycast_comp_init(double ply_pos, double ray_perp, double ray_ref)
+static
+t_ray_comp	raycast_comp_init(double ply_pos, double ray_perp, double ray_ref)
 {
 	t_ray_comp	buffer;
 
 	buffer = (t_ray_comp){.map_check = (int)ply_pos,
-		.check_dist = ply_pos - floor(ply_pos), .step_dir = -1,
+		.check_dist = modf(ply_pos, &(double){0}), .step_dir = -1,
 		.step_size = sqrt(1 + pow(ray_perp / ray_ref, 2.))};
 	if (ray_ref >= 0.)
 	{
 		buffer.step_dir = 1;
-		buffer.check_dist = floor(ply_pos) + 1.0 - ply_pos;
+		buffer.check_dist = 1.0 - modf(ply_pos, &(double){0});
 	}
 	buffer.check_dist *= buffer.step_size;
 	return (buffer);

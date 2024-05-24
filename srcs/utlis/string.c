@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:03:58 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/17 14:37:05 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/24 18:03:00 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,17 @@ int	strlcpy_over(char *dst, const char *src)
 	return (i);
 }
 
-int	check_line_end(const char *line, int index)
+int	check_line_end(const char *line, int index,
+		void (*f)(char ), char errtype)
 {
 	while (line[index])
 	{
 		if (!checkset(line[index], " \r\n"))
-			return (errmsg_config(5), -1);
+		{
+			if (f)
+				f(errtype);
+			return (-1);
+		}
 		index ++;
 	}
 	return (0);

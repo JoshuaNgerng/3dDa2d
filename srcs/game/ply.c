@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 18:21:04 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/17 10:09:20 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/24 18:53:00 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ static void	rotation_matrix(t_point *dst, double sin_, double cos_)
 	dst->y = (buffer.x * sin_) + (buffer.y * cos_);
 }
 
-static int	update_move(t_point *ply, const t_point *move, const t_game *g, int dir)
+static
+int	update_move(t_point *ply, const t_point *move, const t_game *g, int dir)
 {
 	t_int	update;
 	t_int	map_pos;

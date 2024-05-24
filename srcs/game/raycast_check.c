@@ -6,13 +6,14 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 19:28:57 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/17 14:52:43 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/24 21:46:40 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-static void	raycast_fin(t_ray_fin *fin, int type, const t_ray *r, const t_ply *p)
+static
+void	raycast_fin(t_ray_fin *fin, int type, const t_ray *r, const t_ply *p)
 {
 	double	hit_dist;
 
@@ -25,6 +26,7 @@ static void	raycast_fin(t_ray_fin *fin, int type, const t_ray *r, const t_ply *p
 			fin->side = west;
 		else
 			fin->side = east;
+		fin->type = type;
 		return ;
 	}
 	hit_dist = (double)(r->verti.map_check + ((1 - r->verti.step_dir) / 2));
@@ -54,12 +56,12 @@ int	raycast_check(t_ray *r, const t_game *g)
 	{
 		if (get_door_status(&g->door, map_pos, &r->fin[wall].index) == -1)
 		{
-			raycast_fin(&r->fin[wall], wall, r, &g->ply);
-			r->fin[wall].type = door;
-			return (1);
+			// printf("NO test\n");
+			return (raycast_fin(&r->fin[wall], door, r, &g->ply), 1);
 		}
-		if (r->fin[door].type == undef)
+		else if (r->fin[door].type == undef)
 		{
+			// printf("TEST\n");
 			raycast_fin(&r->fin[door], door, r, &g->ply);
 			r->fin[door].index = r->fin[wall].index;
 		}
