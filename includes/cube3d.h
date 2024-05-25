@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 15:57:19 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/25 16:18:37 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,11 @@
 # define BOLDBLUE	"\033[1m\033[34m"
 # define BOLDRED	"\033[1m\033[31m"
 
-# define MAX_WIDTH	1500
-# define MAX_HEIGHT	1000
+# define MAX_WIDTH		1500
+# define MAX_HEIGHT		1000
+# define MAX_RENDER		7
+# define MAX_RENDER_OBJ	6
 
-# define NO_TRANSPARENCY		0
-# define TRANSPARENCY_MINIMAP	125
-# define WALL_MINIMAP "./art/wall_minimap.xpm"
-# define WALL_SIZE_MINIMAP 32
-# define WALL_MINIMAP "./art/wall_minimap.xpm"
-# define WALL_SIZE_MINIMAP 32
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdlib.h>
@@ -87,6 +83,7 @@ typedef enum e_side
 	wall = 0,
 	door = 1,
 	key = 2,
+	door_ = 4,
 	undef = UCHAR_MAX
 }	t_side;
 
@@ -201,10 +198,11 @@ typedef struct s_ray
 {
 	uint8_t		side;
 	int			ray_no;
+	int			obj_iter;
 	t_point		ray_dir;
 	t_ray_comp	hori;
 	t_ray_comp	verti;
-	t_ray_fin	fin[3];
+	t_ray_fin	fin[MAX_RENDER];
 }	t_ray;
 
 typedef struct s_draw
@@ -358,6 +356,7 @@ int			main_loop(t_game *g);
 void		draw_wall(t_img *img, t_ray *r, const t_game *g);
 void		draw_door(t_img *img, t_ray *r, const t_game *g);
 void		draw_key(t_img *img, t_ray *r, const t_game *g);
+void		draw_obj_to_img(t_img *img, t_ray *r, const t_game *g);
 
 /* asset */
 

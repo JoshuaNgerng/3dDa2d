@@ -6,11 +6,24 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 16:26:45 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 02:37:10 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 15:20:05 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
+
+static const t_img	*fetch_texture(uint8_t type, uint8_t index, const t_game *g)
+{
+	int	counter;
+
+	if (type == wall)
+		return (&(g->wall[index]));
+	if (type == door_ || type == door)
+		return (&(g->door_img));
+	counter = (g->key.sprite[index].counter + index) //r->fin[key].index
+		% g->key.max_index;
+	return (&(g->key_img[counter]));
+}
 
 static
 void	draw_init(t_ray_fin *obj, t_draw *d, const t_ray *r, const t_game *g)
@@ -49,20 +62,13 @@ static void	drawing_loop(t_draw *d, const t_ray_fin *obj, int offset)
 	}
 }
 
-void	draw_wall(t_img *img, t_ray *r, const t_game *g)
+void	draw_wall_n_bg(t_img *img, t_ray *r, const t_game *g)
 {
 	int		iter;
 	t_draw	draw;
 
 	draw.scene = img;
-	draw.texture = &(g->wall[r->fin[wall].side]);
-	// printf("side %d\n", r->fin[wall].side);
-	// printf("type %d\n", r->fin[wall].type);
-	if (r->fin[wall].type == door)
-	{
-		// printf("test wall\n");
-		draw.texture = &(g->door_img);
-	}
+	draw.texture = fetch_texture(r->fin[r->obj_iter].type, r->fin[r->obj_iter].side, g);
 	if (!(draw.texture->img))
 		return ;
 	draw.screen_pos.x = r->ray_no;
@@ -83,8 +89,6 @@ void	draw_door(t_img *img, t_ray *r, const t_game *g)
 {
 	t_draw	draw;
 
-	if (r->fin[door].type == undef)
-		return ;
 	draw.scene = img;
 	draw.texture = &(g->door_img);
 	if (!(draw.texture->img))
@@ -100,8 +104,6 @@ void	draw_key(t_img *img, t_ray *r, const t_game *g)
 	int		counter;
 	t_draw	draw;
 
-	if (r->fin[key].type == undef)
-		return ;
 	draw.scene = img;
 	counter = (g->key.sprite[r->fin[key].index].counter + r->ray_no)
 		% g->key.max_index;

@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 20:03:50 by lchew             #+#    #+#             */
-/*   Updated: 2024/05/24 17:37:29 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 15:14:29 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,8 @@ int	test_minimap(int keycode, t_game *g)
 
 	if (keycode == esc)
 		free_exit(g, 0);
-	printf("ref_pos (%d) (%d)\n", ref_pos_x, ref_pos_y);
+	mlx_clear_window(g->mlx.mlx, g->mlx.win);
+	// printf("ref_pos (%d) (%d)\n", ref_pos_x, ref_pos_y);
 	if (!set)
 	{
 		ref_pos_x = (int)g->ply.pos.x - g->minimap_info.block_per_col / 2;
@@ -110,20 +111,20 @@ int	test_minimap(int keycode, t_game *g)
 		set = 1;
 	}
 	map_char = get_map_pos((t_int){ref_pos_x, ref_pos_y}, &g->map);
-	printf("1map char %d row(%d)col(%d)\n", map_char, ref_pos_x, ref_pos_y);
+	// printf("1map char %d row(%d)col(%d)\n", map_char, ref_pos_x, ref_pos_y);
 	if (ref_pos_x == (int)g->ply.pos.x && ref_pos_y == (int)g->ply.pos.y)
 		put_block_in_img(&g->minimap, (t_int){iter_x, iter_y}, (t_colour){.mode.red = 255, .mode.green = 255}, g);
 	else if (map_char == '0')
-		put_block_in_img(&g->minimap, (t_int){iter_x, iter_y}, g->minimap_info.block_colour[0], g);
+		put_block_in_img(&g->minimap, (t_int){iter_x, iter_y}, g->minimap_info.grey, g);
 	else if (map_char == '1')
-		put_block_in_img(&g->minimap, (t_int){iter_x, iter_y}, g->minimap_info.block_colour[2], g);
+		put_block_in_img(&g->minimap, (t_int){iter_x, iter_y}, g->minimap_info.black, g);
 	else if (map_char == 'D')
-		put_block_in_img(&g->minimap, (t_int){iter_x, iter_y},  g->minimap_info.block_colour[3], g);
+		put_block_in_img(&g->minimap, (t_int){iter_x, iter_y}, g->minimap_info.door, g);
 	else if (map_char == 'K')
-		put_block_in_img(&g->minimap, (t_int){iter_x, iter_y}, g->minimap_info.block_colour[4], g);
+		put_block_in_img(&g->minimap, (t_int){iter_x, iter_y}, g->minimap_info.key, g);
 	iter_y ++;
 	ref_pos_x ++;
-	printf("2map char %d row(%d)col(%d)\n", map_char, ref_pos_x, ref_pos_y);
+	// printf("2map char %d row(%d)col(%d)\n", map_char, ref_pos_x, ref_pos_y);
 	if (iter_y == g->minimap_info.block_per_col - 1 && iter_x != g->minimap_info.block_per_row - 1)
 	{
 		iter_x ++;
@@ -139,7 +140,7 @@ int	test_minimap(int keycode, t_game *g)
 		ref_pos_y = (int)g->ply.pos.y - g->minimap_info.block_per_row / 2;
 		ref_pos_x = (int)g->ply.pos.x - g->minimap_info.block_per_col / 2;
 	}
-	printf("3map char %d row(%d)col(%d)\n", map_char, ref_pos_x, ref_pos_y);
+	// printf("3map char %d row(%d)col(%d)\n", map_char, ref_pos_x, ref_pos_y);
 	return (mlx_put_image_to_window(g->mlx.mlx, g->mlx.win, g->minimap.img, 0, 0));
 }
 */

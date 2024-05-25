@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 19:28:57 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 15:25:21 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/25 16:18:32 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	raycast_fin(t_ray_fin *fin, int type, const t_ray *r, const t_ply *p)
 {
 	double	hit_dist;
 
+	fin->type = type;
 	if (r->side == horizontal)
 	{
 		hit_dist = (double)(r->hori.map_check + ((1 - r->hori.step_dir) / 2));
@@ -26,7 +27,6 @@ void	raycast_fin(t_ray_fin *fin, int type, const t_ray *r, const t_ply *p)
 			fin->side = south;
 		else
 			fin->side = north;
-		fin->type = type;
 		return ;
 	}
 	hit_dist = (double)(r->verti.map_check + ((1 - r->verti.step_dir) / 2));
@@ -36,10 +36,9 @@ void	raycast_fin(t_ray_fin *fin, int type, const t_ray *r, const t_ply *p)
 		fin->side = west;
 	else
 		fin->side = east;
-	fin->type = type;
 }
 
-int	raycast_check(t_ray *r, const t_game *g)
+int	raycast_check(t_ray *r, const t_game *g) // change that add from last to first 
 {
 	// static int	index;
 	int		map_char;
@@ -52,26 +51,19 @@ int	raycast_check(t_ray *r, const t_game *g)
 	if (map_char == '0')
 		return (0);
 	if (map_char == '1')
-		return (raycast_fin(&r->fin[wall], wall, r, &g->ply), 1);
-	else if (map_char == 'D')
+		return (raycast_fin(&r->fin[r->obj_iter ++], wall, r, &g->ply), 1);
+	if (r->obj_iter == MAX_RENDER_OBJ)
+		return (0);
+	if (map_char == 'D')
 	{
-		if (get_door_status(&g->door, map_pos, &r->fin[wall].index) == -1)
-		{
-			// printf("wall as door %d\n", index ++);
-			return (raycast_fin(&r->fin[wall], door, r, &g->ply), 1);
-		}
-		else if (r->fin[door].type == undef)
-		{
-			// printf("door init %d\n", index ++);
-			raycast_fin(&r->fin[door], door, r, &g->ply);
-			r->fin[door].index = r->fin[wall].index;
-		}
-		// printf("door not capture %d\n", index ++);
+		if (get_door_status(&g->door, map_pos, &r->fin[r->obj_iter].index) == -1)
+			return (raycast_fin(&r->fin[r->obj_iter ++], door_, r, &g->ply), 1);
+		raycast_fin(&r->fin[r->obj_iter ++], door, r, &g->ply);
 	}
 	else if (map_char == 'K')
 	{
-		raycast_fin(&r->fin[key], key, r, &g->ply);
-		r->fin[key].index = get_asset_index(&g->key, map_pos);
+		raycast_fin(&r->fin[r->obj_iter ++], key, r, &g->ply);
+		r->fin[r->obj_iter ++].index = get_asset_index(&g->key, map_pos);
 	}
 	return (0);
 }
