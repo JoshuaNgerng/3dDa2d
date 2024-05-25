@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 18:25:35 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 16:47:33 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 16:53:46 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	store_element(char *line, int index, t_game *g, int type)
 	uint8_t	*ptr;
 
 	index = skip_char(line, ' ', index);
-	if (type < 3)
+	if (type < 4)
 	{
 		iter = skip_till_end(line, "\r\n ", index);
 		if (line[iter])

@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:18:18 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/24 18:05:00 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 17:06:55 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,17 @@ void	free_game(t_game *g)
 	}
 	if (g->door.len > 0)
 	{
-		mlx_destroy_image(g->mlx.mlx, g->door_img.img);
-		free(g->door.sprite);
+		if (g->door_img.img)
+			mlx_destroy_image(g->mlx.mlx, g->door_img.img);
+		if (g->door.sprite)
+			free(g->door.sprite);
 	}
 	if (g->key.len > 0)
 	{
-		mlx_destroy_image(g->mlx.mlx, g->key_img->img);
-		free(g->key.sprite);
+		if (g->key_img->img)
+			mlx_destroy_image(g->mlx.mlx, g->key_img->img);
+		if (g->key.sprite)
+			free(g->key.sprite);
 	}
 	if (g->scene.img)
 		mlx_destroy_image(g->mlx.mlx, g->scene.img);
