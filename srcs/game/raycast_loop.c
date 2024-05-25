@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 21:34:52 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/24 18:52:31 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 15:15:47 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ t_ray_comp	raycast_comp_init(double ply_pos, double ray_perp, double ray_ref)
 
 static void	raycast_init(t_ray *r, const t_game *g)
 {
+	int		i;
 	double	x_pos;
 
 	x_pos = ((2. * (double)(r->ray_no) / (double)g->setting.win_width) - 1.);
@@ -38,9 +39,10 @@ static void	raycast_init(t_ray *r, const t_game *g)
 	r->ray_dir.y = g->ply.n_dir.y + g->ply.view.y * x_pos;
 	r->hori = raycast_comp_init(g->ply.pos.x, r->ray_dir.y, r->ray_dir.x);
 	r->verti = raycast_comp_init(g->ply.pos.y, r->ray_dir.x, r->ray_dir.y);
-	r->fin[0] = (t_ray_fin){.type = undef};
-	r->fin[1] = (t_ray_fin){.type = undef};
-	r->fin[2] = (t_ray_fin){.type = undef};
+	i = -1;
+	while (++ i < MAX_RENDER)
+		r->fin[i] = (t_ray_fin){.type = undef};
+	r->obj_iter = 0;
 }
 
 static int	raycast_loop(t_ray *r, const t_game *g)
@@ -72,21 +74,15 @@ static int	raycast_loop(t_ray *r, const t_game *g)
 	return (1);
 }
 
+// change so that the drawing is adjusted and draws from last to first
 void	raycasting_walls(t_img *img, const t_game *g)
 {
 	t_ray	ray;
-
+	(void)img;
 	ray.ray_no = -1;
 	while (++ ray.ray_no < g->setting.win_width)
 	{
-		if (raycast_loop(&ray, g))
-		{
-			draw_door(img, &ray, g);
-			draw_key(img, &ray, g);
-			continue ;
-		}
-		draw_wall(img, &ray, g);
-		draw_door(img, &ray, g);
-		draw_key(img, &ray, g);
+		raycast_loop(&ray, g);
+		draw_obj_to_img(img, &ray, g);
 	}
 }

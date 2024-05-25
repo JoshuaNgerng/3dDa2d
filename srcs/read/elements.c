@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 18:25:35 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/24 18:12:54 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 15:26:14 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ static int	get_colour_config(const char *line, uint8_t *ptr, int *index)
 	len = 0;
 	if (!line[i])
 		return (1);
-	// if (line[i] == '-')
-	// 	return (1);
 	while (ft_isdigit(line[i]) && len < 4)
 	{
 		val = val * 10 + line[i ++] - '0';
