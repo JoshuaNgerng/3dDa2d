@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:37:10 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 16:56:49 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/25 19:09:18 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	make_setting(t_set *s)
 {
-	s->move_speed = 5;
+	s->move_speed = 10;
 	s->rotation_speed = 11;
 	s->fov = 90;
 	s->win_width = MAX_WIDTH;

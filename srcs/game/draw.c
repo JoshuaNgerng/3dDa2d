@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 16:26:45 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 17:23:23 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 19:08:28 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ void	draw_init(t_ray_fin *obj, t_draw *d, const t_ray *r, const t_game *g)
 	obj->hitpoint -= floor(obj->hitpoint);
 	obj->height = (int)fabs(g->setting.win_height / obj->perp_dist);
 	d->texture_pos.x = (int)(obj->hitpoint * d->texture->width);
-	if ((obj->side == north || obj->side == south) && r->ray_dir.y < 0.)
+	if ((obj->side == north || obj->side == south) && r->ray_dir.x < 0.)
 		d->texture_pos.x = d->texture->width - d->texture_pos.x - 1;
 	else if ((obj->side == west || obj->side == east)
-			&& r->ray_dir.x > 0.)
+			&& r->ray_dir.y > 0.)
 		d->texture_pos.x = d->texture->width - d->texture_pos.x - 1;
 	d->screen_pos.x = r->ray_no;
 	d->screen_pos.y = (g->setting.win_height - obj->height) / 2;
@@ -58,6 +58,8 @@ static void	drawing_loop(t_draw *d, const t_ray_fin *obj, int offset)
 		d->texture_pos.y = d->screen_pos.y * 2 - d->win_height + obj->height;
 		d->texture_pos.y *= ((d->texture->height / 2.) / obj->height);
 		d->texture_pos.y += offset;
+		if (d->texture_pos.x < 0)
+			printf("newx: %d, y: %d\n", d->texture_pos.x, d->texture_pos.y);
 		if (d->texture_pos.y >= d->texture->height)
 			break ;
 		change_image_pixel(d->scene, d->screen_pos.x, d->screen_pos.y,
@@ -112,10 +114,10 @@ void	draw_assests(t_img *img, t_ray *r, const t_game *g)
 	drawing_loop(&draw, ptr, offset);
 }
 
-void	draw_inner_wall(t_img *img, t_ray *r, const t_game *g)
-{
-	;
-}
+// void	draw_inner_wall(t_img *img, t_ray *r, const t_game *g)
+// {
+// 	;
+// }
 
 void	draw_obj_to_img(t_img *img, t_ray *r, const t_game *g)
 {
@@ -125,7 +127,7 @@ void	draw_obj_to_img(t_img *img, t_ray *r, const t_game *g)
 	draw_wall_n_bg(img, r, g);
 	while (r->obj_iter -- > 0)
 	{
-		draw_inner_wall(img, r, g);
+		// draw_inner_wall(img, r, g);
 		draw_assests(img, r, g);
 	}
 }
