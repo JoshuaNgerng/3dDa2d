@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   elements.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 18:25:35 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/24 18:12:54 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 15:58:27 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ static int	get_colour_config(const char *line, uint8_t *ptr, int *index)
 	len = 0;
 	if (!line[i])
 		return (1);
-	// if (line[i] == '-')
-	// 	return (1);
 	while (ft_isdigit(line[i]) && len < 4)
 	{
 		val = val * 10 + line[i ++] - '0';
@@ -62,6 +60,11 @@ static int	store_element(char *line, int index, t_game *g, int type)
 	if (type < 3)
 	{
 		iter = skip_till_end(line, "\r\n ", index);
+		if (line[iter])
+		{
+			if (check_line_end(line, iter, &errmsg_config, 5))
+				return (-1);
+		}
 		line[iter] = '\0';
 		if (load_texture(&g->wall[type],
 				g->mlx.mlx, &line[index], iter - index))

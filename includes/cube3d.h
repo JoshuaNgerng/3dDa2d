@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/24 21:24:27 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 15:57:19 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -295,14 +295,19 @@ void		errmsg_img(const char *msg, size_t len);
 
 /* utilites */
 
-int			skip_char(const char *s, char c, int i);
-int			skip_till_end(const char *s, const char *ref, int start);
-int			checkset(char c, const char *s);
-int			strlcpy_over(char *dst, const char *src);
-int			check_line_end(const char *line, int index,
-				void (*f)(char ), char errtype);
-void		free_game(t_game *g);
-int			free_exit(t_game *g, int ext_code);
+int		skip_char(const char *s, char c, int i);
+int		skip_till_end(const char *s, const char *ref, int start);
+int		checkset(char c, const char *s);
+int		strlcpy_over(char *dst, const char *src);
+int		check_line_end(const char *line, int index,
+			void (*f)(char ), char errtype);
+void	free_game(t_game *g);
+int		free_exit(t_game *g, int ext_code);
+
+/* math check */
+
+int		get_map_pos(t_int p, const t_map *m);
+void	rotation_matrix(t_point *dst, double sin_, double cos_);
 
 /* read from file */
 

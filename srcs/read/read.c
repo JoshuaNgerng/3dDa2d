@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   read.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:51:56 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/17 14:25:08 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 16:04:47 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-int	free_buffer_n_fd(int fd, t_buffer *b)
+void	free_buffer_n_fd(int fd, t_buffer *b)
 {
 	t_list_	*ptr;
 
 	if (fd > 2)
 		close(fd);
 	if (!b || !b->list)
-		return (1);
+		return ;
 	while (b->list)
 	{
 		ptr = b->list;
@@ -84,19 +84,20 @@ int	read_file(t_game *g, const char *file)
 	if (fd < 0)
 		return (errmsg_file_errno(0, NULL), 1);
 	if (read_elements(fd, g, &ptr))
-		return (free_buffer_n_fd(fd, NULL));
-	if (init_buffer_list(&buffer, ptr, g)
-		|| cont_buffer_list(&buffer, fd, g))
-		return (free_buffer_n_fd(fd, &buffer));
-	if (make_map(&g->map, &buffer, g->map.width))
-		return (errmsg_prog_errno("Cannot make map"
-				" from buffer (malloc): ", 38), free_buffer_n_fd(fd, &buffer));
+		return (free_buffer_n_fd(fd, NULL), 1);
+	if (init_buffer_list(&buffer, ptr, &g->ply, &g->map.width))
+		return (free_buffer_n_fd(fd, &buffer), 1);
+	if (cont_buffer_list(&buffer, fd, &g->map.width, &g->ply))
+		return (free_buffer_n_fd(fd, &buffer), 1);
+	g->map.height = buffer.len;
+	g->map.map = make_map(&buffer, g->map.width);
 	free_buffer_n_fd(fd, &buffer);
-	if (load_game_components(g))
+	if (!g->map.map)
+		return (errmsg_prog_errno("Cannot make map "
+				"from buffer (malloc): ", 38), 1);
+	if (check_map_vertical(&g->map))
 		return (1);
-	if (check_map_vertical(&g->map, &g->door, &g->key))
-		return (1);
-	if (g->ply.pos.x < 0 && g->ply.pos.y < 0)
+	if (g->ply.pos.x < 0 || g->ply.pos.y < 0)
 		return (errmsg_config(0), 1);
 	g->ply.pos = (t_point){.x = g->ply.pos.x + 0.5, .y = g->ply.pos.y + 0.5};
 	return (0);
