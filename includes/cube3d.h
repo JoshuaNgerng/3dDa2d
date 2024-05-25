@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 16:18:37 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/25 16:30:23 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -305,7 +305,6 @@ int		free_exit(t_game *g, int ext_code);
 /* math check */
 
 int		get_map_pos(t_int p, const t_map *m);
-void	rotation_matrix(t_point *dst, double sin_, double cos_);
 
 /* read from file */
 
