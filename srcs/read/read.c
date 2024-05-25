@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:51:56 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/22 14:48:57 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/22 15:22:34 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,11 @@ int	read_file(t_game *g, const char *file)
 	if (fd < 0)
 		return (errmsg_file_errno(0, NULL), 1);
 	if (read_elements(fd, g, &ptr))
-		return (err_handle(fd));
-	if (init_buffer_list(&buffer, ptr, &g->ply, &g->map.width)
-		|| cont_buffer_list(&buffer, fd, &g->map.width, &g->ply))
-		return (free_buffer(&buffer), err_handle(fd));
-	close(fd);
+		return (free_buffer_n_fd(fd, NULL), 1);
+	if (init_buffer_list(&buffer, ptr, &g->ply, &g->map.width))
+		return (free_buffer_n_fd(fd, &buffer), 1);
+	if (cont_buffer_list(&buffer, fd, &g->map.width, &g->ply))
+		return (free_buffer_n_fd(fd, &buffer), 1);
 	g->map.height = buffer.len;
 	g->map.map = make_map(&buffer, g->map.width);
 	free_buffer_n_fd(fd, &buffer);
