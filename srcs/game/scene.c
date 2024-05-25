@@ -3,32 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   scene.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:58:15 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/24 18:27:39 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 15:36:31 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-void	change_image_pixel(t_img *img, int x, int y, uint32_t colour)
+/**
+ * @brief Changes the color of a pixel in an image.
+ *
+ * This function modifies the color of a pixel at the specified coordinates (x, y)
+ * in the given image.
+ *
+ * @param img The image to modify.
+ * @param x The x-coordinate of the pixel.
+ * @param y The y-coordinate of the pixel.
+ * @param colour The new color of the pixel.
+ */
+void change_image_pixel(t_img *img, int x, int y, uint32_t colour)
 {
-	int	offset;
+	int offset;
 
 	offset = (img->line_length * y) + (x * (img->bits_per_pixel / 8));
 	*((uint32_t *)(img->pixel_ptr + offset)) = colour;
 }
 
-uint32_t	get_image_pixel(const t_img *img, int x, int y)
+/**
+ * @brief Retrieves the pixel value at the specified coordinates from an image.
+ *
+ * This function takes an image pointer, along with the x and y coordinates of
+ * the pixel, and returns the pixel value at that location. If the coordinates
+ * are out of bounds, the function returns 0x0.
+ *
+ * @param img The image from which to retrieve the pixel.
+ * @param x The x-coordinate of the pixel.
+ * @param y The y-coordinate of the pixel.
+ * @return The pixel value at the specified coordinates, or 0x0 if the
+ * coordinates are out of bounds.
+ */
+uint32_t get_image_pixel(const t_img *img, int x, int y)
 {
-	int	offset;
-
+	int offset;
+	
 	if (x < 0 || x >= img->width || y < 0 || y >= img->height)
 		return (0x0);
 	offset = (img->line_length * y) + (x * (img->bits_per_pixel / 8));
 	return (*((uint32_t *)(img->pixel_ptr + offset)));
 }
+
 
 void	draw_horizontal(t_img *img, t_int range, int row, t_colour c)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast_check.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 19:28:57 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 03:06:46 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 15:25:21 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	raycast_fin(t_ray_fin *fin, int type, const t_ray *r, const t_ply *p)
 
 int	raycast_check(t_ray *r, const t_game *g)
 {
-	static int	index;
+	// static int	index;
 	int		map_char;
 	t_int	map_pos;
 
