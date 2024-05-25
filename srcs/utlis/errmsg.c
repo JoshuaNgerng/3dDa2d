@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:03:31 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/14 13:21:31 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 15:41:57 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void	errmsg_img(const char *msg, size_t len)
 	write(2, ", cannot be made in mlx: ", 25);
 	ptr = strerror(errno);
 	if (errno)
-		write(2, ptr, len);
+		write(2, ptr, ft_strlen(ptr));
 	write(2, RESET "\n", 5);
 	errno = 0;
 }

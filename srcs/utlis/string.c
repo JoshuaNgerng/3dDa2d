@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:03:58 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/17 14:34:42 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 15:39:01 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,17 @@ int	skip_char(const char *s, char c, int i)
 	return (i);
 }
 
+/**
+ * @brief Skips over any occurrences of a set of character set in a string, 
+ * starting from a given index.
+ * 
+ * @param s The string to process.
+ * @param ref The character set to skip.
+ * @param start The index at which to start skipping.
+ * 
+ * @return Returns the index of the first occurrence of a character
+ * not in string 'ref' after 'start', or the end of the string.
+ */
 int	skip_till_end(const char *s, const char *ref, int start)
 {
 	while (s[start] && !checkset(s[start], ref))
@@ -88,12 +99,29 @@ int	strlcpy_over(char *dst, const char *src)
 	return (i);
 }
 
-int	check_line_end(const char *line, int index)
+/**
+ * @brief Checks to the end of the string from a given index, 
+ * if a non whitespace is found it will apply
+ * the func 'f' to write an errmsg to STDERR
+ * 
+ * @param line The string to check.
+ * @param index The index to start from.
+ * @param f The func to print out the errmsg
+ * @param errtype the parameter to pass to func f to fetch the right errmsg
+ * 
+ * @return Returns -1 if non-whitespace character is found, 0 otherwise.
+ */
+int	check_line_end(const char *line, int index,
+		void (*f)(char ), char errtype)
 {
 	while (line[index])
 	{
 		if (!checkset(line[index], " \r\n"))
-			return (errmsg_config(5), -1);
+		{
+			if (f)
+				f(errtype);
+			return (-1);
+		}
 		index ++;
 	}
 	return (0);
