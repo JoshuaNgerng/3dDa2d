@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 19:28:57 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 14:58:41 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 18:30:02 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	raycast_fin(t_ray_fin *fin, int type, const t_ray *r, const t_ply *p)
 	fin->type = type;
 	if (r->side == horizontal)
 	{
-		hit_dist = (double)(r->hori.map_check + ((1 - r->hori.step_dir) / 2));
-		fin->perp_dist = fabs((hit_dist - p->pos.x) / r->ray_dir.x);
+		hit_dist = (double)(r->hori.map_check - p->pos.x + ((1 - r->hori.step_dir) / 2));
+		fin->perp_dist = fabs(hit_dist / r->ray_dir.x);
 		fin->hitpoint = p->pos.y + fin->perp_dist * r->ray_dir.y;
 		if (r->ray_dir.x < 0)
 			fin->side = south;
@@ -29,8 +29,8 @@ void	raycast_fin(t_ray_fin *fin, int type, const t_ray *r, const t_ply *p)
 			fin->side = north;
 		return ;
 	}
-	hit_dist = (double)(r->verti.map_check + ((1 - r->verti.step_dir) / 2));
-	fin->perp_dist = fabs((hit_dist - p->pos.y) / r->ray_dir.y);
+	hit_dist = (double)(r->verti.map_check - p->pos.y + ((1 - r->verti.step_dir) / 2));
+	fin->perp_dist = fabs(hit_dist / r->ray_dir.y);
 	fin->hitpoint = p->pos.x + fin->perp_dist * r->ray_dir.x;
 	if (r->ray_dir.y < 0)
 		fin->side = west;
