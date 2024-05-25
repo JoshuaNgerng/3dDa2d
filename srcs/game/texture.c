@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:08:12 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 02:42:49 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 16:47:38 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	load_mlx_img(t_game *g, char *title)
 		g->door.max_index = g->door_img.height - 10;
 		while (++ i < g->door.len)
 			g->door.sprite[i].counter = g->door.max_index;
-		printf("door img data width %d height %d\n", g->door_img.width, g->door_img.height);
+		// printf("door img data width %d height %d\n", g->door_img.width, g->door_img.height);
 	}
 	if (load_texture_key(g))
 		return (1);

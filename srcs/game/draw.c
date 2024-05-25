@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 16:26:45 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 16:26:44 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 17:23:23 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,15 @@ static const t_img	*fetch_texture(uint8_t type, uint8_t index, const t_game *g)
 {
 	int	counter;
 
+	if (type == undef)
+		return (NULL);
 	if (type == wall)
 		return (&(g->wall[index]));
 	if (type == door_ || type == door)
 		return (&(g->door_img));
-	counter = (g->key.sprite[index].counter + index) //r->fin[key].index
-		% g->key.max_index;
+	counter = 0;
+	// counter = (g->key.sprite[index].counter + index) //r->fin[key].index
+	// 	% g->key.max_index;
 	return (&(g->key_img[counter]));
 }
 
@@ -74,7 +77,7 @@ void	draw_wall_n_bg(t_img *img, t_ray *r, const t_game *g)
 	draw.scene = img;
 	ptr = &(r->fin[r->obj_iter]);
 	draw.texture = fetch_texture(ptr->type, ptr->side, g);
-	if (!(draw.texture->img))
+	if (!(draw.texture) || !(draw.texture->img))
 		return ;
 	draw_init(ptr, &draw, r, g);
 	iter = -1;
@@ -101,12 +104,17 @@ void	draw_assests(t_img *img, t_ray *r, const t_game *g)
 	draw.scene = img;
 	ptr = &(r->fin[r->obj_iter]);
 	draw.texture = fetch_texture(ptr->type, ptr->side, g);
-	if (!(draw.texture->img))
+	if (!(draw.texture) || !(draw.texture->img))
 		return ;
 	if (ptr->type == door)
 		offset = g->door.sprite[ptr->index].counter;
 	draw_init(ptr, &draw, r, g);
 	drawing_loop(&draw, ptr, offset);
+}
+
+void	draw_inner_wall(t_img *img, t_ray *r, const t_game *g)
+{
+	;
 }
 
 void	draw_obj_to_img(t_img *img, t_ray *r, const t_game *g)
@@ -116,7 +124,10 @@ void	draw_obj_to_img(t_img *img, t_ray *r, const t_game *g)
 		return ;
 	draw_wall_n_bg(img, r, g);
 	while (r->obj_iter -- > 0)
+	{
+		draw_inner_wall(img, r, g);
 		draw_assests(img, r, g);
+	}
 }
 
 void	draw_key(t_img *img, t_ray *r, const t_game *g)
