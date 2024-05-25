@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 03:15:22 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/23 16:49:52 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 16:59:55 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static int	check_map_vert_loop(const t_map *m, t_int iter, t_asset *door, t_asse
 		return (-1);
 	if (iter.x >= m->height || !checkset(m->map[iter.x * m->width + iter.y], "0D"))
 		return (iter.x);
-	while (checkset(m->map[iter.x * m->width + iter.y], "0DK"))
+	while (iter.x < m->height && checkset(m->map[iter.x * m->width + iter.y], "0DK"))
 	{
 		if (m->map[iter.x * m->width + iter.y] == 'D')
 			add_asset(door, iter, 0);

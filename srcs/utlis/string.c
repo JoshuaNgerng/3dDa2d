@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:03:58 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 15:57:08 by lchew            ###   ########.fr       */
+/*   Updated: 2024/05/25 16:57:56 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,7 @@ int	strlcpy_over(char *dst, const char *src)
  * 
  * @return Returns -1 if non-whitespace character is found, 0 otherwise.
  */
-int	check_line_end(const char *line, int index,
-		void (*f)(char ), char errtype)
+int	check_line_end(const char *line, int index, void (*f)(char ), char errtype)
 {
 	while (line[index])
 	{
