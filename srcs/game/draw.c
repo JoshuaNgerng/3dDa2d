@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 16:26:45 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 15:20:05 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 16:26:44 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	draw_init(t_ray_fin *obj, t_draw *d, const t_ray *r, const t_game *g)
 	else if ((obj->side == west || obj->side == east)
 			&& r->ray_dir.x > 0.)
 		d->texture_pos.x = d->texture->width - d->texture_pos.x - 1;
+	d->screen_pos.x = r->ray_no;
 	d->screen_pos.y = (g->setting.win_height - obj->height) / 2;
 	if (d->screen_pos.y < 0)
 		d->screen_pos.y = 0;
@@ -64,19 +65,24 @@ static void	drawing_loop(t_draw *d, const t_ray_fin *obj, int offset)
 
 void	draw_wall_n_bg(t_img *img, t_ray *r, const t_game *g)
 {
-	int		iter;
-	t_draw	draw;
+	int			iter;
+	int			offset;
+	t_ray_fin	*ptr;
+	t_draw		draw;
 
+	offset = 0;
 	draw.scene = img;
-	draw.texture = fetch_texture(r->fin[r->obj_iter].type, r->fin[r->obj_iter].side, g);
+	ptr = &(r->fin[r->obj_iter]);
+	draw.texture = fetch_texture(ptr->type, ptr->side, g);
 	if (!(draw.texture->img))
 		return ;
-	draw.screen_pos.x = r->ray_no;
-	draw_init(&r->fin[wall], &draw, r, g);
+	draw_init(ptr, &draw, r, g);
 	iter = -1;
 	while (++ iter < draw.screen_pos.y)
 		change_image_pixel(draw.scene, draw.screen_pos.x, iter, draw.env[sky_]);
-	drawing_loop(&draw, &r->fin[wall], 0);
+	if (ptr->type == door)
+		offset = g->door.sprite[ptr->index].counter;
+	drawing_loop(&draw, ptr, offset);
 	while (draw.screen_pos.y < draw.win_height)
 	{
 		change_image_pixel(draw.scene,
@@ -85,18 +91,32 @@ void	draw_wall_n_bg(t_img *img, t_ray *r, const t_game *g)
 	}
 }
 
-void	draw_door(t_img *img, t_ray *r, const t_game *g)
+void	draw_assests(t_img *img, t_ray *r, const t_game *g)
 {
-	t_draw	draw;
+	int			offset;
+	t_ray_fin	*ptr;
+	t_draw		draw;
 
+	offset = 0;
 	draw.scene = img;
-	draw.texture = &(g->door_img);
+	ptr = &(r->fin[r->obj_iter]);
+	draw.texture = fetch_texture(ptr->type, ptr->side, g);
 	if (!(draw.texture->img))
 		return ;
-	draw.screen_pos.x = r->ray_no;
-	draw_init(&r->fin[door], &draw, r, g);
-	drawing_loop(&draw, &r->fin[door],
-		g->door.sprite[r->fin[door].index].counter);
+	if (ptr->type == door)
+		offset = g->door.sprite[ptr->index].counter;
+	draw_init(ptr, &draw, r, g);
+	drawing_loop(&draw, ptr, offset);
+}
+
+void	draw_obj_to_img(t_img *img, t_ray *r, const t_game *g)
+{
+	r->obj_iter --;
+	if (r->obj_iter < 0)
+		return ;
+	draw_wall_n_bg(img, r, g);
+	while (r->obj_iter -- > 0)
+		draw_assests(img, r, g);
 }
 
 void	draw_key(t_img *img, t_ray *r, const t_game *g)
