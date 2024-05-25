@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 14:34:35 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 19:52:59 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,7 +258,6 @@ typedef struct s_mmap
 	t_int		block_border_size;
 	t_colour	empty;
 	t_colour	door;
-	t_colour	key;
 	t_colour	border;
 	t_colour	black;
 	t_colour	grey;
@@ -276,9 +275,7 @@ typedef struct s_game
 	t_env	env[2];
 	t_img	wall[4];
 	t_img	door_img;
-	t_img	key_img[4];
 	t_asset	door;
-	t_asset	key;
 }	t_game;
 
 /* error messages */
@@ -311,7 +308,7 @@ int			check_map(char *line, int *ptr, t_game *g);
 int			init_buffer_list(t_buffer *buffer, char *line, t_game *g);
 int			cont_buffer_list(t_buffer *buffer, int fd, t_game *g);
 int			uniform_map_size(t_game *g);
-int			check_map_vertical(const t_map *m, t_asset *d, t_asset *k);
+int			check_map_vertical(const t_map *m, t_asset *d);
 void		free_buffer(t_buffer *b);
 
 /* load mlx and texture */
@@ -343,21 +340,19 @@ int			unset_ply_mov(int key, t_game *g);
 int			mouse_set_ply(int key, int pos_x, int pos_y, t_game *g);
 int			mouse_unset_ply(int key, int pos_x, int pos_y, t_game *g);
 int			update_ply_move(t_ply *p, const t_game *g);
-int			update_interact(t_asset *door, t_asset *key, const t_game *g);
+int			update_interact(t_asset *door, const t_game *g);
 int			main_loop(t_game *g);
 
 /* draw */
 
 void		draw_wall(t_img *img, t_ray *r, const t_game *g);
 void		draw_door(t_img *img, t_ray *r, const t_game *g);
-void		draw_key(t_img *img, t_ray *r, const t_game *g);
 void		draw_obj_to_img(t_img *img, t_ray *r, const t_game *g);
 
 /* asset */
 
-void		add_asset(t_asset *a, t_int pos, int counter);
+void		add_asset(t_asset *a, t_int pos);
 int			get_asset_index(const t_asset *a, t_int pos);
-void		update_key(t_map *m, t_asset *key, const t_ply *ply);
 
 /* door */
 

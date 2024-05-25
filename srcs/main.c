@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:37:10 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 15:15:25 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 19:53:32 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,6 @@ static void	game_loop(t_game *g)
 	g->env[0].set = 1;
 	g->env[1].set = 1;
 	g->door.texture = &g->door_img;
-	g->key.texture = g->key_img;
-	// printf("test %d\n", g->door_img.height / g->scene.height);
-	g->key.max_index = 4;
 	// print_map(&g->map);
 	raycasting_walls(&g->scene, g);
 	mlx_put_image_to_window(g->mlx.mlx, g->mlx.win, g->scene.img, 0, 0);

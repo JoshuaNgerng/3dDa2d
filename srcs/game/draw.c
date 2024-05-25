@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 16:26:45 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 19:22:56 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 19:53:11 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,11 @@
 
 static const t_img	*fetch_texture(uint8_t type, uint8_t index, const t_game *g)
 {
-	int	counter;
-
 	if (type == undef)
-	{
-		// printf("WYAt\n");
 		return (NULL);
-	}
 	if (type == wall)
 		return (&(g->wall[index]));
-	if (type == door_ || type == door)
-		return (&(g->door_img));
-	counter = 0;
-	// counter = (g->key.sprite[index].counter + index) //r->fin[key].index
-	// 	% g->key.max_index;
-	return (&(g->key_img[counter]));
+	return (&(g->door_img));
 }
 
 static
@@ -59,7 +49,7 @@ static void	drawing_loop(t_draw *d, const t_ray_fin *obj, int offset)
 	while (++ iter < obj->height && d->screen_pos.y < d->win_height)
 	{
 		d->texture_pos.y = d->screen_pos.y * 2 - d->win_height + obj->height;
-		d->texture_pos.y = (int)(d->texture_pos.y * ((d->texture->height / 2.) / obj->height));
+		d->texture_pos.y *= (d->texture->height / 2.) / obj->height;
 		d->texture_pos.y += offset;
 		if (d->texture_pos.y >= d->texture->height)
 			break ;
@@ -131,22 +121,6 @@ void	draw_obj_to_img(t_img *img, t_ray *r, const t_game *g)
 		// draw_inner_wall(img, r, g);
 		draw_assests(img, r, g);
 	}
-}
-
-void	draw_key(t_img *img, t_ray *r, const t_game *g)
-{
-	int		counter;
-	t_draw	draw;
-
-	draw.scene = img;
-	counter = (g->key.sprite[r->fin[key].index].counter + r->ray_no)
-		% g->key.max_index;
-	draw.texture = &(g->key_img[counter]);
-	if (!(draw.texture->img))
-		return ;
-	draw.screen_pos.x = r->ray_no;
-	draw_init(&r->fin[key], &draw, r, g);
-	drawing_loop(&draw, &r->fin[key], 0);
 }
 
 /*

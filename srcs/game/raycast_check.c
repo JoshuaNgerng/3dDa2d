@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 19:28:57 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 18:30:02 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 19:50:11 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,6 @@ int	raycast_check(t_ray *r, const t_game *g) // change that add from last to fir
 		if (get_door_status(&g->door, map_pos, &r->fin[r->obj_iter].index) == -1)
 			return (raycast_fin(&r->fin[r->obj_iter ++], door_, r, &g->ply), 1);
 		raycast_fin(&r->fin[r->obj_iter ++], door, r, &g->ply);
-	}
-	else if (map_char == 'K')
-	{
-		raycast_fin(&r->fin[r->obj_iter ++], key, r, &g->ply);
-		r->fin[r->obj_iter ++].index = get_asset_index(&g->key, map_pos);
 	}
 	return (0);
 }

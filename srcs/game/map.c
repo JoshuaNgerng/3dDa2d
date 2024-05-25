@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 20:03:50 by lchew             #+#    #+#             */
-/*   Updated: 2024/05/25 15:14:29 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 19:50:05 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ void	check_minimap(t_int ref_pos, t_int iter, t_img *minimap, const t_game *g)
 		put_block_in_img(minimap, iter, g->minimap_info.black, g);
 	else if (map_char == 'D')
 		put_block_in_img(minimap, iter, g->minimap_info.door, g);
-	else if (map_char == 'K')
-		put_block_in_img(minimap, iter, g->minimap_info.key, g);
 }
 
 int	create_minimap(t_img *minimap, t_mlx *mlx, const t_game *g)

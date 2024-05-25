@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:51:56 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/17 14:25:08 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 19:46:35 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,6 @@ int	load_game_components(t_game *g)
 		if (!g->door.sprite)
 			return (1);
 	}
-	if (g->key.len > 0)
-	{
-		g->key.sprite = (t_ani *) malloc(g->key.len * sizeof(t_ani));
-		if (!g->key.sprite)
-			return (1);
-	}
 	return (0);
 }
 
@@ -94,7 +88,7 @@ int	read_file(t_game *g, const char *file)
 	free_buffer_n_fd(fd, &buffer);
 	if (load_game_components(g))
 		return (1);
-	if (check_map_vertical(&g->map, &g->door, &g->key))
+	if (check_map_vertical(&g->map, &g->door))
 		return (1);
 	if (g->ply.pos.x < 0 && g->ply.pos.y < 0)
 		return (errmsg_config(0), 1);

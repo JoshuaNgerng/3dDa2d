@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:51:30 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 15:14:55 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 19:50:49 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,5 @@ int	main_loop(t_game *g)
 		create_minimap(&g->minimap, &g->mlx, g);
 	g->ply.move_options &= ~interact_door;
 	update_door_counter(&g->door);
-	update_key(&g->map, &g->key, &g->ply);
 	return (0);
 }

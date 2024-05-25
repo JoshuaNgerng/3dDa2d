@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 03:15:22 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 17:00:37 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 19:53:42 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ static int	check_horizontal(char *line, int *ptr, t_game *g)
 		}
 		else if (line[i] == 'D')
 			g->door.len ++;
-		else if (line[i] == 'K')
-			g->key.len ++;
 		else if (checkset(line[i], "\r\n"))
 			break ;
 		else if (!checkset(line[i], "10"))
@@ -68,7 +66,7 @@ static int	skip_row(const t_map *m, char c, t_int iter)
 	return (iter.x);
 }
 
-static int	check_map_vert_loop(const t_map *m, t_int iter, t_asset *door, t_asset *key)
+static int	check_map_vert_loop(const t_map *m, t_int iter, t_asset *door)
 {
 	iter.x = skip_row(m, ' ', iter);
 	if (iter.x == m->height)
@@ -77,14 +75,12 @@ static int	check_map_vert_loop(const t_map *m, t_int iter, t_asset *door, t_asse
 		iter.x = skip_row(m, '1', iter);
 	else
 		return (-1);
-	if (iter.x >= m->height || !checkset(m->map[iter.x * m->width + iter.y], "0DK"))
+	if (iter.x >= m->height || !checkset(m->map[iter.x * m->width + iter.y], "0D"))
 		return (iter.x);
-	while (iter.x < m->height && checkset(m->map[iter.x * m->width + iter.y], "0DK"))
+	while (iter.x < m->height && checkset(m->map[iter.x * m->width + iter.y], "0D"))
 	{
 		if (m->map[iter.x * m->width + iter.y] == 'D')
-			add_asset(door, iter, 0);
-		if (m->map[iter.x * m->width + iter.y] == 'K')
-			add_asset(key, iter, key->max_index % 4);
+			add_asset(door, iter);
 		iter.x ++;
 	}
 	if (iter.x == m->height && m->map[(iter.x - 1) * m->width + iter.y] != '1')
@@ -94,7 +90,7 @@ static int	check_map_vert_loop(const t_map *m, t_int iter, t_asset *door, t_asse
 	return (iter.x);
 }
 
-int	check_map_vertical(const t_map *m, t_asset *door, t_asset *key)
+int	check_map_vertical(const t_map *m, t_asset *door)
 {
 	int	row;
 	int	col;
@@ -105,7 +101,7 @@ int	check_map_vertical(const t_map *m, t_asset *door, t_asset *key)
 		row = 0;
 		while (row < m->height)
 		{
-			row = check_map_vert_loop(m, (t_int){.x = row, .y = col}, door, key);
+			row = check_map_vert_loop(m, (t_int){.x = row, .y = col}, door);
 			if (row < 0)
 				return (errmsg_config(4), -1);
 		}
