@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 18:25:35 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 15:26:14 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 16:47:33 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,16 @@ static int	store_element(char *line, int index, t_game *g, int type)
 	if (type < 3)
 	{
 		iter = skip_till_end(line, "\r\n ", index);
+		if (line[iter])
+		{
+			if (check_line_end(line, iter, &errmsg_config, 5))
+				return (-1);
+		}
 		line[iter] = '\0';
 		if (load_texture(&g->wall[type],
 				g->mlx.mlx, &line[index], iter - index))
 			return (-1);
-		return (check_line_end(line, index, &errmsg_config, 5));
+		return (0);
 	}
 	iter = 3;
 	g->env[type % 4].set = 1;
@@ -86,8 +91,10 @@ static int	check_elements(char *line, t_game *g)
 	int		index;
 	char	**dict;
 
-	if (!line[0] || checkset(line[0], "\r\n"))
+	if (!line[0])
 		return (1);
+	if (checkset(line[0], "\r\n"))
+		return (0);
 	index = skip_char(line, ' ', 0);
 	i = -1;
 	len = 3;

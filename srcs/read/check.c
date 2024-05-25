@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 03:15:22 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/23 16:49:52 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/25 16:42:50 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static int	check_map_vert_loop(const t_map *m, t_int iter, t_asset *door, t_asse
 		iter.x = skip_row(m, '1', iter);
 	else
 		return (-1);
-	if (iter.x >= m->height || !checkset(m->map[iter.x * m->width + iter.y], "0D"))
+	if (iter.x >= m->height || !checkset(m->map[iter.x * m->width + iter.y], "0DK"))
 		return (iter.x);
 	while (checkset(m->map[iter.x * m->width + iter.y], "0DK"))
 	{
@@ -110,7 +110,5 @@ int	check_map_vertical(const t_map *m, t_asset *door, t_asset *key)
 				return (errmsg_config(4), -1);
 		}
 	}
-	door->max_index = 1;
-	key->max_index = 4;
 	return (0);
 }
