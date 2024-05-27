@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 19:52:59 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/27 10:05:26 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,6 @@ typedef struct s_draw
 	t_int		screen_pos;
 	t_int		texture_pos;
 	t_img		*scene;
-	uint32_t	env[2];
 	const t_img	*texture;
 }	t_draw;
 
