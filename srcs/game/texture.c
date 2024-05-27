@@ -6,12 +6,17 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:08:12 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 19:52:27 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/27 09:28:38 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
+/*
+init image in memory t_img from external vpm file
+mlx ptr , width and height info
+1 cant make img, 0 success
+*/
 int	load_texture(t_img *art, void *mlx, char *path, size_t str_len)
 {
 	art->img = mlx_xpm_file_to_image(mlx, path, &art->width, &art->height);
@@ -24,6 +29,11 @@ int	load_texture(t_img *art, void *mlx, char *path, size_t str_len)
 	return (0);
 }
 
+/*
+init empty image in memoery t_img
+mlx ptr , width and height info
+1 cant make img, 0 success
+*/
 static int	load_img(t_img *i, void *mlx, int width, int height)
 {
 	i->width = width;
@@ -78,6 +88,12 @@ void	set_minimap_info(t_mmap *m, const t_game *g)
 	m->door = (t_colour){.mode.transparency = 128, .mode.green = 128};
 }
 
+/*
+main game struct
+title for mlx windows
+load every texture of the game if not set in the .cub file
+load img in memory to write to before putting to win
+*/
 int	load_mlx_img(t_game *g, char *title)
 {
 	char	*path;

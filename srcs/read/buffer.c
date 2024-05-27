@@ -6,12 +6,17 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 04:50:17 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 19:47:30 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/27 09:14:11 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
+/*
+brief
+initalize buffer(head of link list) to temporary store map information
+the line is checked before allocate memory for the link list
+*/
 int	init_buffer_list(t_buffer *buffer, char *line, t_game *g)
 {
 	buffer->list = NULL;
@@ -30,6 +35,9 @@ int	init_buffer_list(t_buffer *buffer, char *line, t_game *g)
 	return (0);
 }
 
+/*
+allocate new node for the end for the buffer (link list)
+*/
 static int	make_new_list(t_buffer *buffer, char *line)
 {
 	t_list_	*new;
@@ -49,6 +57,12 @@ static int	make_new_list(t_buffer *buffer, char *line)
 	return (0);
 }
 
+/*
+brief
+loop to get each line from the file till end of file or empty line is read
+line is checked before allocating memory for link list
+new node is made and append to the end of the link list
+*/
 int	cont_buffer_list(t_buffer *buffer, int fd, t_game *g)
 {
 	int		row;

@@ -6,12 +6,24 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 03:15:22 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 19:53:42 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/27 09:14:12 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
+/*
+check pattern is
+check for starting wall '1'
+then if there is no whitespace ' \r\n' and not end of line
+check for '0' floor 'D' door (bonus) 
+and 'NSWE' rep ply and its starting orientation
+set_ply_pos store the ply info and change that char to '0'
+any other char is invalid char
+after the loop check for a closing wall '1'
+if no starting or closing wall map border not close
+extra whitespace is handle in the parent func
+*/
 static int	check_horizontal(char *line, int *ptr, t_game *g)
 {
 	int	i;
@@ -41,6 +53,10 @@ static int	check_horizontal(char *line, int *ptr, t_game *g)
 	return (0);
 }
 
+/*
+1st round of map validation, each row is checked for invalid char and close borders around the
+ptr is used to store the longest length which would be the width of the map
+*/
 int	check_map(char *line, int *ptr, t_game *g)
 {
 	int	i;
@@ -59,6 +75,9 @@ int	check_map(char *line, int *ptr, t_game *g)
 	return (0);
 }
 
+/*
+check and skip every consecutive rows with the same char c
+*/
 static int	skip_row(const t_map *m, char c, t_int iter)
 {
 	while (iter.x < m->height && m->map[iter.x * m->width + iter.y] == c)
@@ -66,6 +85,18 @@ static int	skip_row(const t_map *m, char c, t_int iter)
 	return (iter.x);
 }
 
+/*
+check pattern is
+skip whitespace
+check for starting wall '1'
+then if there is no whitespace ' \r\n' and not end of line
+check for '0' floor 'D' door (bonus) 
+and 'NSWE' rep ply and its starting orientation
+set_ply_pos store the ply info and change that char to '0'
+any other char is invalid char
+after the loop check for a closing wall '1'
+if no starting or closing wall map border not close
+*/
 static int	check_map_vert_loop(const t_map *m, t_int iter, t_asset *door)
 {
 	iter.x = skip_row(m, ' ', iter);
@@ -90,6 +121,10 @@ static int	check_map_vert_loop(const t_map *m, t_int iter, t_asset *door)
 	return (iter.x);
 }
 
+/*
+2nd round of map validation, each col is checked for invalid char and close borders around the
+t_asset is to store door info (ex pos of the door)
+*/
 int	check_map_vertical(const t_map *m, t_asset *door)
 {
 	int	row;

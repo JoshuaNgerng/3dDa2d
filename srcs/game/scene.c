@@ -6,12 +6,23 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:58:15 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/24 18:27:39 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/27 09:43:46 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
+/**
+ * @brief Changes the color of a pixel in an image.
+ *
+ * This function modifies the color of a pixel at the specified coordinates (x, y)
+ * in the given image.
+ *
+ * @param img The image to modify.
+ * @param x The x-coordinate of the pixel.
+ * @param y The y-coordinate of the pixel.
+ * @param colour The new color of the pixel.
+ */
 void	change_image_pixel(t_img *img, int x, int y, uint32_t colour)
 {
 	int	offset;
@@ -20,6 +31,19 @@ void	change_image_pixel(t_img *img, int x, int y, uint32_t colour)
 	*((uint32_t *)(img->pixel_ptr + offset)) = colour;
 }
 
+/**
+ * @brief Retrieves the pixel value at the specified coordinates from an image.
+ *
+ * This function takes an image pointer, along with the x and y coordinates of
+ * the pixel, and returns the pixel value at that location. If the coordinates
+ * are out of bounds, the function returns 0x0.
+ *
+ * @param img The image from which to retrieve the pixel.
+ * @param x The x-coordinate of the pixel.
+ * @param y The y-coordinate of the pixel.
+ * @return The pixel value at the specified coordinates, or 0x0 if the
+ * coordinates are out of bounds.
+ */
 uint32_t	get_image_pixel(const t_img *img, int x, int y)
 {
 	int	offset;
@@ -30,6 +54,13 @@ uint32_t	get_image_pixel(const t_img *img, int x, int y)
 	return (*((uint32_t *)(img->pixel_ptr + offset)));
 }
 
+/*
+draw a hori line in memory t_img
+range.x is the starting pos
+range.y is the end pos
+row is the which row pos in memory
+c is the colour to write to memory
+*/
 void	draw_horizontal(t_img *img, t_int range, int row, t_colour c)
 {
 	while (range.x < range.y)
@@ -39,6 +70,9 @@ void	draw_horizontal(t_img *img, t_int range, int row, t_colour c)
 	}
 }
 
+/*
+draw a diamon shape in the centre of the minimap to rep the p[lt]
+*/
 void	draw_small_circle(t_img *minimap, const t_game *g)
 {
 	t_int		range;

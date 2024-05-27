@@ -6,12 +6,17 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 20:03:50 by lchew             #+#    #+#             */
-/*   Updated: 2024/05/25 19:50:05 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/27 09:58:01 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
+/*
+get read a given pos from map
+if invalid pos (out of bound) return -1
+char from map (as int ) otherwise
+*/
 int	get_map_pos(t_int p, const t_map *m)
 {
 	if (p.x < 0 || p.y < 0)
@@ -21,6 +26,9 @@ int	get_map_pos(t_int p, const t_map *m)
 	return (m->map[p.x * m->width + p.y]);
 }
 
+/*
+draw a block with a given colour row by row
+*/
 void	put_block_in_img(t_img *minimap, t_int pos,
 	t_colour colour, const t_game *g)
 {
@@ -48,7 +56,13 @@ void	put_player_on_map(t_img *minimap, const t_game *g)
 	// fill in all empty spaces in minimap
 	draw_small_circle(minimap, g);
 }
+/*
+ref_pos, the pos being checked
+iter, pos on the minimap to draw
 
+draw a block if valid char from map
+ignore otherwise
+*/
 void	check_minimap(t_int ref_pos, t_int iter, t_img *minimap, const t_game *g)
 {
 	int	map_char;
@@ -64,6 +78,10 @@ void	check_minimap(t_int ref_pos, t_int iter, t_img *minimap, const t_game *g)
 		put_block_in_img(minimap, iter, g->minimap_info.door, g);
 }
 
+/*
+draw minimap in t_img memory
+then put on the right bottom corner of the window from mlx img in memory
+*/
 int	create_minimap(t_img *minimap, t_mlx *mlx, const t_game *g)
 {
 	t_int	iter;

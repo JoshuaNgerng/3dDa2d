@@ -6,12 +6,17 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 18:25:35 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 19:47:28 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/27 09:18:29 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
+/*
+cont reading from file
+and skip empty line (line with '\0' or only have "\r\n" char)
+gnl guarentee that no char would exist after '\n' so no need handle
+*/
 static char	*skip_empty_line(int fd, char *prev)
 {
 	char	*ptr;
@@ -28,6 +33,12 @@ static char	*skip_empty_line(int fd, char *prev)
 	return (ptr);
 }
 
+/*
+func to store rbg val of floor or sky from line read from file
+ptr is to store the rbg component val
+index is to store the index after reading rbg comp val
+return 1 if invalid rbg format, 0 success
+*/
 static int	get_colour_config(const char *line, uint8_t *ptr, int *index)
 {
 	int	i;
@@ -51,6 +62,11 @@ static int	get_colour_config(const char *line, uint8_t *ptr, int *index)
 	return (0);
 }
 
+/*
+store the element identifier from file
+type < 4 is the texture of the wall
+otherwise it is the rbg val of the floor or sky
+*/
 static int	store_element(char *line, int index, t_game *g, int type)
 {
 	int		iter;
@@ -84,6 +100,9 @@ static int	store_element(char *line, int index, t_game *g, int type)
 	return (check_line_end(line, index, &errmsg_config, 5));
 }
 
+/*
+check for valid element identify and store the info into the main game struct
+*/
 static int	check_elements(char *line, t_game *g)
 {
 	int		i;

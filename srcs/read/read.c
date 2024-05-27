@@ -6,12 +6,16 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:51:56 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 19:46:35 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/27 09:22:31 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
+/*
+free the buffer link list
+and close any fd opened
+*/
 int	free_buffer_n_fd(int fd, t_buffer *b)
 {
 	t_list_	*ptr;
@@ -31,6 +35,11 @@ int	free_buffer_n_fd(int fd, t_buffer *b)
 	return (1);
 }
 
+/*
+make map info into a single array
+compress the different line in the link list buffer into a single array
+(reason more memory eff and faster indexing (read from map))
+*/
 static int	make_map(t_map *m, const t_buffer *buffer, int width)
 {
 	int		len;
@@ -56,6 +65,9 @@ static int	make_map(t_map *m, const t_buffer *buffer, int width)
 	return (0);
 }
 
+/*
+malloc door info if at least one 'D' is read from map
+*/
 int	load_game_components(t_game *g)
 {
 	if (g->door.len > 0)
@@ -67,6 +79,17 @@ int	load_game_components(t_game *g)
 	return (0);
 }
 
+/*
+open and read file
+extract element info first
+then map info
+free all buffer and close any fd
+possible err
+cant open file
+invalid map / element info
+not enough memory to malloc
+cant make mlx image from path given in the file
+*/
 int	read_file(t_game *g, const char *file)
 {
 	int			fd;

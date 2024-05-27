@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 18:12:30 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 19:40:07 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/27 10:17:20 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,11 @@ int	get_asset_index(const t_asset *a, t_int pos)
 }
 
 /*
-1 -> open
--1 -> close
+status == 1 and counter == max_index -> door full opened
+status == 0 and counter == 0 -> door fully closed
+otherwise transitional status
+1 -> fully opened
+-1 -> full closed
 0 -> transistion / unknown
 */
 int	get_door_status(const t_asset *door, t_int pos, int *index_ptr)
@@ -65,6 +68,10 @@ int	get_door_status(const t_asset *door, t_int pos, int *index_ptr)
 	return (0);
 }
 
+/*
+if door is near ply
+change the status of the door (open or close)
+*/
 void	update_door(const t_map *m, const t_ply *ply, t_asset *door)
 {
 	int		index;
@@ -80,6 +87,12 @@ void	update_door(const t_map *m, const t_ply *ply, t_asset *door)
 	door->sprite[index].status ^= 1;
 }
 
+/*
+update door sprite counter until stable pos is met
+status == 1 and counter == max_index -> door full opened
+status == 0 and counter == 0 -> door fully closed
+otherwise transitional status
+*/
 void	update_door_counter(t_asset *door)
 {
 	int	i;

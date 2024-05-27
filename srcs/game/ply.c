@@ -6,12 +6,19 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 18:21:04 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 19:49:46 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/27 10:00:01 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
+/*
+set player info
+col is the y pos of the ply, x pos is set outside of the func from the row 
+dir is the ply orientation from map
+if x pos is more than zero means that ply already been set prev
+dup ply error
+*/
 int	set_ply_pos(int col, char dir, t_ply *p)
 {
 	if (p->pos.x >= 0)
@@ -41,6 +48,10 @@ int	set_ply_pos(int col, char dir, t_ply *p)
 	return (0);
 }
 
+/*
+2x2 matrix mutiply 2x1 matrix formula
+used to rotate player
+*/
 static void	rotation_matrix(t_point *dst, double sin_, double cos_)
 {
 	t_point	buffer;
@@ -50,6 +61,12 @@ static void	rotation_matrix(t_point *dst, double sin_, double cos_)
 	dst->y = (buffer.x * sin_) + (buffer.y * cos_);
 }
 
+/*
+update player current pos
+ply doesnt move if there is no valid spot
+'0' or 'D' (door in open state)
+otherwise ply doesnt move
+*/
 static
 int	update_move(t_point *ply, const t_point *move, const t_game *g, int dir)
 {
@@ -79,6 +96,9 @@ int	update_move(t_point *ply, const t_point *move, const t_game *g, int dir)
 	return (update.y);
 }
 
+/*
+matrix mutliplication to update the player orietation
+*/
 static int	update_angle(t_ply *p, int dir)
 {
 	rotation_matrix(&p->n_dir, p->rotate_sin[dir], p->rotate_cos[dir]);
@@ -87,6 +107,11 @@ static int	update_angle(t_ply *p, int dir)
 	return (1);
 }
 
+/*
+if ply move options (bits) is set to 1
+update the corresponding options
+return 0 if ply doesnt move pos num otherwise
+*/
 int	update_ply_move(t_ply *p, const t_game *g)
 {
 	int	update;

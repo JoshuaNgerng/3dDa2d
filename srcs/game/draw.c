@@ -6,27 +6,33 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 16:26:45 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 21:27:38 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/27 10:12:52 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-static const t_img	*fetch_texture(uint8_t type, uint8_t index, const t_game *g)
+/*
+get the right texture depending the type
+and the type and side given
+*/
+static const t_img	*fetch_texture(uint8_t type, uint8_t side, const t_game *g)
 {
 	if (type == undef)
 		return (NULL);
 	if (type == wall)
-		return (&(g->wall[index]));
+		return (&(g->wall[side]));
 	return (&(g->door_img));
 }
 
+/*
+init the info needed to determine the projection of the obj
+where the obj starts and end on the screen
+*/
 static
 void	draw_init(t_ray_fin *obj, t_draw *d, const t_ray *r, const t_game *g)
 {
 	d->win_height = g->setting.win_height;
-	d->env[floor_] = g->env[floor_].colour.trbg;
-	d->env[sky_] = g->env[sky_].colour.trbg;
 	obj->hitpoint -= floor(obj->hitpoint);
 	obj->height = (int)fabs(g->setting.win_height / obj->perp_dist);
 	d->texture_pos.x = (int)(obj->hitpoint * d->texture->width);
@@ -41,6 +47,10 @@ void	draw_init(t_ray_fin *obj, t_draw *d, const t_ray *r, const t_game *g)
 		d->screen_pos.y = 0;
 }
 
+/*
+iterate the entire height of the projected object
+map the screen img pos to a corresponding pos in texture img
+*/
 static void	drawing_loop(t_draw *d, const t_ray_fin *obj, int offset)
 {
 	int			iter;
@@ -59,6 +69,11 @@ static void	drawing_loop(t_draw *d, const t_ray_fin *obj, int offset)
 	}
 }
 
+/*
+draw sky
+draw obj
+draw floor
+*/
 void	draw_wall_n_bg(t_img *img, t_ray *r, const t_game *g)
 {
 	int			iter;
@@ -75,19 +90,20 @@ void	draw_wall_n_bg(t_img *img, t_ray *r, const t_game *g)
 	draw_init(ptr, &draw, r, g);
 	iter = -1;
 	while (++ iter < draw.screen_pos.y)
-		change_image_pixel(draw.scene, draw.screen_pos.x, iter, draw.env[sky_]);
+		change_image_pixel(draw.scene, draw.screen_pos.x, iter,
+			g->env[sky_].colour.trbg);
 	if (ptr->type == door)
 		offset = g->door.sprite[ptr->index].counter;
 	drawing_loop(&draw, ptr, offset);
 	while (draw.screen_pos.y < draw.win_height)
 	{
-		change_image_pixel(draw.scene,
-			draw.screen_pos.x, draw.screen_pos.y,draw.env[floor_]);
+		change_image_pixel(draw.scene, draw.screen_pos.x, draw.screen_pos.y,
+			g->env[floor_].colour.trbg);
 		draw.screen_pos.y ++;
 	}
 }
 
-void	draw_assests(t_img *img, t_ray *r, const t_game *g)
+void	draw_obj(t_img *img, t_ray *r, const t_game *g)
 {
 	int			offset;
 	t_ray_fin	*ptr;
@@ -119,7 +135,7 @@ void	draw_obj_to_img(t_img *img, t_ray *r, const t_game *g)
 	while (r->obj_iter -- > 0)
 	{
 		// draw_inner_wall(img, r, g);
-		draw_assests(img, r, g);
+		draw_obj(img, r, g);
 	}
 }
 

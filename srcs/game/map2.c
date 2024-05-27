@@ -6,12 +6,15 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 12:11:49 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/24 22:39:59 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/27 09:53:48 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
+/*
+colour minimap borders
+*/
 void	empty_minimap_init(t_img *minimap, const t_game *g)
 {
 	int			row;
@@ -37,6 +40,10 @@ void	empty_minimap_init(t_img *minimap, const t_game *g)
 	}
 }
 
+/*
+fill the minimap with empty colour
+besides the minimap borders
+*/
 void	refresh_minimap(t_img *minimap, const t_game *g)
 {
 	int	row;
