@@ -6,11 +6,12 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 16:26:45 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/27 10:12:52 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/27 10:22:25 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
+//not finilize
 
 /*
 get the right texture depending the type
