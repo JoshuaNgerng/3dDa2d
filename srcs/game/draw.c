@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 16:26:45 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/27 10:22:25 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/27 16:47:32 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,27 @@ static const t_img	*fetch_texture(uint8_t type, uint8_t side, const t_game *g)
 		return (NULL);
 	if (type == wall)
 		return (&(g->wall[side]));
-	return (&(g->door_img));
+	if (type == door_)
+		return (&(g->door_img[1]));
+	return (g->door_img);
+}
+
+static
+void	draw_flip_init(t_ray_fin *obj, t_draw *d, const t_ray *r, const t_game *g)
+{
+	d->win_height = g->setting.win_height;
+	obj->hitpoint -= floor(obj->hitpoint);
+	obj->height = (int)fabs(g->setting.win_height / obj->perp_dist);
+	d->texture_pos.x = (int)(obj->hitpoint * d->texture->width);
+	if ((obj->side == north || obj->side == south) && r->ray_dir.y < 0.)
+		d->texture_pos.x = d->texture->width - d->texture_pos.x - 1;
+	else if ((obj->side == west || obj->side == east)
+			&& r->ray_dir.x > 0.)
+		d->texture_pos.x = d->texture->width - d->texture_pos.x - 1;
+	d->screen_pos.x = r->ray_no;
+	d->screen_pos.y = (g->setting.win_height - obj->height) / 2;
+	if (d->screen_pos.y < 0)
+		d->screen_pos.y = 0;
 }
 
 /*
@@ -49,18 +69,20 @@ void	draw_init(t_ray_fin *obj, t_draw *d, const t_ray *r, const t_game *g)
 }
 
 /*
-iterate the entire height of the projected object
+iterate the entire height of the projected object or till end of screen reached
 map the screen img pos to a corresponding pos in texture img
 */
 static void	drawing_loop(t_draw *d, const t_ray_fin *obj, int offset)
 {
-	int			iter;
+	int	iter;
 
 	iter = -1;
 	while (++ iter < obj->height && d->screen_pos.y < d->win_height)
 	{
+		/* still need to doc this formula LULZ */
 		d->texture_pos.y = d->screen_pos.y * 2 - d->win_height + obj->height;
 		d->texture_pos.y *= (d->texture->height / 2.) / obj->height;
+		/* ** */
 		d->texture_pos.y += offset;
 		if (d->texture_pos.y >= d->texture->height)
 			break ;
@@ -75,7 +97,7 @@ draw sky
 draw obj
 draw floor
 */
-void	draw_wall_n_bg(t_img *img, t_ray *r, const t_game *g)
+void	draw_obj_n_bg(t_img *img, t_ray *r, const t_game *g)
 {
 	int			iter;
 	int			offset;
@@ -88,7 +110,10 @@ void	draw_wall_n_bg(t_img *img, t_ray *r, const t_game *g)
 	draw.texture = fetch_texture(ptr->type, ptr->side, g);
 	if (!(draw.texture) || !(draw.texture->img))
 		return ;
-	draw_init(ptr, &draw, r, g);
+	if (ptr->type == door)
+		draw_flip_init(ptr, &draw, r, g);
+	else 
+		draw_init(ptr, &draw, r, g);
 	iter = -1;
 	while (++ iter < draw.screen_pos.y)
 		change_image_pixel(draw.scene, draw.screen_pos.x, iter,
@@ -116,28 +141,23 @@ void	draw_obj(t_img *img, t_ray *r, const t_game *g)
 	draw.texture = fetch_texture(ptr->type, ptr->side, g);
 	if (!(draw.texture) || !(draw.texture->img))
 		return ;
-	if (ptr->type == door)
+	if (ptr->type == door || ptr->type == door_)
 		offset = g->door.sprite[ptr->index].counter;
-	draw_init(ptr, &draw, r, g);
+	if (ptr->type == door)
+		draw_flip_init(ptr, &draw, r, g);
+	else 
+		draw_init(ptr, &draw, r, g);
 	drawing_loop(&draw, ptr, offset);
 }
-
-// void	draw_inner_wall(t_img *img, t_ray *r, const t_game *g)
-// {
-// 	;
-// }
 
 void	draw_obj_to_img(t_img *img, t_ray *r, const t_game *g)
 {
 	r->obj_iter --;
 	if (r->obj_iter < 0)
 		return ;
-	draw_wall_n_bg(img, r, g);
+	draw_obj_n_bg(img, r, g);
 	while (r->obj_iter -- > 0)
-	{
-		// draw_inner_wall(img, r, g);
 		draw_obj(img, r, g);
-	}
 }
 
 /*

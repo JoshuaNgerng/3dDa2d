@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:08:12 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/27 09:28:38 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/27 16:53:17 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,14 +106,15 @@ int	load_mlx_img(t_game *g, char *title)
 		return (1);
 	if (g->door.len > 0)
 	{
-		path = "art/purplestone.xpm";
-		if (load_texture(&g->door_img, g->mlx.mlx, path, ft_strlen(path)))
+		path = "art/eagle.xpm";
+		if (load_texture(&g->door_img[0], g->mlx.mlx, path, ft_strlen(path)))
 			return (1);
-		int	i = -1;
-		g->door.max_index = g->door_img.height - 10;
-		while (++ i < g->door.len)
-			g->door.sprite[i].counter = g->door.max_index;
-		// printf("door img data width %d height %d\n", g->door_img.width, g->door_img.height);
+		path = "art/purplestone.xpm";
+		if (load_texture(&g->door_img[1], g->mlx.mlx, path, ft_strlen(path)))
+			return (1);
+		g->door.max_index = g->door_img->height - 10;
+		// printf("door img data width %d height %d\n", g->door_img[0].width, g->door_img[0].height);
+		// printf("door img data width %d height %d\n", g->door_img[1].width, g->door_img[1].height);
 	}
 	if (!g->env[floor_].set)
 		g->env[floor_].colour = (t_colour){.mode.green = 255};

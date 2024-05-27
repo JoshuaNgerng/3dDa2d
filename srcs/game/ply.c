@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 18:21:04 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/27 10:00:01 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/27 15:57:32 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,11 @@ int	set_ply_pos(int col, char dir, t_ply *p)
 }
 
 /*
+(rotation matrix) X (ply dir matrix) = (new ply dir matrix)
 2x2 matrix mutiply 2x1 matrix formula
+rotate matrix formula
+[ cos(a) -sin(a) ]
+[ sin(a)  cos(a) ]
 used to rotate player
 */
 static void	rotation_matrix(t_point *dst, double sin_, double cos_)
@@ -64,33 +68,41 @@ static void	rotation_matrix(t_point *dst, double sin_, double cos_)
 /*
 update player current pos
 ply doesnt move if there is no valid spot
+
+ply ply pos
+move ply movement dir
+g - game struct ref to important info like map
+dir - 1 or -1 depending on left/right or forward/backward
+
+map_pos -> check dist is double the actual ply move to avoid vis bug (like clipping into walls)
+
 '0' or 'D' (door in open state)
 otherwise ply doesnt move
 */
 static
 int	update_move(t_point *ply, const t_point *move, const t_game *g, int dir)
 {
+	double	step_size;
 	t_int	update;
 	t_int	map_pos;
-	t_point	check;
 
 	update.y = 0;
-	check = (t_point){ply->x + dir * move->x * g->ply.move_speed, ply->y};
-	map_pos = (t_int){(int)check.x, (int)check.y};
+	step_size = dir * move->x * g->ply.move_speed;
+	map_pos = (t_int){(int)(ply->x + 2 * step_size), (int)(ply->y)};
 	update.x = get_map_pos(map_pos, &g->map);
 	if (update.x == '0'
 		|| (update.x == 'D' && get_door_status(&g->door, map_pos, NULL) == 1))
 	{
-		*ply = (t_point){check.x, check.y};
+		ply->x += step_size;
 		update.y = 1;
 	}
-	check = (t_point){ply->x, ply->y + dir * move->y * g->ply.move_speed};
-	map_pos = (t_int){(int)check.x, (int)check.y};
+	step_size = dir * move->y * g->ply.move_speed;
+	map_pos = (t_int){(int)(ply->x), (int)(ply->y + 2 * step_size)};
 	update.x = get_map_pos(map_pos, &g->map);
 	if (update.x == '0'
 		|| (update.x == 'D' && get_door_status(&g->door, map_pos, NULL) == 1))
 	{
-		*ply = (t_point){check.x, check.y};
+		ply->y += step_size;
 		update.y = 1;
 	}
 	return (update.y);

@@ -6,12 +6,12 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 21:34:52 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 15:15:47 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/27 16:16:09 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
-
+// not finalized
 static
 t_ray_comp	raycast_comp_init(double ply_pos, double ray_perp, double ray_ref)
 {
@@ -67,7 +67,7 @@ static int	raycast_loop(t_ray *r, const t_game *g)
 		}
 		check = raycast_check(r, g);
 		if (check < 0)
-			return (1);
+			break ;
 		if (check > 0)
 			return (0);
 	}

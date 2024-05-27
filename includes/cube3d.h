@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/27 10:05:26 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/27 16:31:13 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,7 +227,6 @@ typedef struct t_asset
 	int		len;
 	int		max_index;
 	t_ani	*sprite;
-	t_img	*texture;
 }	t_asset;
 
 typedef struct s_set
@@ -273,7 +272,7 @@ typedef struct s_game
 	t_mmap	minimap_info;
 	t_env	env[2];
 	t_img	wall[4];
-	t_img	door_img;
+	t_img	door_img[2];
 	t_asset	door;
 }	t_game;
 

@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 18:12:30 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/27 10:17:20 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/27 16:59:02 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ update the no of sprite in memory using max_index member (temporarily will overr
 */
 void	add_asset(t_asset *a, t_int pos)
 {
-	a->sprite[a->max_index].status = 1;
+	a->sprite[a->max_index].status = 0;
 	a->sprite[a->max_index].pos = pos;
 	a->sprite[a->max_index].counter = 0;
 	a->max_index ++;
@@ -77,8 +77,12 @@ void	update_door(const t_map *m, const t_ply *ply, t_asset *door)
 	int		index;
 	t_int	check;
 
-	check.x = (int)floor(ply->pos.x + ply->n_dir.x * 5 * ply->move_speed);
-	check.y = (int)floor(ply->pos.y + ply->n_dir.y * 5 * ply->move_speed);
+	check.x = (int)(ply->pos.x);
+	check.y = (int)(ply->pos.y);
+	if (get_map_pos(check, m) == 'D')
+		return ;
+	check.x = (int)(ply->pos.x + ply->n_dir.x * 5 * ply->move_speed);
+	check.y = (int)(ply->pos.y + ply->n_dir.y * 5 * ply->move_speed);
 	if (get_map_pos(check, m) != 'D')
 		return ;
 	index = get_asset_index(door, check);
