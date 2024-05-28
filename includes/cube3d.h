@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/27 16:31:13 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/28 11:53:12 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -343,8 +343,8 @@ int			main_loop(t_game *g);
 
 /* draw */
 
-void		draw_wall(t_img *img, t_ray *r, const t_game *g);
-void		draw_door(t_img *img, t_ray *r, const t_game *g);
+void		draw_init(t_ray_fin *obj, t_draw *d, const t_ray *r, const t_game *g);
+void		draw_flip_init(t_ray_fin *obj, t_draw *d, const t_ray *r, const t_game *g);
 void		draw_obj_to_img(t_img *img, t_ray *r, const t_game *g);
 
 /* asset */

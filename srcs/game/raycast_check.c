@@ -6,12 +6,11 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 19:28:57 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/27 16:42:33 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/28 11:26:54 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
-// not finalized
 
 static
 void	raycast_fin(t_ray_fin *fin, int type, const t_ray *r, const t_ply *p)
