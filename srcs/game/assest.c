@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 18:12:30 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/27 16:59:02 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/29 13:51:10 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,10 @@ void	update_door(const t_map *m, const t_ply *ply, t_asset *door)
 	int		index;
 	t_int	check;
 
-	check.x = (int)(ply->pos.x);
-	check.y = (int)(ply->pos.y);
-	if (get_map_pos(check, m) == 'D')
-		return ;
 	check.x = (int)(ply->pos.x + ply->n_dir.x * 5 * ply->move_speed);
 	check.y = (int)(ply->pos.y + ply->n_dir.y * 5 * ply->move_speed);
+	if (check.x == (int)(ply->pos.x) && check.y == (int)(ply->pos.y))
+		return ;
 	if (get_map_pos(check, m) != 'D')
 		return ;
 	index = get_asset_index(door, check);

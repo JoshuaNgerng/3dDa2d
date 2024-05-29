@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 16:26:45 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/28 11:55:13 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/29 13:52:59 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ void	draw_obj(t_img *img, t_ray *r, const t_game *g)
 		offset = g->door.sprite[ptr->index].counter;
 	drawing_loop(&draw, ptr, offset);
 	if (r->fin[r->obj_iter].type != door)
+		return ;
+	if ((ptr + 1)->type == wall)
 		return ;
 	drawing_celling_loop(&draw, (ptr + 1));
 }
