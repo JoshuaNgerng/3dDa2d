@@ -38,10 +38,7 @@ void	free_game(t_game *g)
 		mlx_destroy_image(g->mlx.mlx, g->minimap.img);
 	if (g->mlx.win)
 		mlx_destroy_window(g->mlx.mlx, g->mlx.win);
-<<<<<<< HEAD
 	// system("leaks cub3D");
-=======
->>>>>>> bonus
 	// if (g->mlx.mlx)
 	// {
 		// mlx_destroy_display(g->mlx.mlx);
