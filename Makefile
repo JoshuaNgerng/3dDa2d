@@ -59,7 +59,7 @@ $(OBJ_DIR):
 
 clean:
 	@ echo CLEAN OBJ
-	@ rm -f $(OBJ)
+	 rm -f $(OBJ)
 	@ if [ $(OBJ_DIR) != "." ]; then \
 	 	if [ -d $(OBJ_DIR) ]; then rmdir $(OBJ_DIR); fi \
 	fi

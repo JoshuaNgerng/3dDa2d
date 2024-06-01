@@ -17,7 +17,7 @@
  * starting from a given index.
  * 
  * @param s The string to process.
- * @param c The character set to skip.
+ * @param c The character to skip.
  * @param i The index at which to start skipping.
  * 
  * @return Returns the index of the first occurrence of a character 'c' 
@@ -35,7 +35,7 @@ int	skip_char(const char *s, char c, int i)
 }
 
 /**
- * @brief Skips over any occurrences of a set of character set in a string, 
+ * @brief Skips over any occurrences of a set of characters in a string, 
  * starting from a given index.
  * 
  * @param s The string to process.
@@ -43,13 +43,13 @@ int	skip_char(const char *s, char c, int i)
  * @param start The index at which to start skipping.
  * 
  * @return Returns the index of the first occurrence of a character
- * not in string 'ref' after 'start', or the end of the string.
+ * not in the character set 'ref' after 'start', or the end of the string.
  */
-int	skip_till_end(const char *s, const char *ref, int start)
+int skip_till_end(const char *s, const char *ref, int start)
 {
 	while (s[start] && !checkset(s[start], ref))
-		start ++;
-	return (start);
+		start++;
+	return start;
 }
 
 /**
