@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 19:28:57 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/30 13:26:30 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/06/01 20:04:32 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,12 @@ int	raycast_check(t_ray *r, const t_game *g)
 	shadow = 0;
 	if (map_char == '1')
 		return (raycast_fin(&r->fin[r->obj_iter ++], wall, r, &g->ply), 1);
-	if (r->obj_iter == MAX_RENDER_OBJ)
-		return (0);
 	if (map_char == 'D')
 	{
 		if (get_door_status(&g->door, map_pos, &r->fin[r->obj_iter].index) == -1)
 			return (raycast_fin(&r->fin[r->obj_iter ++], door, r, &g->ply), 1);
+		if (r->obj_iter == MAX_RENDER_OBJ)
+			return (0);
 		raycast_fin(&r->fin[r->obj_iter ++], door, r, &g->ply);
 		shadow = 1;
 	}
