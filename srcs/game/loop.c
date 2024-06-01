@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:51:30 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 15:14:55 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/28 10:08:07 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,16 @@ int	unset_ply_mov(int key, t_game *g)
 	return (0);
 }
 
+/*
+main game loop
+update ply move
+raycast to make 3d img in mlx img in memory (scene t_img struct)
+then write the mlx windows
+minimap to make minimap img in memory
+then write the mlx windows
+unset interact_door options
+update door info
+*/
 int	main_loop(t_game *g)
 {
 	update_ply_move(&g->ply, g);
@@ -91,6 +101,5 @@ int	main_loop(t_game *g)
 		create_minimap(&g->minimap, &g->mlx, g);
 	g->ply.move_options &= ~interact_door;
 	update_door_counter(&g->door);
-	update_key(&g->map, &g->key, &g->ply);
 	return (0);
 }

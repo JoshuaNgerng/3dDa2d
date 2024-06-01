@@ -6,7 +6,11 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:58:15 by jngerng           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/05/25 15:36:31 by lchew            ###   ########.fr       */
+=======
+/*   Updated: 2024/05/27 09:43:46 by jngerng          ###   ########.fr       */
+>>>>>>> bonus
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +27,11 @@
  * @param y The y-coordinate of the pixel.
  * @param colour The new color of the pixel.
  */
+<<<<<<< HEAD
 void change_image_pixel(t_img *img, int x, int y, uint32_t colour)
+=======
+void	change_image_pixel(t_img *img, int x, int y, uint32_t colour)
+>>>>>>> bonus
 {
 	int offset;
 
@@ -44,7 +52,11 @@ void change_image_pixel(t_img *img, int x, int y, uint32_t colour)
  * @return The pixel value at the specified coordinates, or 0x0 if the
  * coordinates are out of bounds.
  */
+<<<<<<< HEAD
 uint32_t get_image_pixel(const t_img *img, int x, int y)
+=======
+uint32_t	get_image_pixel(const t_img *img, int x, int y)
+>>>>>>> bonus
 {
 	int offset;
 	
@@ -54,7 +66,17 @@ uint32_t get_image_pixel(const t_img *img, int x, int y)
 	return (*((uint32_t *)(img->pixel_ptr + offset)));
 }
 
+<<<<<<< HEAD
 
+=======
+/*
+draw a hori line in memory t_img
+range.x is the starting pos
+range.y is the end pos
+row is the which row pos in memory
+c is the colour to write to memory
+*/
+>>>>>>> bonus
 void	draw_horizontal(t_img *img, t_int range, int row, t_colour c)
 {
 	while (range.x < range.y)
@@ -64,6 +86,9 @@ void	draw_horizontal(t_img *img, t_int range, int row, t_colour c)
 	}
 }
 
+/*
+draw a diamon shape in the centre of the minimap to rep the p[lt]
+*/
 void	draw_small_circle(t_img *minimap, const t_game *g)
 {
 	t_int		range;

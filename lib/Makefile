@@ -27,26 +27,26 @@ CFLAGS = -Wall -Wextra -Werror
 CC = gcc
 
 $(OBJ_DIR)/%.o: gnl/%.c
-	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	@ mkdir -p $(OBJ_DIR)
+	@ $(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 $(OBJ_DIR)/%.o: libft/%.c
-	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	@ mkdir -p $(OBJ_DIR)
+	@ $(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 $(NAME) : $(LIB_OBJ) $(GNL_OBJ)
-	ar rc $(NAME) $(LIB_OBJ) $(GNL_OBJ)
+	@ ar rc $(NAME) $(LIB_OBJ) $(GNL_OBJ)
 
 all : $(NAME)
 
 clean:
-	rm -f $(LIB_OBJ) $(GNL_OBJ)
-	if [ $(OBJ_DIR) != "." ]; then \
+	@ rm -f $(LIB_OBJ) $(GNL_OBJ)
+	@ if [ $(OBJ_DIR) != "." ]; then \
 		if [ -d $(OBJ_DIR) ]; then rmdir $(OBJ_DIR); fi \
 	fi
 
 fclean: clean
-	rm -f $(NAME)
+	@ rm -f $(NAME)
 
 re: fclean all
 

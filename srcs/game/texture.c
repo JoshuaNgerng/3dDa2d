@@ -6,12 +6,17 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:08:12 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 16:47:38 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/28 11:26:18 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
+/*
+init image in memory t_img from external vpm file
+mlx ptr , width and height info
+1 cant make img, 0 success
+*/
 int	load_texture(t_img *art, void *mlx, char *path, size_t str_len)
 {
 	art->img = mlx_xpm_file_to_image(mlx, path, &art->width, &art->height);
@@ -24,6 +29,11 @@ int	load_texture(t_img *art, void *mlx, char *path, size_t str_len)
 	return (0);
 }
 
+/*
+init empty image in memoery t_img
+mlx ptr , width and height info
+1 cant make img, 0 success
+*/
 static int	load_img(t_img *i, void *mlx, int width, int height)
 {
 	i->width = width;
@@ -52,30 +62,7 @@ static int	load_texture_wall(t_game *g)
 	{
 		if (g->wall[i].img)
 			continue ;
-		// printf("test path %s\n", path[i]);
 		if (load_texture(&g->wall[i], g->mlx.mlx, path[i], len[i]))
-			return (1);
-	}
-	return (0);
-}
-
-static int	load_texture_key(t_game *g)
-{
-	int		i;
-	int		*len;
-	char	**path;
-
-	i = -1;
-	if (g->key.len <= 0)
-		return (0);
-	path = (char *[]){"art/floor.xpm",
-		"art/wall_1.xpm", "art/eagle.xpm", "art/bluestone.xpm"};
-	len = (int []){13, 14, 13, 17};
-	while (++ i < 4)
-	{
-		if (g->key_img[i].img)
-			continue ;
-		if (load_texture(&g->key_img[i], g->mlx.mlx, path[i], len[i]))
 			return (1);
 	}
 	return (0);
@@ -99,38 +86,45 @@ void	set_minimap_info(t_mmap *m, const t_game *g)
 		.mode.red = 100, .mode.blue = 50, .mode.green = 50};
 	m->black = (t_colour){.mode.transparency = 128};
 	m->door = (t_colour){.mode.transparency = 128, .mode.green = 128};
-	m->key = (t_colour){.mode.transparency = 128, .mode.blue = 100};
 }
 
+/*
+main game struct
+title for mlx windows
+load every texture of the game if not set in the .cub file
+load img in memory to write to before putting to win
+*/
 int	load_mlx_img(t_game *g, char *title)
 {
 	char	*path;
 
-	g->mlx.win = mlx_new_window(g->mlx.mlx, g->setting.win_width,  g->setting.win_height, title);
+	g->mlx.win = mlx_new_window(g->mlx.mlx,
+		g->setting.win_width,  g->setting.win_height, title);
 	if (!g->mlx.win)
 		return (errmsg_config_errno(1), 1);
 	if (load_texture_wall(g))
 		return (1);
 	if (g->door.len > 0)
 	{
-		path = "art/purplestone.xpm";
-		if (load_texture(&g->door_img, g->mlx.mlx, path, ft_strlen(path)))
+		path = "art/eagle.xpm";
+		if (load_texture(&g->door_img[0], g->mlx.mlx, path, ft_strlen(path)))
 			return (1);
-		int	i = -1;
-		g->door.max_index = g->door_img.height - 10;
-		while (++ i < g->door.len)
-			g->door.sprite[i].counter = g->door.max_index;
-		// printf("door img data width %d height %d\n", g->door_img.width, g->door_img.height);
+		path = "art/purplestone.xpm";
+		if (load_texture(&g->door_img[1], g->mlx.mlx, path, ft_strlen(path)))
+			return (1);
+		g->door.max_index = g->door_img->height - 10;
+		// printf("door img data width %d height %d\n", g->door_img[0].width, g->door_img[0].height);
+		// printf("door img data width %d height %d\n", g->door_img[1].width, g->door_img[1].height);
 	}
-	if (load_texture_key(g))
-		return (1);
 	if (!g->env[floor_].set)
 		g->env[floor_].colour = (t_colour){.mode.green = 255};
 	if (!g->env[sky_].set)
 		g->env[sky_].colour = (t_colour){.mode.blue = 255};
-	if (load_img(&g->scene, g->mlx.mlx, g->setting.win_width, g->setting.win_height))
+	if (load_img(&g->scene, g->mlx.mlx,
+		g->setting.win_width, g->setting.win_height))
 		return (errmsg_config_errno(2), 1);
-	if (load_img(&g->minimap, g->mlx.mlx, g->setting.minimap_width, g->setting.minimap_height))
+	if (load_img(&g->minimap, g->mlx.mlx,
+		g->setting.minimap_width, g->setting.minimap_height))
 		return (errmsg_config_errno(3), 1);
 	set_minimap_info(&g->minimap_info, g);
 	// printf("minimap width(%d), height(%d), block width(%d) height (%d), block_per (%d) (%d)\n", g->minimap.width, g->minimap.height, g->minimap_info.block_size.y, g->minimap_info.block_size.x, g->minimap_info.block_per_row, g->minimap_info.block_per_col);

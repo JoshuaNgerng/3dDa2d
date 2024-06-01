@@ -6,7 +6,7 @@
 #    By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/12 14:22:20 by jngerng           #+#    #+#              #
-#    Updated: 2024/05/25 16:58:12 by lchew            ###   ########.fr        #
+#    Updated: 2024/05/30 14:03:15 by jngerng          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ OBJ_DIR = obj
 F_MAIN = main
 F_UTLIS = errmsg free string
 F_READ = read elements check buffer
-F_GAME = loop ply texture scene map map2 assest door raycast_loop raycast_check draw
+F_GAME = loop ply texture scene map map2 assest \
+		 raycast_loop raycast_check draw draw2
 SRC_M = $(foreach item, $(F_MAIN), $(SRC_DIR)/$(item).c)
 SRC_U = $(foreach item, $(F_UTLIS), $(SRC_DIR)/$(UTLIS_DIR)/$(item).c)
 SRC_R = $(foreach item, $(F_READ), $(SRC_DIR)/$(READ_DIR)/$(item).c)
@@ -33,35 +34,40 @@ CFLAGS = -Wall -Wextra -Werror $(CMEM)
 CMEM = -fsanitize=address -g3
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/$(UTLIS_DIR)/%.c
-	@ mkdir -p $(OBJ_DIR)
 	@ $(CC) $(CFLAGS) $(INC) -c $< -o $@ 
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/$(READ_DIR)/%.c
-	@ mkdir -p $(OBJ_DIR)
 	@ $(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/$(GAME_DIR)/%.c
-	@ mkdir -p $(OBJ_DIR)
 	@ $(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@ mkdir -p $(OBJ_DIR)
 	@ $(CC) $(CFLAGS) $(INC) -c $< -o $@
 
-$(NAME): $(OBJ)
+$(NAME): $(OBJ_DIR) $(OBJ)
+	@ echo COMPLY LIBFT
 	@ $(MAKE) -C lib
 	@ $(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIB) $(INC)
+	@ echo DONE
 
 all : $(NAME)
 
+$(OBJ_DIR):
+	@ mkdir $(OBJ_DIR)
+	@ echo START
+
 clean:
+	@ echo CLEAN OBJ
 	@ rm -f $(OBJ)
 	@ if [ $(OBJ_DIR) != "." ]; then \
 	 	if [ -d $(OBJ_DIR) ]; then rmdir $(OBJ_DIR); fi \
 	fi
 
 fclean: clean
+	@ echo CLEAN LIBFT OBJ
 	@ $(MAKE) fclean -C lib
 	@ rm -f $(NAME)
+	@ echo FINISH CLEAN
 
 re: fclean all
