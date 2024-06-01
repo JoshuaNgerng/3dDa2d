@@ -116,8 +116,6 @@ void	draw_obj(t_img *img, t_ray *r, const t_game *g)
 	drawing_loop(&draw, ptr, offset);
 	if (r->fin[r->obj_iter].type != door)
 		return ;
-	if ((ptr + 1)->type == wall)
-		return ;
 	drawing_celling_loop(&draw, (ptr + 1));
 }
 

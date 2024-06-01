@@ -55,6 +55,7 @@ void	put_player_on_map(t_img *minimap, const t_game *g)
 	// draw two lines at the edge of the vision
 	// fill in all empty spaces in minimap
 	draw_small_circle(minimap, g);
+	draw_pointer(minimap, g);
 }
 /*
 ref_pos, the pos being checked

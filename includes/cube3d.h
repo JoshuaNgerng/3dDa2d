@@ -330,6 +330,7 @@ void		raycasting_walls(t_img *img, const t_game *g);
 
 void		draw_horizontal(t_img *img, t_int range, int row, t_colour c);
 void		draw_small_circle(t_img *minimap, const t_game *g);
+void		draw_pointer(t_img *minimap, const t_game *g);
 int			create_minimap(t_img *minimap, t_mlx *mlx, const t_game *g);
 void		empty_minimap_init(t_img *minimap, const t_game *g);
 void		refresh_minimap(t_img *minimap, const t_game *g);

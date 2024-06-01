@@ -91,3 +91,27 @@ void	draw_small_circle(t_img *minimap, const t_game *g)
 	change_image_pixel(minimap, centre.x - 2, centre.y, yellow.trbg);
 	change_image_pixel(minimap, centre.x + 2, centre.y, yellow.trbg);
 }
+
+void	draw_pointer(t_img *minimap, const t_game *g)
+{
+	t_point		ply_pos;
+	int			pointer_len;
+	double		pointer_angle;
+	
+	pointer_len = 15;
+	ply_pos.x = g->minimap.width / 2;
+	ply_pos.y = g->minimap.height / 2;
+	if (g->ply.n_dir.x == -1)
+		pointer_angle = 3 * M_PI / 2;
+	else if (g->ply.n_dir.x == 1)
+		pointer_angle = M_PI / 2;
+	else
+		pointer_angle = atan2(g->ply.n_dir.x, g->ply.n_dir.y);
+	while (pointer_len-- > 0)
+	{
+		ply_pos.x += cos(pointer_angle);
+		ply_pos.y += sin(pointer_angle);
+		change_image_pixel(minimap, (int)(ply_pos.x), (int)(ply_pos.y), 
+				(t_colour){.mode.green = 255}.trbg);
+	}
+}
