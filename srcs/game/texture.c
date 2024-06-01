@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:08:12 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/28 11:26:18 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/30 13:31:20 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*
 init image in memory t_img from external vpm file
-mlx ptr , width and height info
+mlx ptr path_name of vpmfile, len of filename (for writting err purpose)
 1 cant make img, 0 success
 */
 int	load_texture(t_img *art, void *mlx, char *path, size_t str_len)
@@ -51,18 +51,16 @@ static int	load_img(t_img *i, void *mlx, int width, int height)
 static int	load_texture_wall(t_game *g)
 {
 	int		i;
-	int		*len;
 	char	**path;
 
-	i = -1; // N S E W
-	path = (char *[]){"art/floor.xpm",
-		"art/wall_1.xpm", "art/eagle.xpm", "art/bluestone.xpm"};
-	len = (int []){13, 14, 13, 17};
+	i = -1;
+	path = (char *[]){"art/wall_2.xpm",
+		"art/wall_1.xpm", "art/wall_4.xpm", "art/bluestone.xpm"};
 	while (++ i < 4)
 	{
 		if (g->wall[i].img)
 			continue ;
-		if (load_texture(&g->wall[i], g->mlx.mlx, path[i], len[i]))
+		if (load_texture(&g->wall[i], g->mlx.mlx, path[i], ft_strlen(path[i])))
 			return (1);
 	}
 	return (0);
@@ -113,8 +111,6 @@ int	load_mlx_img(t_game *g, char *title)
 		if (load_texture(&g->door_img[1], g->mlx.mlx, path, ft_strlen(path)))
 			return (1);
 		g->door.max_index = g->door_img->height - 10;
-		// printf("door img data width %d height %d\n", g->door_img[0].width, g->door_img[0].height);
-		// printf("door img data width %d height %d\n", g->door_img[1].width, g->door_img[1].height);
 	}
 	if (!g->env[floor_].set)
 		g->env[floor_].colour = (t_colour){.mode.green = 255};
@@ -127,6 +123,5 @@ int	load_mlx_img(t_game *g, char *title)
 		g->setting.minimap_width, g->setting.minimap_height))
 		return (errmsg_config_errno(3), 1);
 	set_minimap_info(&g->minimap_info, g);
-	// printf("minimap width(%d), height(%d), block width(%d) height (%d), block_per (%d) (%d)\n", g->minimap.width, g->minimap.height, g->minimap_info.block_size.y, g->minimap_info.block_size.x, g->minimap_info.block_per_row, g->minimap_info.block_per_col);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 18:12:30 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/29 13:51:10 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/29 13:57:50 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 /*
 add the information of a sprite into memory
-update the no of sprite in memory using max_index member (temporarily will override it later)
+update the no of sprite in memory
+using max_index member (temporarily will override it later)
 */
 void	add_asset(t_asset *a, t_int pos)
 {
