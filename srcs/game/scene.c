@@ -99,8 +99,8 @@ void	draw_pointer(t_img *minimap, const t_game *g)
 	double		pointer_angle;
 	
 	pointer_len = 15;
-	ply_pos.x = g->minimap.width / 2;
-	ply_pos.y = g->minimap.height / 2;
+	ply_pos.x = g->minimap.width / 2 + 0.5;
+	ply_pos.y = g->minimap.height / 2 + 0.5 ;
 	if (g->ply.n_dir.x == -1)
 		pointer_angle = 3 * M_PI / 2;
 	else if (g->ply.n_dir.x == 1)
