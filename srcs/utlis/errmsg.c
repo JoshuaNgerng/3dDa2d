@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:03:31 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 15:41:57 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/30 13:19:44 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ void	errmsg_config_errno(char type)
 		write(2, "Cannot make mlx windows: ", 25);
 	else if (type == 2)
 		write(2, "Cannot make mlx image for scene: ", 33);
+	else if (type == 3)
+		write(2, "Cannot make mlx image for minimap: ", 35);
 	if (ptr)
 		write(2, ptr, ft_strlen(ptr));
 	write(2, RESET "\n", 5);

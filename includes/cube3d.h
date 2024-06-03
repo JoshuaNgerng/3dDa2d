@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/28 11:53:12 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/05/29 13:48:05 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef enum e_side
 	wall = 0,
 	door = 1,
 	key = 2,
+	door_end = 3,
 	door_ = 4,
 	undef = UCHAR_MAX
 }	t_side;
