@@ -12,6 +12,18 @@
 
 #include "cube3d.h"
 
+/**
+ * @brief Finalizes raycasting by calculating hit and perpendicular distances.
+ *
+ * This function determines the hit distance based on the ray's side (horizontal
+ * or not). It then calculates the perpendicular distance and hit point. The 
+ * side of the hit is determined based on the direction of the ray.
+ *
+ * @param fin The final raycast result.
+ * @param type The type of the raycast.
+ * @param r The ray being cast.
+ * @param p The player.
+ */
 static
 void	raycast_fin(t_ray_fin *fin, int type, const t_ray *r, const t_ply *p)
 {
@@ -40,6 +52,19 @@ void	raycast_fin(t_ray_fin *fin, int type, const t_ray *r, const t_ply *p)
 		fin->side = east;
 }
 
+/**
+ * @brief Performs a raycast check on the game map.
+ *
+ * This function performs a raycast check on the game map. It determines the 
+ * character at the map position being checked and handles it accordingly. If 
+ * the character is '0', it handles shadows and doors. If the character is '1', 
+ * it handles walls. If the character is 'D', it handles doors.
+ *
+ * @param r The ray being cast.
+ * @param g The game state.
+ * @return Returns 0 for shadows and doors, 1 for walls, and -1 for 
+ * out of bounds.
+ */
 int	raycast_check(t_ray *r, const t_game *g)
 {
 	static int	shadow = 0;

@@ -12,11 +12,20 @@
 
 #include "cube3d.h"
 
-/*
-init image in memory t_img from external vpm file
-mlx ptr path_name of vpmfile, len of filename (for writting err purpose)
-1 cant make img, 0 success
-*/
+/**
+ * @brief Loads a texture from an XPM file into an image in memory.
+ *
+ * This function loads a texture from an XPM file into an image in memory. It 
+ * uses the MiniLibX library to convert the XPM file to an image and get the 
+ * image's data address. If either operation fails, it prints an error message 
+ * and returns 1.
+ *
+ * @param art The image to load the texture into.
+ * @param mlx A pointer to the MiniLibX instance.
+ * @param path The path to the XPM file.
+ * @param str_len The length of the path string (for error reporting).
+ * @return Returns 0 on success, or 1 if an error occurred.
+ */
 int	load_texture(t_img *art, void *mlx, char *path, size_t str_len)
 {
 	art->img = mlx_xpm_file_to_image(mlx, path, &art->width, &art->height);
@@ -29,11 +38,20 @@ int	load_texture(t_img *art, void *mlx, char *path, size_t str_len)
 	return (0);
 }
 
-/*
-init empty image in memoery t_img
-mlx ptr , width and height info
-1 cant make img, 0 success
-*/
+/**
+ * @brief Loads a texture from an XPM file into an image in memory.
+ *
+ * This function loads a texture from an XPM file into an image in memory. It 
+ * uses the MiniLibX library to convert the XPM file to an image and get the 
+ * image's data address. If either operation fails, it prints an error message 
+ * and returns 1.
+ *
+ * @param art The image to load the texture into.
+ * @param mlx A pointer to the MiniLibX instance.
+ * @param path The path to the XPM file.
+ * @param str_len The length of the path string (for error reporting).
+ * @return Returns 0 on success, or 1 if an error occurred.
+ */
 static int	load_img(t_img *i, void *mlx, int width, int height)
 {
 	i->width = width;
@@ -48,10 +66,27 @@ static int	load_img(t_img *i, void *mlx, int width, int height)
 	return (0);
 }
 
+/**
+ * @brief Loads wall and door textures into the game state.
+ *
+ * This function loads wall and door textures into the game state from specified XPM files. 
+ * It iterates over an array of file paths, loading each one into a corresponding 
+ * slot in the game state's wall texture array.
+ *
+ * If a texture is already loaded at a given index, it skips that index. If loading 
+ * a texture fails, it returns 1.
+ *
+ * If there are doors in the game, it also loads two door textures and sets the maximum 
+ * door index based on the height of the first door texture.
+ *
+ * @param g The game state to load textures into.
+ * @return Returns 0 on success, or 1 if an error occurred.
+ */
 static int	load_texture_wall(t_game *g)
 {
 	int		i;
 	char	**path;
+	char	*door;
 
 	i = -1;
 	path = (char *[]){"art/wall_2.xpm",
@@ -63,9 +98,34 @@ static int	load_texture_wall(t_game *g)
 		if (load_texture(&g->wall[i], g->mlx.mlx, path[i], ft_strlen(path[i])))
 			return (1);
 	}
+	if (g->door.len > 0)
+	{
+		door = "art/eagle.xpm";
+		if (load_texture(&g->door_img[0], g->mlx.mlx, door, ft_strlen(door)))
+			return (1);
+		door = "art/purplestone.xpm";
+		if (load_texture(&g->door_img[1], g->mlx.mlx, door, ft_strlen(door)))
+			return (1);
+		g->door.max_index = g->door_img->height - 10;
+	}
 	return (0);
 }
 
+/**
+ * @brief Sets the minimap information for the game.
+ *
+ * This function sets the minimap information for the game. It sets the block 
+ * size, border size, and block border size for the minimap. It also calculates 
+ * the number of blocks per row and column based on the minimap dimensions and 
+ * block size.
+ *
+ * Additionally, it sets the colors for different elements of the minimap, 
+ * including the grey color for walls, the empty color for empty spaces, the 
+ * black color for the player, and the door color for doors.
+ *
+ * @param m The minimap to set information for.
+ * @param g The current game state.
+ */
 void	set_minimap_info(t_mmap *m, const t_game *g)
 {
 	m->block_size.y = 15;
@@ -86,41 +146,39 @@ void	set_minimap_info(t_mmap *m, const t_game *g)
 	m->door = (t_colour){.mode.transparency = 128, .mode.green = 128};
 }
 
-/*
-main game struct
-title for mlx windows
-load every texture of the game if not set in the .cub file
-load img in memory to write to before putting to win
-*/
+/**
+ * @brief Loads wall and door textures into the game state.
+ *
+ * This function loads wall and door textures into the game state from specified 
+ * XPM files. It iterates over an array of file paths, loading each one into a 
+ * corresponding slot in the game state's wall texture array.
+ *
+ * If a texture is already loaded at a given index, it skips that index. If 
+ * loading a texture fails, it returns 1.
+ *
+ * If there are doors in the game, it also loads two door textures and sets the 
+ * maximum door index based on the height of the first door texture.
+ *
+ * @param g The game state to load textures into.
+ * @return Returns 0 on success, or 1 if an error occurred.
+ */
 int	load_mlx_img(t_game *g, char *title)
 {
-	char	*path;
-
 	g->mlx.win = mlx_new_window(g->mlx.mlx,
-		g->setting.win_width,  g->setting.win_height, title);
+			g->setting.win_width, g->setting.win_height, title);
 	if (!g->mlx.win)
 		return (errmsg_config_errno(1), 1);
 	if (load_texture_wall(g))
 		return (1);
-	if (g->door.len > 0)
-	{
-		path = "art/eagle.xpm";
-		if (load_texture(&g->door_img[0], g->mlx.mlx, path, ft_strlen(path)))
-			return (1);
-		path = "art/purplestone.xpm";
-		if (load_texture(&g->door_img[1], g->mlx.mlx, path, ft_strlen(path)))
-			return (1);
-		g->door.max_index = g->door_img->height - 10;
-	}
 	if (!g->env[floor_].set)
 		g->env[floor_].colour = (t_colour){.mode.green = 255};
 	if (!g->env[sky_].set)
 		g->env[sky_].colour = (t_colour){.mode.blue = 255};
 	if (load_img(&g->scene, g->mlx.mlx,
-		g->setting.win_width, g->setting.win_height))
+			g->setting.win_width, g->setting.win_height))
 		return (errmsg_config_errno(2), 1);
 	if (load_img(&g->minimap, g->mlx.mlx,
-		g->setting.minimap_width, g->setting.minimap_height))
+			g->setting.minimap_width, g->setting.minimap_height))
 		return (errmsg_config_errno(3), 1);
 	set_minimap_info(&g->minimap_info, g);
 	return (0);

@@ -6,51 +6,11 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:03:58 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/25 16:57:56 by lchew            ###   ########.fr       */
+/*   Updated: 2024/06/03 17:41:40 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
-
-/**
- * @brief Skips over occurrences of a specific character in a string, 
- * starting from a given index.
- * 
- * @param s The string to process.
- * @param c The character to skip.
- * @param i The index at which to start skipping.
- * 
- * @return Returns the index of the first occurrence of a character 'c' 
- * after 'i', or the end of the string if no such character is found.
- */
-int	skip_char(const char *s, char c, int i)
-{
-	while (s[i])
-	{
-		if (s[i] != c)
-			break ;
-		++i;
-	}
-	return (i);
-}
-
-/**
- * @brief Skips over any occurrences of a set of characters in a string, 
- * starting from a given index.
- * 
- * @param s The string to process.
- * @param ref The character set to skip.
- * @param start The index at which to start skipping.
- * 
- * @return Returns the index of the first occurrence of a character
- * not in the character set 'ref' after 'start', or the end of the string.
- */
-int skip_till_end(const char *s, const char *ref, int start)
-{
-	while (s[start] && !checkset(s[start], ref))
-		start++;
-	return start;
-}
 
 /**
  * @brief Checks if a character is in a specific character set.

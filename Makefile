@@ -6,7 +6,7 @@
 #    By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/12 14:22:20 by jngerng           #+#    #+#              #
-#    Updated: 2024/05/30 14:03:15 by jngerng          ###   ########.fr        #
+#    Updated: 2024/06/03 17:54:45 by lchew            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ READ_DIR = read
 GAME_DIR = game
 OBJ_DIR = obj
 F_MAIN = main
-F_UTLIS = errmsg free string
+F_UTLIS = errmsg free string skip
 F_READ = read elements check buffer
 F_GAME = loop ply texture scene map map2 asset \
 		 raycast_loop raycast_check draw draw2
@@ -30,7 +30,7 @@ OBJ = $(foreach item, $(F_MAIN) $(F_UTLIS) $(F_READ) $(F_GAME), $(OBJ_DIR)/$(ite
 INC = -I includes -I lib/includes
 LIB = -L lib -lft -lm -lmlx -framework OpenGL -framework AppKit
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror $(CMEM)
+CFLAGS = -Wall -Wextra -Werror #$(CMEM)
 CMEM = -fsanitize=address -g3
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/$(UTLIS_DIR)/%.c

@@ -12,11 +12,22 @@
 
 #include "cube3d.h"
 
-/*
-brief
-initalize buffer(head of link list) to temporary store map information
-the line is checked before allocate memory for the link list
-*/
+/**
+ * @brief Creates a new list node in the buffer for a line of text.
+ *
+ * This function creates a new list node in the buffer for a line of text.
+ * It allocates memory for a new list node and checks if the allocation was
+ * successful. If not, it prints an error message, frees the line, and
+ * returns 1.
+ *
+ * It then sets the new list node's line to the input line and its next
+ * pointer to NULL, and sets the buffer's tail to the new list node. It
+ * also increments the buffer's length by 1.
+ *
+ * @param buffer The buffer to add the new list node to.
+ * @param line The line of text to add to the buffer.
+ * @return Returns 0 on success, or 1 if an error occurred.
+ */
 int	init_buffer_list(t_buffer *buffer, char *line, t_game *g)
 {
 	buffer->list = NULL;
@@ -35,9 +46,21 @@ int	init_buffer_list(t_buffer *buffer, char *line, t_game *g)
 	return (0);
 }
 
-/*
-allocate new node for the end for the buffer (link list)
-*/
+/**
+ * @brief Creates a new list node in the buffer for a line of text.
+ *
+ * This function creates a new list node in the buffer for a line of text. It 
+ * allocates memory for a new list node and checks if the allocation was 
+ * successful. If not, it prints an error message, frees the line, and returns 1.
+ *
+ * It then sets the new list node's line to the input line and its next pointer 
+ * to NULL, and sets the buffer's tail to the new list node. It also increments 
+ * the buffer's length by 1.
+ *
+ * @param buffer The buffer to add the new list node to.
+ * @param line The line of text to add to the buffer.
+ * @return Returns 0 on success, or 1 if an error occurred.
+ */
 static int	make_new_list(t_buffer *buffer, char *line)
 {
 	t_list_	*new;
@@ -57,12 +80,27 @@ static int	make_new_list(t_buffer *buffer, char *line)
 	return (0);
 }
 
-/*
-brief
-loop to get each line from the file till end of file or empty line is read
-line is checked before allocating memory for link list
-new node is made and append to the end of the link list
-*/
+/**
+ * @brief Continues to add lines of text from a file to a buffer list.
+ *
+ * This function continues to add lines of text from a file to a buffer list.
+ * It reads lines from the file one by one using the get_next_line function.
+ * If reading a line fails, it prints an error message and returns 1.
+ *
+ * For each line, it checks if the line is a valid map line. If not, it frees
+ * the line and returns 1.
+ *
+ * If the player's x position is not set and the player's y position is set,
+ * it sets the player's x position to the current row number.
+ *
+ * It then creates a new list node in the buffer for the line. If creating the
+ * list node fails, it prints an error message and returns 1.
+ *
+ * @param buffer The buffer to add lines to.
+ * @param fd The file descriptor of the file to read lines from.
+ * @param g The current game state.
+ * @return Returns 0 on success, or 1 if an error occurred.
+ */
 int	cont_buffer_list(t_buffer *buffer, int fd, t_game *g)
 {
 	int		row;

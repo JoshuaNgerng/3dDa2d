@@ -6,7 +6,7 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/29 13:48:05 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/06/03 17:42:16 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,6 +291,7 @@ void		errmsg_img(const char *msg, size_t len);
 
 int			skip_char(const char *s, char c, int i);
 int			skip_till_end(const char *s, const char *ref, int start);
+char		*skip_empty_line(int fd, char *prev);
 int			checkset(char c, const char *s);
 int			strlcpy_over(char *dst, const char *src);
 void		free_game(t_game *g);

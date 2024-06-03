@@ -15,8 +15,8 @@
 /**
  * @brief Changes the color of a pixel in an image.
  *
- * This function modifies the color of a pixel at the specified coordinates (x, y)
- * in the given image.
+ * This function modifies the color of a pixel at the specified coordinates
+ * (x, y) in the given image.
  *
  * @param img The image to modify.
  * @param x The x-coordinate of the pixel.
@@ -25,7 +25,7 @@
  */
 void	change_image_pixel(t_img *img, int x, int y, uint32_t colour)
 {
-	int offset;
+	int	offset;
 
 	offset = (img->line_length * y) + (x * (img->bits_per_pixel / 8));
 	*((uint32_t *)(img->pixel_ptr + offset)) = colour;
@@ -46,21 +46,27 @@ void	change_image_pixel(t_img *img, int x, int y, uint32_t colour)
  */
 uint32_t	get_image_pixel(const t_img *img, int x, int y)
 {
-	int offset;
-	
+	int	offset;
+
 	if (x < 0 || x >= img->width || y < 0 || y >= img->height)
 		return (0x0);
 	offset = (img->line_length * y) + (x * (img->bits_per_pixel / 8));
 	return (*((uint32_t *)(img->pixel_ptr + offset)));
 }
 
-/*
-draw a hori line in memory t_img
-range.x is the starting pos
-range.y is the end pos
-row is the which row pos in memory
-c is the colour to write to memory
-*/
+/**
+ * @brief Draws a horizontal line on an image.
+ *
+ * This function draws a horizontal line on an image from a starting point 
+ * (range.x) to an ending point (range.y). The line is drawn at a specified 
+ * row with a specified color. The color is applied to each pixel in the 
+ * range by calling the change_image_pixel function.
+ *
+ * @param img The image to draw on.
+ * @param range The starting and ending points of the line.
+ * @param row The row at which to draw the line.
+ * @param c The color to use for the line.
+ */
 void	draw_horizontal(t_img *img, t_int range, int row, t_colour c)
 {
 	while (range.x < range.y)
@@ -70,9 +76,19 @@ void	draw_horizontal(t_img *img, t_int range, int row, t_colour c)
 	}
 }
 
-/*
-draw a diamon shape in the centre of the minimap to rep the p[lt]
-*/
+/**
+ * @brief Draws a horizontal line on an image.
+ *
+ * This function draws a horizontal line on an image from a starting point 
+ * (range.x) to an ending point (range.y). The line is drawn at a specified
+ * row with a specified color. The color is applied to each pixel in the 
+ * range by calling the change_image_pixel function.
+ *
+ * @param img The image to draw on.
+ * @param range The starting and ending points of the line.
+ * @param row The row at which to draw the line.
+ * @param c The color to use for the line.
+ */
 void	draw_small_circle(t_img *minimap, const t_game *g)
 {
 	t_int		range;
@@ -92,12 +108,26 @@ void	draw_small_circle(t_img *minimap, const t_game *g)
 	change_image_pixel(minimap, centre.x + 2, centre.y, yellow.trbg);
 }
 
+/**
+ * @brief Draws a pointer on the minimap to indicate the player's direction.
+ *
+ * This function draws a pointer on the minimap to indicate the player's 
+ * direction. It calculates the player's position on the minimap and the 
+ * pointer's length and angle based on the player's direction.
+ *
+ * The pointer is drawn as a line extending from the player's position in the 
+ * direction the player is facing. The line is drawn by changing the color of 
+ * individual pixels on the minimap.
+ *
+ * @param minimap The minimap image to draw on.
+ * @param g The current game state.
+ */
 void	draw_pointer(t_img *minimap, const t_game *g)
 {
 	t_point		ply_pos;
 	int			pointer_len;
 	double		pointer_angle;
-	
+
 	pointer_len = 15;
 	ply_pos.x = g->minimap.width / 2 + 0.5;
 	ply_pos.y = g->minimap.height / 2 + 0.5 ;
@@ -112,6 +142,6 @@ void	draw_pointer(t_img *minimap, const t_game *g)
 		ply_pos.x += cos(pointer_angle);
 		ply_pos.y += sin(pointer_angle);
 		change_image_pixel(minimap, (int)(ply_pos.x), (int)(ply_pos.y), 
-				(t_colour){.mode.green = 255}.trbg);
+			(t_colour){.mode.green = 255}.trbg);
 	}
 }

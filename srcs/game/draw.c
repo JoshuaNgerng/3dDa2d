@@ -46,8 +46,6 @@ void	drawing_loop(t_draw *d, const t_ray_fin *obj, int offset)
 	}
 }
 
-
-
 /**
  * @brief Draws the ceiling of the game screen.
  *

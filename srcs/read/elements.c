@@ -6,39 +6,34 @@
 /*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 18:25:35 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/27 09:18:29 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/06/03 17:50:37 by lchew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-/*
-cont reading from file
-and skip empty line (line with '\0' or only have "\r\n" char)
-gnl guarentee that no char would exist after '\n' so no need handle
-*/
-static char	*skip_empty_line(int fd, char *prev)
-{
-	char	*ptr;
-
-	ptr = prev;
-	while (ptr)
-	{
-		if (ptr && ptr[0] && !checkset(ptr[0], "\r\n"))
-			break ;
-		free(ptr);
-		if (get_next_line(fd, &ptr))
-			return (errmsg_file_errno(1, NULL), NULL);
-	}
-	return (ptr);
-}
-
-/*
-func to store rbg val of floor or sky from line read from file
-ptr is to store the rbg component val
-index is to store the index after reading rbg comp val
-return 1 if invalid rbg format, 0 success
-*/
+/**
+ * @brief Extracts and stores the RGB value of the floor or sky from a line.
+ *
+ * This function reads from a line and stores the RGB value of the floor or 
+ * sky. It starts from the position specified by the index parameter and 
+ * continues until it has read an RGB component value or it encounters an 
+ * invalid character.
+ *
+ * The function first checks if the current character is a digit. If it is, 
+ * it multiplies the current value by 10 and adds the digit to the value. 
+ * It then increments the index and the length.
+ *
+ * If the value is greater than 255 or less than 0, it returns 1 to indicate 
+ * an invalid RGB format. Otherwise, it stores the value in the location 
+ * pointed to by the ptr parameter and updates the index parameter to the 
+ * current index.
+ *
+ * @param line The line to extract the RGB value from.
+ * @param ptr A pointer to the location to store the RGB component value.
+ * @param index A pointer to the index to start reading from.
+ * @return Returns 0 on success, or 1 if an invalid RGB format was encountered.
+ */
 static int	get_colour_config(const char *line, uint8_t *ptr, int *index)
 {
 	int	i;
@@ -62,11 +57,67 @@ static int	get_colour_config(const char *line, uint8_t *ptr, int *index)
 	return (0);
 }
 
-/*
-store the element identifier from file
-type < 4 is the texture of the wall
-otherwise it is the rbg val of the floor or sky
-*/
+/**
+ * @brief Checks and loads a texture for a game element.
+ *
+ * This function checks and loads a texture for a game element from a line 
+ * read from a file. The texture is specified by a path in the line, starting 
+ * from the position specified by the index parameter.
+ *
+ * The function first skips over any whitespace or newline characters at the 
+ * start of the line. If there are any characters after the path, it checks 
+ * if they are valid. If they are not, it prints an error message and returns 
+ * -1.
+ *
+ * It then loads the texture from the path and stores it in the wall array 
+ * of the game state. If loading the texture fails, it returns -1.
+ *
+ * @param line The line to read the texture path from.
+ * @param index The index to start reading from.
+ * @param g The game state to store the texture in.
+ * @param type The type of the game element.
+ * @return Returns 0 on success, or -1 if an error occurred.
+ */
+static int	check_texture(char *line, int index, t_game *g, int type)
+{
+	int	iter;
+
+	iter = skip_till_end(line, "\r\n ", index);
+	if (line[iter])
+	{
+		if (check_line_end(line, iter, &errmsg_config, 5))
+			return (-1);
+	}
+	line[iter] = '\0';
+	if (load_texture(&g->wall[type],
+			g->mlx.mlx, &line[index], iter - index))
+		return (-1);
+	return (0);
+}
+
+/**
+ * @brief Stores the element identifier from a file.
+ *
+ * This function stores the element identifier from a file. The element 
+ * identifier can be either the texture of a wall or the RGB value of the 
+ * floor or sky.
+ *
+ * If the type is less than 4, the function treats the identifier as a 
+ * texture. It skips over any whitespace at the start of the line, then 
+ * reads the texture path until it encounters a whitespace or the end of 
+ * the line. It then loads the texture and stores it in the wall array.
+ *
+ * If the type is 4 or greater, the function treats the identifier as an 
+ * RGB value. It sets the corresponding environment variable to 1 and 
+ * extracts the RGB components from the line. If any component is invalid, 
+ * it prints an error message and returns -1.
+ *
+ * @param line The line to read the identifier from.
+ * @param index The index to start reading from.
+ * @param g The game state to store the identifier in.
+ * @param type The type of the identifier.
+ * @return Returns 0 on success, or -1 if an error occurred.
+ */
 static int	store_element(char *line, int index, t_game *g, int type)
 {
 	int		iter;
@@ -74,19 +125,7 @@ static int	store_element(char *line, int index, t_game *g, int type)
 
 	index = skip_char(line, ' ', index);
 	if (type < 4)
-	{
-		iter = skip_till_end(line, "\r\n ", index);
-		if (line[iter])
-		{
-			if (check_line_end(line, iter, &errmsg_config, 5))
-				return (-1);
-		}
-		line[iter] = '\0';
-		if (load_texture(&g->wall[type],
-				g->mlx.mlx, &line[index], iter - index))
-			return (-1);
-		return (0);
-	}
+		return (check_texture(line, index, g, type));
 	iter = 3;
 	g->env[type % 4].set = 1;
 	ptr = g->env[type % 4].colour.trabg_parts;
@@ -100,9 +139,28 @@ static int	store_element(char *line, int index, t_game *g, int type)
 	return (check_line_end(line, index, &errmsg_config, 5));
 }
 
-/*
-check for valid element identify and store the info into the main game struct
-*/
+/**
+ * @brief Checks for valid element identifier and stores the info into the 
+ * main game struct.
+ *
+ * This function checks a line for a valid element identifier and stores the 
+ * corresponding information into the main game struct. The element identifier 
+ * can be one of the following: "NO ", "SO ", "WE ", "EA ", "F ", "C ".
+ *
+ * The function first checks if the line is empty or contains only a carriage 
+ * return or newline. If it does, the function returns 1 or 0 respectively.
+ *
+ * It then skips over any leading spaces in the line and checks the remaining 
+ * part of the line against each element identifier in the dictionary. If it 
+ * finds a match, it calls the store_element function to store the element 
+ * information in the game struct and returns the result.
+ *
+ * If no match is found, the function returns 1.
+ *
+ * @param line The line to check for an element identifier.
+ * @param g The game struct to store the element information in.
+ * @return Returns 0 on success, or 1 if an error occurred or no match was found.
+ */
 static int	check_elements(char *line, t_game *g)
 {
 	int		i;
@@ -129,18 +187,29 @@ static int	check_elements(char *line, t_game *g)
 }
 
 /**
- * @brief Reads game elements from a file descriptor and stores them into t_game struct.
- * 
- * @param fd The file descriptor from which to read.
- * @param g The t_game structure in which to store the game elements.
- * @param ptr A pointer to a string where the first line of the map will be stored.
- * 
- * @return Returns 0 if a map is detected in the file, and 1 otherwise. If an error occurs in check_elements, the function also returns 1.
- * 
- * The function reads lines from the file descriptor until it reaches the end of the file. For each line, it calls check_elements to check for game elements.
- * If check_elements detects a map (returns a value greater than 0), the function stores the line in ptr and returns 0.
- * If check_elements returns a value less than 0, indicating an error, the function returns 1.
- * If no map is detected in any line, the function returns 1.
+ * @brief Reads game elements from a file and stores them in the game state.
+ *
+ * This function reads game elements from a file and stores them in the game 
+ * state. The elements are read line by line, and each line is checked for 
+ * valid elements.
+ *
+ * The function first reads a line from the file. If reading fails, it prints 
+ * an error message and returns 1.
+ *
+ * It then skips any empty lines and enters a loop where it checks each line 
+ * for valid elements. If an error occurs during checking, it frees the line 
+ * and returns 1. If no elements are found, it breaks out of the loop.
+ *
+ * After the loop, it skips any empty lines again. If there are no more lines, 
+ * it prints an error message and returns 1.
+ *
+ * Finally, it stores the last read line in the location pointed to by the 
+ * ptr parameter and returns 0.
+ *
+ * @param fd The file descriptor of the file to read from.
+ * @param g The game state to store the elements in.
+ * @param ptr A pointer to the location to store the last read line.
+ * @return Returns 0 on success, or 1 if an error occurred.
  */
 int	read_elements(int fd, t_game *g, char **ptr)
 {
