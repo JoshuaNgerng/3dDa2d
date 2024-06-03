@@ -289,18 +289,18 @@ void		errmsg_img(const char *msg, size_t len);
 
 /* utilites */
 
-int		skip_char(const char *s, char c, int i);
-int		skip_till_end(const char *s, const char *ref, int start);
-int		checkset(char c, const char *s);
-int		strlcpy_over(char *dst, const char *src);
-int		check_line_end(const char *line, int index,
-			void (*f)(char ), char errtype);
-void	free_game(t_game *g);
-int		free_exit(t_game *g, int ext_code);
+int			skip_char(const char *s, char c, int i);
+int			skip_till_end(const char *s, const char *ref, int start);
+int			checkset(char c, const char *s);
+int			strlcpy_over(char *dst, const char *src);
+void		free_game(t_game *g);
+int			free_exit(t_game *g, int ext_code);
+int			check_line_end(const char *line, int index, \
+	void (*f)(char ), char errtype);
 
 /* math check */
 
-int		get_map_pos(t_int p, const t_map *m);
+int			get_map_pos(t_int p, const t_map *m);
 
 /* read from file */
 
@@ -349,9 +349,17 @@ int			main_loop(t_game *g);
 
 /* draw */
 
-void		draw_init(t_ray_fin *obj, t_draw *d, const t_ray *r, const t_game *g);
-void		draw_flip_init(t_ray_fin *obj, t_draw *d, const t_ray *r, const t_game *g);
+void		draw_init(t_ray_fin *obj, t_draw *d, const t_ray *r, \
+	const t_game *g);
+void		draw_flip_init(t_ray_fin *obj, t_draw *d, const t_ray *r, \
+	const t_game *g);
 void		draw_obj_to_img(t_img *img, t_ray *r, const t_game *g);
+void		draw_obj_n_bg(t_img *img, t_ray *r, const t_game *g);
+void		draw_obj(t_img *img, t_ray *r, const t_game *g);
+void		drawing_loop(t_draw *d, const t_ray_fin *obj, int offset);
+void		drawing_celling_loop(t_draw *d, t_ray_fin *back);
+void		draw_sky(t_draw *draw, const t_game *g);
+void		draw_floor(t_draw *draw, const t_game *g);
 
 /* asset */
 
@@ -362,7 +370,7 @@ int			get_asset_index(const t_asset *a, t_int pos);
 
 void		update_door(const t_map *m, const t_ply *ply, t_asset *door);
 void		update_door_counter(t_asset *door);
-int			get_door_status(const t_asset *door, t_int pos, int *index_ptr);
+int			get_door_stat(const t_asset *door, t_int pos, int *index_ptr);
 
 void		print_map(const t_map *m);
 int			test_minimap(int keycode, t_game *g);

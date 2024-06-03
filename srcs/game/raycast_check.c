@@ -20,7 +20,8 @@ void	raycast_fin(t_ray_fin *fin, int type, const t_ray *r, const t_ply *p)
 	fin->type = type;
 	if (r->side == horizontal)
 	{
-		hit_dist = (double)(r->hori.map_check - p->pos.x + ((1 - r->hori.step_dir) / 2));
+		hit_dist = (double)(r->hori.map_check - p->pos.x \
+			+ ((1 - r->hori.step_dir) / 2));
 		fin->perp_dist = fabs(hit_dist / r->ray_dir.x);
 		fin->hitpoint = p->pos.y + fin->perp_dist * r->ray_dir.y;
 		if (r->ray_dir.x < 0)
@@ -29,7 +30,8 @@ void	raycast_fin(t_ray_fin *fin, int type, const t_ray *r, const t_ply *p)
 			fin->side = north;
 		return ;
 	}
-	hit_dist = (double)(r->verti.map_check - p->pos.y + ((1 - r->verti.step_dir) / 2));
+	hit_dist = (double)(r->verti.map_check - p->pos.y \
+		+ ((1 - r->verti.step_dir) / 2));
 	fin->perp_dist = fabs(hit_dist / r->ray_dir.y);
 	fin->hitpoint = p->pos.x + fin->perp_dist * r->ray_dir.x;
 	if (r->ray_dir.y < 0)
@@ -63,7 +65,7 @@ int	raycast_check(t_ray *r, const t_game *g)
 		return (raycast_fin(&r->fin[r->obj_iter ++], wall, r, &g->ply), 1);
 	if (map_char == 'D')
 	{
-		if (get_door_status(&g->door, map_pos, &r->fin[r->obj_iter].index) == -1)
+		if (get_door_stat(&g->door, map_pos, &r->fin[r->obj_iter].index) == -1)
 			return (raycast_fin(&r->fin[r->obj_iter ++], door, r, &g->ply), 1);
 		if (r->obj_iter == MAX_RENDER_OBJ)
 			return (0);

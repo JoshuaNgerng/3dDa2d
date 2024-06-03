@@ -12,11 +12,27 @@
 
 #include "cube3d.h"
 
+/**
+ * @brief Sets the player movement options based on the mouse input.
+ *
+ * This function is called when a mouse button is pressed. It determines the
+ * direction of rotation for the player based on the mouse position relative to
+ * the center of the window. If the mouse position is to the left of the center,
+ * the player will rotate left. If the mouse position is to the right of the
+ * center, the player will rotate right. The player movement options are updated
+ * accordingly.
+ *
+ * @param key The mouse button that was pressed.
+ * @param pos_x The x-coordinate of the mouse position.
+ * @param pos_y The y-coordinate of the mouse position.
+ * @param g A pointer to the game structure.
+ * @return 0
+ */
 int	mouse_set_ply(int key, int pos_x, int pos_y, t_game *g)
 {
-	int		half_width;
-	(void) pos_y;
+	int	half_width;
 
+	(void) pos_y;
 	if (key != 1)
 		return (0);
 	half_width = g->setting.win_width / 2;
@@ -29,6 +45,21 @@ int	mouse_set_ply(int key, int pos_x, int pos_y, t_game *g)
 	return (0);
 }
 
+/**
+ * @brief Unsets the player movement options based on the mouse input.
+ *
+ * This function is called when a mouse button is released. It unsets the
+ * rotation options for the player based on the mouse position. If the mouse
+ * button released is the left button, it unsets the rotate_left option. If the
+ * mouse button released is the right button, it unsets the rotate_right option.
+ * The player movement options are updated accordingly.
+ *
+ * @param key The mouse button that was released.
+ * @param pos_x The x-coordinate of the mouse position.
+ * @param pos_y The y-coordinate of the mouse position.
+ * @param g A pointer to the game structure.
+ * @return 0
+ */
 int	mouse_unset_ply(int key, int pos_x, int pos_y, t_game *g)
 {
 	(void) pos_x;
@@ -40,6 +71,26 @@ int	mouse_unset_ply(int key, int pos_x, int pos_y, t_game *g)
 	return (0);
 }
 
+/**
+ * @brief Sets the player movement options based on the key pressed.
+ *
+ * This function is responsible for setting the movement options of the player
+ * based on the key pressed.
+ *
+ * @note - escape key - it calls the `free_exit` function to exit the game.
+ * @note - up arrow key / 'W' key - it sets the forward movement option.
+ * @note - down arrow key / 'S' key - it sets the backward movement option.
+ * @note - 'A' key - it sets the left movement option.
+ * @note - 'D' key - it sets the right movement option.
+ * @note - left arrow key / 'Q' key - it sets the left rotation option.
+ * @note - right arrow key / 'E' key - it sets the right rotation option.
+ * @note - left shift key / right shift key - it sets the interact door option.
+ * @note - 'M' key - it toggles the map option.
+ *
+ * @param key The key code of the key pressed.
+ * @param g A pointer to the game structure.
+ * @return Always returns 0.
+ */
 int	set_ply_mov(int key, t_game *g)
 {
 	if (key == esc)
@@ -63,6 +114,18 @@ int	set_ply_mov(int key, t_game *g)
 	return (0);
 }
 
+/**
+ * @brief Unsets the player movement options based on the key pressed.
+ *
+ * This function is responsible for unsetting the player movement options
+ * based on the key pressed. It takes the key and a pointer to the game
+ * structure as parameters. The function checks the key value and updates
+ * the move_options field of the player structure accordingly.
+ *
+ * @param key The key code of the key pressed.
+ * @param g A pointer to the game structure.
+ * @return 0
+ */
 int	unset_ply_mov(int key, t_game *g)
 {
 	if (key == up || key == wkey)
@@ -80,16 +143,18 @@ int	unset_ply_mov(int key, t_game *g)
 	return (0);
 }
 
-/*
-main game loop
-update ply move
-raycast to make 3d img in mlx img in memory (scene t_img struct)
-then write the mlx windows
-minimap to make minimap img in memory
-then write the mlx windows
-unset interact_door options
-update door info
-*/
+/**
+ * @brief The main game loop.
+ *
+ * This function is responsible for running the main game loop. It updates the
+ * player movement, performs raycasting to create a 3D image in the memory,
+ * writes the image to the window, creates a minimap image in the memory,
+ * writes the minimap to the window, unsets the interact_door options, updates
+ * the door information, and returns 0.
+ *
+ * @param g A pointer to the game structure.
+ * @return Always returns 0.
+ */
 int	main_loop(t_game *g)
 {
 	update_ply_move(&g->ply, g);
