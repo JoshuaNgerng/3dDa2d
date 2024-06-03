@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 16:26:45 by jngerng           #+#    #+#             */
-/*   Updated: 2024/06/01 20:07:49 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/06/03 17:32:35 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,22 @@ map the screen img pos to a corresponding pos in texture img
 static void	drawing_loop(t_draw *d, const t_ray_fin *obj, int offset)
 {
 	int	iter;
+	double	step_size;
+	double	texture_pos;
 
 	iter = -1;
+	step_size = 1.0 * d->texture->height / obj->height;
+	texture_pos = (d->screen_pos.y - (d->win_height - obj->height) / 2) * step_size;
 	while (++ iter < obj->height && d->screen_pos.y < d->win_height)
 	{
-		/* still need to doc this formula LULZ */
-		d->texture_pos.y = d->screen_pos.y * 2 - d->win_height + obj->height;
-		d->texture_pos.y *= (d->texture->height / 2.) / obj->height;
-		/* ** */
+		d->texture_pos.y = (int)(texture_pos) & (d->texture->height - 1);
 		d->texture_pos.y += offset;
 		if (d->texture_pos.y >= d->texture->height)
 			break ;
 		change_image_pixel(d->scene, d->screen_pos.x, d->screen_pos.y,
 			get_image_pixel(d->texture, d->texture_pos.x, d->texture_pos.y));
 		d->screen_pos.y ++;
+		texture_pos += step_size;
 	}
 }
 
