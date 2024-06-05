@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/06/05 21:30:28 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/06/05 21:38:36 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@
 # include <errno.h>
 # include <stdint.h>
 # include <string.h>
-# include <stdio.h>
 # include <limits.h>
 # include "mlx.h"
 # include "libft.h"
