@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:37:10 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/28 11:26:30 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/06/03 18:20:48 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ static void	game_loop(t_game *g)
 {
 	g->env[0].set = 1;
 	g->env[1].set = 1;
-	// print_map(&g->map);
 	raycasting_walls(&g->scene, g);
 	mlx_put_image_to_window(g->mlx.mlx, g->mlx.win, g->scene.img, 0, 0);
 	g->ply.move_options ^= map_option;
@@ -73,7 +72,6 @@ static void	game_loop(t_game *g)
 	mlx_hook(g->mlx.win, mouse_press, (1L << 2), &mouse_set_ply, g);
 	mlx_hook(g->mlx.win, mouse_release, (1L << 3), &mouse_unset_ply, g);
 	mlx_loop_hook(g->mlx.mlx, &main_loop, g);
-	// mlx_hook(g->mlx.win, key_press, (1L << 0), &test_minimap, g);
 	mlx_loop(g->mlx.mlx);
 }
 

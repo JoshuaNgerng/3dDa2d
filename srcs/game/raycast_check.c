@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast_check.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 19:28:57 by jngerng           #+#    #+#             */
-/*   Updated: 2024/06/01 20:04:32 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/06/03 18:31:07 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,18 @@ void	raycast_fin(t_ray_fin *fin, int type, const t_ray *r, const t_ply *p)
 		fin->side = east;
 }
 
+static int	handle_zero(t_ray *r, int *ptr_shadow, const t_ply *p)
+{
+	if (!(*ptr_shadow))
+		return (0);
+	*ptr_shadow = 0;
+	if (r->obj_iter == MAX_RENDER_OBJ)
+		return (0);
+	r->fin[r->obj_iter].index = r->fin[r->obj_iter - 1].index;
+	raycast_fin(&r->fin[r->obj_iter ++], door_, r, p);
+	return (0);
+}
+
 /**
  * @brief Performs a raycast check on the game map.
  *
@@ -76,15 +88,7 @@ int	raycast_check(t_ray *r, const t_game *g)
 	if (map_char < 0)
 		return (-1);
 	if (map_char == '0')
-	{
-		if (!shadow)
-			return (0);
-		shadow = 0;
-		if (r->obj_iter == MAX_RENDER_OBJ)
-			return (0);
-		r->fin[r->obj_iter].index = r->fin[r->obj_iter - 1].index;
-		return (raycast_fin(&r->fin[r->obj_iter ++], door_, r, &g->ply), 0);
-	}
+		return (handle_zero(r, &shadow, &g->ply));
 	shadow = 0;
 	if (map_char == '1')
 		return (raycast_fin(&r->fin[r->obj_iter ++], wall, r, &g->ply), 1);

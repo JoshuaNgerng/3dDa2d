@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   assest.c                                           :+:      :+:    :+:   */
+/*   asset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 18:12:30 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/29 13:57:50 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/06/03 18:21:36 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ int	get_door_stat(const t_asset *door, t_int pos, int *index_ptr)
 		return (0);
 	if (index_ptr)
 		*index_ptr = index;
-	if (door->sprite[index].status &&
-		door->sprite[index].counter == door->max_index)
+	if (door->sprite[index].status
+		&& door->sprite[index].counter == door->max_index)
 		return (1);
 	if (!door->sprite[index].status && !door->sprite[index].counter)
 		return (-1);

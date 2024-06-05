@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 12:58:15 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/27 09:43:46 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/06/03 18:32:06 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ void	draw_pointer(t_img *minimap, const t_game *g)
 	{
 		ply_pos.x += cos(pointer_angle);
 		ply_pos.y += sin(pointer_angle);
-		change_image_pixel(minimap, (int)(ply_pos.x), (int)(ply_pos.y), 
+		change_image_pixel(minimap, (int)(ply_pos.x), (int)(ply_pos.y),
 			(t_colour){.mode.green = 255}.trbg);
 	}
 }

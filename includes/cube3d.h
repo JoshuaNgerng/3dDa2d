@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/06/03 17:42:16 by lchew            ###   ########.fr       */
+/*   Updated: 2024/06/05 21:30:28 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@
 # include <limits.h>
 # include "mlx.h"
 # include "libft.h"
-# include <stdio.h>
 
 typedef enum e_x_event
 {
@@ -252,8 +251,8 @@ typedef struct s_mmap
 {
 	int			block_per_row;
 	int			block_per_col;
-	t_int		border_size; // x width , y height
-	t_int		block_size; // x width , y height
+	t_int		border_size;
+	t_int		block_size;
 	t_int		block_border_size;
 	t_colour	empty;
 	t_colour	door;

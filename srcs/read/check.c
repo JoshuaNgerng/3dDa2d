@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 03:15:22 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/27 09:14:12 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/06/03 18:32:30 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,8 @@ int	check_map(char *line, int *ptr, t_game *g)
  * @param m The map to check.
  * @param c The character to skip rows for.
  * @param iter A struct containing the starting row and column.
- * @return Returns the index of the first row that does not contain the character.
+ * @return Returns the index of the first row that does not contain
+ * the character.
  */
 static int	skip_row(const t_map *m, char c, t_int iter)
 {

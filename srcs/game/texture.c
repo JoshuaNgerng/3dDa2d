@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 18:08:12 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/30 13:31:20 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/06/03 18:31:44 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,16 @@ static int	load_img(t_img *i, void *mlx, int width, int height)
 /**
  * @brief Loads wall and door textures into the game state.
  *
- * This function loads wall and door textures into the game state from specified XPM files. 
- * It iterates over an array of file paths, loading each one into a corresponding 
- * slot in the game state's wall texture array.
+ * This function loads wall and door textures into the game state
+ * from specified XPM files. 
+ * It iterates over an array of file paths, loading each one into
+ * a corresponding slot in the game state's wall texture array.
  *
- * If a texture is already loaded at a given index, it skips that index. If loading 
- * a texture fails, it returns 1.
+ * If a texture is already loaded at a given index, it skips that index.
+ * If loading and a texture fails, it returns 1.
  *
- * If there are doors in the game, it also loads two door textures and sets the maximum 
- * door index based on the height of the first door texture.
+ * If there are doors in the game, it also loads two door textures and 
+ * sets the maximum door index based on the height of the first door texture.
  *
  * @param g The game state to load textures into.
  * @return Returns 0 on success, or 1 if an error occurred.

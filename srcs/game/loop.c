@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:51:30 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/28 10:08:07 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/06/03 18:22:49 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int	mouse_unset_ply(int key, int pos_x, int pos_y, t_game *g)
 {
 	(void) pos_x;
 	(void) pos_y;
-
 	if (key != 1)
 		return (0);
 	g->ply.move_options &= ~(rotate_left + rotate_right);

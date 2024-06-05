@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lchew <lchew@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 16:26:45 by jngerng           #+#    #+#             */
-/*   Updated: 2024/06/03 18:02:04 by lchew            ###   ########.fr       */
+/*   Updated: 2024/06/03 18:21:52 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
-
 
 /**
  * @brief The drawing loop function is responsible for drawing a portion of
@@ -80,7 +79,6 @@ void	drawing_celling_loop(t_draw *d, t_ray_fin *back)
 	}
 }
 
-
 /**
  * @brief Draws the sky of the game screen.
  *
@@ -104,7 +102,6 @@ void	draw_sky(t_draw *draw, const t_game *g)
 	}
 }
 
-
 /**
  * @brief Draws the floor of the game screen.
  *
@@ -124,4 +121,3 @@ void	draw_floor(t_draw *draw, const t_game *g)
 		draw->screen_pos.y++;
 	}
 }
-
