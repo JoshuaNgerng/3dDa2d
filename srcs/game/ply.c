@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 18:21:04 by jngerng           #+#    #+#             */
-/*   Updated: 2024/05/27 15:57:32 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/06/12 13:14:15 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,10 @@ int	set_ply_pos(int col, char dir, t_ply *p)
  *
  * This function applies a rotation matrix operation to the given point using
  * the provided sine and cosine values. The rotation matrix formula is used to
- * rotate the player's direction matrix, resulting in a new direction matrix.
+ * rotate the point about origin 0,0. The point represent a directional vector 
+ * pointing from the player at origin.
  *
- * @param dst  A pointer to the destination point.
+ * @param dst  A pointer to the destination vector.
  * @param sin_ The sine value for the rotation.
  * @param cos_ The cosine value for the rotation.
  */
@@ -91,7 +92,7 @@ static void	rotation_matrix(t_point *dst, double sin_, double cos_)
  * @param g    A pointer to the game struct containing important information
  *             like the map.
  * @param dir  The direction of movement (-1 for left or backward, 
- * 1 for right or forward).
+ *             1 for right or forward).
  *
  * @return 1 if the player's position is updated, 0 otherwise.
  */
@@ -128,8 +129,9 @@ static int	update_move(t_point *ply, const t_point *move, const t_game *g,
   @brief Updates the player orientation using matrix multiplication.
  *
  * This function updates the player's orientation by applying a rotation matrix
- * based on the given direction. It updates the player's new direction, previous
- * direction, and view direction.
+ * based on the given direction. It updates the three directional vector of the 
+ * player, which is represented by a point and the vector is pointing from the
+ * player which is at origin 0,0
  *
  * @param p A pointer to the player structure.
  * @param dir The direction of rotation (0 for left, 1 for right).
@@ -174,5 +176,9 @@ int	update_ply_move(t_ply *p, const t_game *g)
 		update += update_move(&p->pos, &p->n_dir, g, 1);
 	else if (p->move_options & backward)
 		update += update_move(&p->pos, &p->n_dir, g, -1);
+	if (p->move_options & zoom_in)
+		update += zoom_fov(p, -1);
+	else if (p->move_options & zoom_out)
+		update += zoom_fov(p, 1);
 	return (update);
 }

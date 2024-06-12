@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:51:30 by jngerng           #+#    #+#             */
-/*   Updated: 2024/06/03 18:22:49 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/06/12 12:54:34 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,10 @@ int	mouse_unset_ply(int key, int pos_x, int pos_y, t_game *g)
  * based on the key pressed.
  *
  * @note - escape key - it calls the `free_exit` function to exit the game.
- * @note - up arrow key / 'W' key - it sets the forward movement option.
- * @note - down arrow key / 'S' key - it sets the backward movement option.
+ * @note - up arrow key - it sets the zoom in on the player view
+ * @note - down arrow key - it sets the zoom out on the player view
+ * @note - 'W' key - it sets the forward movement option.
+ * @note - 'S' key - it sets the backward movement option.
  * @note - 'A' key - it sets the left movement option.
  * @note - 'D' key - it sets the right movement option.
  * @note - left arrow key / 'Q' key - it sets the left rotation option.
@@ -94,9 +96,13 @@ int	set_ply_mov(int key, t_game *g)
 {
 	if (key == esc)
 		free_exit(g, 0);
-	if (key == up || key == wkey)
+	if (key == up)
+		g->ply.move_options |= zoom_in;
+	else if (key == down)
+		g->ply.move_options |= zoom_out;
+	else if (key == wkey)
 		g->ply.move_options |= forward;
-	else if (key == down || key == skey)
+	else if (key == skey)
 		g->ply.move_options |= backward;
 	else if (key == akey)
 		g->ply.move_options |= move_left;
@@ -127,17 +133,21 @@ int	set_ply_mov(int key, t_game *g)
  */
 int	unset_ply_mov(int key, t_game *g)
 {
-	if (key == up || key == wkey)
+	if (key == up)
+		g->ply.move_options &= ~zoom_in;
+	else if (key == down)
+		g->ply.move_options &= ~zoom_out;
+	else if (key == wkey)
 		g->ply.move_options &= ~forward;
-	if (key == down || key == skey)
+	else if (key == skey)
 		g->ply.move_options &= ~backward;
-	if (key == akey)
+	else if (key == akey)
 		g->ply.move_options &= ~move_left;
-	if (key == dkey)
+	else if (key == dkey)
 		g->ply.move_options &= ~move_right;
-	if (key == left || key == qkey)
+	else if (key == left || key == qkey)
 		g->ply.move_options &= ~rotate_left;
-	if (key == right || key == ekey)
+	else if (key == right || key == ekey)
 		g->ply.move_options &= ~rotate_right;
 	return (0);
 }

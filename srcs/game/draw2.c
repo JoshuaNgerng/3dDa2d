@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 11:49:21 by jngerng           #+#    #+#             */
-/*   Updated: 2024/06/03 18:22:34 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/06/12 12:49:47 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	draw_flip_init(t_ray_fin *obj, t_draw *d, const t_ray *r, \
 		d->texture = g->door_img;
 	d->win_height = g->setting.win_height;
 	obj->hitpoint -= floor(obj->hitpoint);
-	obj->height = (int)fabs(g->setting.win_height / obj->perp_dist);
+	obj->height = (int)(fabs(d->win_height / obj->perp_dist) * g->ply.factor);
 	d->texture_pos.x = (int)(obj->hitpoint * d->texture->width);
 	if ((obj->side == north || obj->side == south) && r->ray_dir.y < 0.)
 		d->texture_pos.x = d->texture->width - d->texture_pos.x - 1;
@@ -85,7 +85,7 @@ void	draw_init(t_ray_fin *obj, t_draw *d, const t_ray *r, const t_game *g)
 		d->texture = g->door_img;
 	d->win_height = g->setting.win_height;
 	obj->hitpoint -= floor(obj->hitpoint);
-	obj->height = (int)fabs(g->setting.win_height / obj->perp_dist);
+	obj->height = (int)(fabs(d->win_height / obj->perp_dist) * g->ply.factor);
 	d->texture_pos.x = (int)(obj->hitpoint * d->texture->width);
 	if ((obj->side == north || obj->side == south) && r->ray_dir.x < 0.)
 		d->texture_pos.x = d->texture->width - d->texture_pos.x - 1;

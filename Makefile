@@ -6,7 +6,7 @@
 #    By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/12 14:22:20 by jngerng           #+#    #+#              #
-#    Updated: 2024/06/03 18:32:57 by jngerng          ###   ########.fr        #
+#    Updated: 2024/06/12 13:25:47 by jngerng          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ OBJ_DIR = obj
 F_MAIN = main
 F_UTLIS = errmsg errmsg2 free string skip
 F_READ = read elements check buffer
-F_GAME = loop ply texture scene map map2 asset \
+F_GAME = loop ply ply2  texture scene map map2 asset \
 		 raycast_loop raycast_check draw draw2
 SRC_M = $(foreach item, $(F_MAIN), $(SRC_DIR)/$(item).c)
 SRC_U = $(foreach item, $(F_UTLIS), $(SRC_DIR)/$(UTLIS_DIR)/$(item).c)

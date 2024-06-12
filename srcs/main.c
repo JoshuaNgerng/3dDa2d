@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:37:10 by jngerng           #+#    #+#             */
-/*   Updated: 2024/06/03 18:20:48 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/06/12 12:45:02 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	make_setting(t_set *s)
 {
 	s->move_speed = 10;
 	s->rotation_speed = 11;
-	s->fov = 90;
+	s->fov = 60;
 	s->win_width = MAX_WIDTH;
 	s->win_height = MAX_HEIGHT;
 	s->minimap_width = 385;
@@ -28,6 +28,8 @@ static int	check_setting(t_set *s, t_ply *p)
 	double	rotate_speed;
 
 	if (s->move_speed > 50 || s->rotation_speed > 45)
+		return (1);
+	if (s->move_speed < 5 || s->rotation_speed < 5)
 		return (1);
 	if (s->fov > 120 || s->fov < 30)
 		return (1);
@@ -41,6 +43,7 @@ static int	check_setting(t_set *s, t_ply *p)
 	p->rotate_sin[1] = sin(-rotate_speed);
 	p->rotate_cos[0] = cos(rotate_speed);
 	p->rotate_cos[1] = cos(-rotate_speed);
+	p->factor = 1.5;
 	return (0);
 }
 

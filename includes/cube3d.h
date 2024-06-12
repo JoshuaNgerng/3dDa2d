@@ -6,7 +6,7 @@
 /*   By: jngerng <jngerng@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:38:13 by jngerng           #+#    #+#             */
-/*   Updated: 2024/06/05 21:38:36 by jngerng          ###   ########.fr       */
+/*   Updated: 2024/06/12 12:49:03 by jngerng          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,9 @@ typedef enum e_move
 	rotate_left = 1 << 4,
 	rotate_right = 1 << 5,
 	interact_door = 1 << 6,
-	map_option = 1 << 7
+	map_option = 1 << 7,
+	zoom_in = 1 << 8,
+	zoom_out = 1 << 9
 }	t_move;
 
 typedef struct s_trbg
@@ -152,7 +154,8 @@ typedef struct s_mlx
 
 typedef struct s_ply
 {
-	char	move_options;
+	int		move_options;
+	double	factor;
 	double	move_speed;
 	double	fov;
 	double	depth_of_focus;
@@ -344,6 +347,7 @@ int			mouse_set_ply(int key, int pos_x, int pos_y, t_game *g);
 int			mouse_unset_ply(int key, int pos_x, int pos_y, t_game *g);
 int			update_ply_move(t_ply *p, const t_game *g);
 int			update_interact(t_asset *door, const t_game *g);
+int			zoom_fov(t_ply *p, int dir);
 int			main_loop(t_game *g);
 
 /* draw */
